@@ -1,0 +1,19 @@
+{
+  "configurations": {
+    "<name>: Launch": {
+      "adapter": "debugpy",
+      "filetypes": [ "python" ],
+      "configuration": {
+        "name": "Launch",
+        "type": "python",
+        "request": "launch",
+        "cwd": "/home/termux/workspace/hello/python/",
+        "python": ["/usr/bin/python", "-E"],
+        "stopOnEntry": true,
+        "debugOptions": [],
+        "program": "hello.py"
+      }
+    }
+  }
+}
+
