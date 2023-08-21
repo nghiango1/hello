@@ -46,8 +46,7 @@ int test(int *nums, int numsSize, int k) {
 int main() {
   srand(time(NULL));
   int size = 5;
-  int *numbers =
-      (int *)malloc(size * sizeof(int));
+  int *numbers = (int *)malloc(size * sizeof(int));
 
   for (int i = 0; i < size; i++) {
     numbers[i] = 2;
