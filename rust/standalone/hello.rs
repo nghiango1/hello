@@ -3,6 +3,6 @@ fn hello(){
 }
 
 fn main(){
-    println!("Hello world");
-    let x = 1;
+    println!("Hello");
+    hello();
 }
