@@ -15,7 +15,7 @@ OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(BUILD_DIR)/%.o,$(SRC_FILES))
 TARGET := myprogram
 
 # Rules
-.PHONY: all clean
+.PHONY: all clean debug
 
 all: $(TARGET)
 
@@ -30,4 +30,6 @@ $(BUILD_DIR):
 
 clean:
 	rm -rf $(BUILD_DIR) $(TARGET)
+
+debug: $(TARGET)
 
