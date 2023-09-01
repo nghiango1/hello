@@ -37,6 +37,7 @@ begin
     b^ := 4;
     writeln(a);
     writeln(b^, ' (we can see that a and b is different)');
+    dispose(b); // Remember to dispose after new
 
     // User defined struct type is simmilar
     writeln('=============');
@@ -53,4 +54,5 @@ begin
 
     writeln(pointerLinkedList^.value);
     writeln(pointerLinkedList^.next = nil);
+    dispose(pointerLinkedList); // Remember to dispose after new
 end.
