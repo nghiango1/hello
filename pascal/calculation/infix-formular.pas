@@ -213,7 +213,6 @@ begin
     readln(s);
     trimSpaceRight(s);
     trimSpaceLeft(s);
-    trimMoreThan1Space(s);
 
     // adding space between operation and number
     for i:= length(s) downto 2 do begin
@@ -222,6 +221,8 @@ begin
             insert(' ', s, i);
         end;
     end;
+
+    trimMoreThan1Space(s);
     s := toPostfix(s);
 
     current := '';

@@ -113,8 +113,8 @@ var
     isparse : boolean;
     temp : string;
 begin
-    stackTraversal(stack);
     writeln;
+    stackTraversal(stack);
     writeln('Current postfix = ', postfix);
     isparse := false;
     writeln('Processing current = ', current);
@@ -147,17 +147,16 @@ begin
     end;
 end;
 
-procedure inputHandling(var stack : stacktype);
 var
     s : string;
     current : string;
     i : integer;
     postfix : string;
+    stack : stacktype;
 begin
     readln(s);
     trimSpaceRight(s);
     trimSpaceLeft(s);
-    trimMoreThan1Space(s);
 
     // adding space between operation and number
     for i:= length(s) downto 2 do begin
@@ -167,8 +166,12 @@ begin
         end;
     end;
 
+    trimMoreThan1Space(s);
+
     writeln(s);
 
+    stack.top := nil;
+    stack.length := 0;
     current := '';
     postfix := '';
     for i := 1 to length(s) do begin
@@ -185,17 +188,4 @@ begin
         postfix := postfix + pop(stack) + ' ';
     end;
     writeln(postfix);
-end;
-
-var
-    s : stacktype;
-begin
-    // input to stack
-    s.top := nil;
-    s.length := 0;
-    inputHandling(s);
-    stackTraversal(s);
-    while s.top <> nil do begin
-        writeln('Pop: ', pop(s));
-    end;
 end.

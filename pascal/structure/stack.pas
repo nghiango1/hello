@@ -8,9 +8,6 @@ type
         next : ^node;
     end;
 
-const
-    operation = ['+', '-', '*', '/'];
-
 procedure push(var s: stacktype; v : integer);
 var
     temp : ^node;
@@ -40,6 +37,26 @@ begin
     dispose(temp);
 end;
 
+procedure stackTraversal(stack: stacktype);
+var
+    temp : ^node;
+begin
+    writeln('Stack length: ', stack.length, ' element');
+    temp := stack.top;
+    write('Stack state: ');
+    while temp <> nil do begin
+        write(temp^.value, ', ');
+        temp := temp^.next;
+    end;
+    writeln('nil');
+end;
+
+function top(stack: stacktype) : integer;
+begin
+    top := stack.top^.value;
+end;
+
+// Check on String handling. trim.pas
 procedure trimSpaceRight(var s: string);
 begin
     while (length(s) > 0) and (s[length(s)] = ' ') do begin
@@ -81,69 +98,52 @@ begin
     parse_integer := v;
 end;
 
-procedure processingCurrentString(current : string; var stack: stacktype);
+procedure to_integer(var stack : stacktype);
 var
-    x, y, value: integer;
-    isparse : boolean;
-begin
-    writeln('Processing current = ', current);
-    // try parse to integer
-    if (current[1] in operation) then begin
-        if stack.length < 2 then begin
-            writeln('Formula error, not enough element for calculation');
-        end;
-        y := pop(stack);
-        x := pop(stack);
-        writeln('Found valid operation, do: ', x, ' ', current, ' ', y);
-        if current[1] = '+' then push(stack, x + y);
-        if current[1] = '-' then push(stack, x - y);
-        if current[1] = '*' then push(stack, x * y);
-        if current[1] = '/' then push(stack, x div y);
-    end
-    else begin
-        isparse := false;
-        value := parse_integer(current, isparse);
-        if isparse then
-            push(stack, value)
-        else
-            writeln('Cant parse to integer, skipping');
-    end;
-end;
-
-var
-    stack : stacktype;
     s : string;
     current : string;
-    i : integer;
+    i, value: integer;
+    isparse: boolean;
 begin
+    isparse := FALSE; // Stop compiler warning
     readln(s);
     trimSpaceRight(s);
     trimSpaceLeft(s);
-
-    for i:= length(s) downto 2 do begin
-        if (s[i] in operation) and (s[i-1] in operation) then begin
-            insert(' ', s, i);
-        end;
-    end;
-
     trimMoreThan1Space(s);
-    writeln(s);
-
-    stack.top := nil;
-    stack.length := 0;
-
     current := '';
     for i := 1 to length(s) do begin
         if s[i] <> ' ' then
             current := current + s[i]
         else begin
-            processingCurrentString(current, stack);
+            value := parse_integer(current, isparse);
+            if isparse then
+                push(stack, value);
             current := '';
         end;
     end;
-    if current <> '' then
-        processingCurrentString(current, stack);
-    while stack.top <> nil do begin
-        writeln('Pop: ', pop(stack));
+end;
+
+var
+    s : stacktype;
+begin
+    s.top := nil;
+    s.length := 0;
+    push(s, 1);
+    writeln(top(s));
+    push(s, 2);
+    writeln(top(s));
+    stackTraversal(s);
+    while s.top <> nil do begin
+        pop(s);
     end;
+
+    // input to stack
+    s.top := nil;
+    s.length := 0;
+    to_integer(s);
+    stackTraversal(s);
+    while s.top <> nil do begin
+        writeln('Pop: ', pop(s));
+    end;
+    if s.top <> nil then dispose(s.top);
 end.
