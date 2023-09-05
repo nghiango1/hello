@@ -1,18 +1,20 @@
+uses sysutils;
+
 type
     list = record
         head, tail : ^node;
-        length : integer;
+        length : Longint;
     end;
     node = record
-        value : integer;
+        value : Longint;
         next : ^node;
     end;
     ptrnode = ^node;
 
-procedure listset(var l : list; pos, v : integer);
+procedure listset(var l : list; pos, v : Longint);
 var
     p : ^node;
-    i : integer;
+    i : Longint;
 begin
     p := nil;
     for i := 1 to pos do begin
@@ -26,10 +28,10 @@ begin
     p^.value := v;
 end;
 
-procedure _get(l : list; pos : integer; var element : ptrnode);
+procedure _get(l : list; pos : Longint; var element : ptrnode);
 var
     p : ^node;
-    i : integer;
+    i : Longint;
 begin
     p := nil;
     for i := 1 to pos do begin
@@ -43,10 +45,10 @@ begin
     element := p;
 end;
 
-function get(l : list; pos : integer) : integer;
+function get(l : list; pos : Longint) : Longint;
 var
     p : ^node;
-    i : integer;
+    i : Longint;
 begin
     p := nil;
     for i := 1 to pos do begin
@@ -59,7 +61,7 @@ begin
     get := p^.value;
 end;
 
-procedure insert(var l : list; pos : integer; v : integer);
+procedure insert(var l : list; pos : Longint; v : Longint);
 var
     p, temp : ^node;
 begin
@@ -87,10 +89,10 @@ begin
     end;
 end;
 
-function find(l : list; v : integer) : integer;
+function find(l : list; v : Longint) : Longint;
 var
     p : ^node;
-    i : integer;
+    i : Longint;
 begin
     // writeln('Finding ', v);
     p := l.head;
@@ -105,7 +107,7 @@ begin
     end;
 end;
 
-procedure delete(var l: list; pos : integer); 
+procedure delete(var l: list; pos : Longint); 
 var
     p, temp : ^node;
 begin
@@ -119,7 +121,7 @@ begin
     end;
 end;
 
-procedure push(var l : list; v : integer);
+procedure push(var l : list; v : Longint);
 begin
     if l.head = nil then begin
         new(l.head);
@@ -137,7 +139,7 @@ begin
     end;
 end;
 
-function pop(var l : list) : integer;
+function pop(var l : list) : Longint;
 var
     p, temp : ^node;
 begin
@@ -154,25 +156,29 @@ procedure printList(l : list);
 var
     p : ^node;
 begin
-    write('List size ', l.length, ' with item: ');
-    p := l.head;
-    write(p^.value);
-    p := p^.next;
-    while p <> nil do begin
-        write(', ');
-        write(p^.value);
-        p := p^.next;
-    end;
+    write('List size ', l.length);
+    // write(' with item: ');
+    // p := l.head;
+    // write(p^.value);
+    // p := p^.next;
+    // while p <> nil do begin
+    //     write(', ');
+    //     write(p^.value);
+    //     p := p^.next;
+    // end;
     writeln;
 end;
 
 var
     l : list;
-    i, pos : integer;
+    i, pos : Longint;
+    t : TDateTime;
 begin
+    Randomize;
+
     l.length := 0;
-    for i := 1 to 10 do begin
-        push(l,i);
+    for i := 1 to 1000000 do begin
+        push(l,random(1000));
     end;
     printList(l);
 
@@ -181,9 +187,14 @@ begin
     end;
     printList(l);
 
-    for i := -2 to 4 do begin
+    for i := -10 to 0 do begin
         pos := find(l, i);
         delete(l, pos);
+    end;
+    printList(l);
+
+    for i := 1 downto 5 do begin
+        push(l, i);
     end;
     printList(l);
 
@@ -191,5 +202,16 @@ begin
         pop(l);
     end;
     printList(l);
-end.
+    t := Now;
+    writeln(t);
 
+    for i := 1 to 50000-1 do begin
+        delete(l, random(500000));
+        if i mod 1000 = 0 then writeln(i div 1000);
+    end;
+
+    t := Now - t;
+    writeln(TimeToStr(t));
+
+    printList(l);
+end.
