@@ -1,3 +1,5 @@
+> Overal take, it a very generest programming language on function (int auto 64 bit, time also bigger, println accepting a lot more input, no need to free anything, ??variable in heap - not stack so it available in many scope??)
+
 # Variable
 
 ```
@@ -92,8 +94,40 @@ Start new type with `type`
 - Any class in go lang tranfer me go a **go way** of doing thing, [sample website](https://tip.golang.org/doc/effective_go).
     - Very little of OOP, this languagle isn't Java. 
 
-Overal take, it a very generest programming language on function (int auto 64 bit, time also bigger, println accepting a lot more input, no need to free anything, ??variable in heap - not stack so it available in many scope??)
-
 ### Array list, pointer(?)
 
-There is no such thing here, a lot of `unsafe` code
+There is no such thing here, a lot of `unsafe` code, slice can be a good replacement
+
+```go
+var slice []int = make(int, 0, 1_000_000)
+//                             ^^^^^^^^^-Capacity
+//                          ^------------Length
+```
+
+The `capacity` can be skip, slice can be auto extend if we just use `append`
+
+```go
+value := 10000 //any
+append(slice, value)
+```
+
+Slice extending use some unsafe `memcopy` function, so it could be a `O(n)` cost of extending the array bellow it.
+
+### Normal array list
+
+Array have to init with a constant length, which isn't ideal (As I test on `1_000_000` size of List), it way more slower than expect (testing ArrayList vs LinkedList over 1_000_000 element)
+
+```go
+var array [1_000_000]int
+```
+
+## Uninitilize variable
+
+Variables declared without an explicit initial value are given their zero value
+
+The zero value is:
+
+- 0 for numeric types,
+- false for the boolean type, and
+- "" (the empty string) for strings.
+

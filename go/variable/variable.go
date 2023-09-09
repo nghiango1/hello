@@ -61,7 +61,7 @@ func printLinkedList(l *LinkedList) {
 }
 
 type ArrayList struct {
-    value [1_000_000]int
+    value [1_000_000]int32
     length int
 }
 
@@ -69,7 +69,7 @@ func initArrayList(l *ArrayList) {
     l.length = 0
 }
 
-func pushArrayList(l *ArrayList, v int) {
+func pushArrayList(l *ArrayList, v int32) {
     l.value[l.length] = v
     l.length += 1;
 }
@@ -97,24 +97,23 @@ func main() {
     fmt.Println(unsafe.Sizeof(i4))
     fmt.Println(unsafe.Sizeof(i5))
 
-    var list LinkedList
-    initLinkedList(&list)
-
     var multi int = 10_000
     var length int = 100*multi
     var total int = 5*multi
     var first int = 50*multi
 
+    var list LinkedList
+    initLinkedList(&list)
     testLinkedList(length, list, total, first)
 
-    testArrayList(length, total, first)
+	var list2 ArrayList
+    initArrayList(&list2)
+    testArrayList(length, list2, total, first)
 }
 
-func testArrayList(length int, total int, first int) {
-	var list2 ArrayList
-
+func testArrayList(length int, list2 ArrayList, total int, first int) {
 	for i := 0; i < length; i++ {
-		pushArrayList(&list2, rand.Intn(1000000))
+		pushArrayList(&list2, int32( rand.Intn(1000000)))
 	}
 
 	printArrayListCompact(&list2)
