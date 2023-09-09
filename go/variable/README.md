@@ -42,6 +42,7 @@ func main() {
 ## Data type
 
 Number integer: `int` default 64 bit
+While working with memory, `unsafe` is the library we have to import, which make it seem like a danger zone to cross
 
 ```go
 var i int 
@@ -92,3 +93,7 @@ Start new type with `type`
     - Very little of OOP, this languagle isn't Java. 
 
 Overal take, it a very generest programming language on function (int auto 64 bit, time also bigger, println accepting a lot more input, no need to free anything, ??variable in heap - not stack so it available in many scope??)
+
+### Array list, pointer(?)
+
+There is no such thing here, a lot of `unsafe` code
