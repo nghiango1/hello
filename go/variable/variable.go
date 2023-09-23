@@ -90,7 +90,7 @@ func printArrayList(l *ArrayList) {
 func main() {
     // Test commending
     message = "Hello world!"
-    fmt.Println(message)
+    fmt.Println(message, len(message))
     fmt.Println(unsafe.Sizeof(i))
     fmt.Println(unsafe.Sizeof(i2))
     fmt.Println(unsafe.Sizeof(i3))
