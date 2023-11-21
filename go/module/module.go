@@ -23,7 +23,7 @@ func (p *point) printPoint() {
 	fmt.Printf("Point (%d, %d)\n", p.x, p.y)
 }
 
-func printPoint(p * point) {
+func printPoint(p *point) {
 	fmt.Printf("Point (%d, %d)\n", p.x, p.y)
 }
 
@@ -57,11 +57,11 @@ func main() {
 	printString(s)
 	println(add(1, 3)) //not even need fmt??
 
-    var p point
-    p.x = 1
-    p.y = 2
-    p.printPoint()
-    
+	var p point
+	p.x = 1
+	p.y = 2
+	p.printPoint()
+
 	var al list.ArrayList
 	al.Init()
 	al.Push(1)
