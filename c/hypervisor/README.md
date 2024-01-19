@@ -25,4 +25,14 @@ Build
 make
 ```
 
-Implement
+Load built module to Kernel
+
+```sh
+sudo insmod hypervisor.ko
+```
+
+Read debug message that being `printk` in the code
+
+```sh
+sudo dmesg |tail
+```
