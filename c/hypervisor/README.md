@@ -36,3 +36,14 @@ Read debug message that being `printk` in the code
 ```sh
 sudo dmesg |tail
 ```
+
+# Note
+
+## `__asm__ __volatile ( Assembler : Out : In : Clobber )`
+
+This appear a lot in the code as we working with hardware and need specific instruction base on exact bit said in Intel x86 chip manual
+
+Document for `__asm__` is available at this link
+https://gcc.gnu.org/onlinedocs/gcc/Extended-Asm.html
+
+
