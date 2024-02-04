@@ -11,7 +11,7 @@ import (
 type Solution struct {
 	jumpTable []([26]int)
 	maxJump   []int
-    totaltime int
+	totaltime int
 	mu        sync.Mutex
 }
 
@@ -19,7 +19,7 @@ func NewSolution() *Solution {
 	return &Solution{
 		jumpTable: nil,
 		maxJump:   nil,
-        totaltime: 0,
+		totaltime: 0,
 	}
 }
 
@@ -93,12 +93,12 @@ func printTime(s string, totaltime time.Duration) {
 const letterBytes = "abcdefghijklmnopqrstuvwxyz"
 
 func (sol *Solution) test(id int, t string, s string, c chan time.Duration) {
-    start := time.Now()
-    sol.isSubsequence(s, t)
-    c <- time.Now().Sub(start)
-    if (id % 1_000_000 == 0) {
-        println("Test", id, "completed")
-    }
+	start := time.Now()
+	sol.isSubsequence(s, t)
+	c <- time.Now().Sub(start)
+	if id%1_000_000 == 0 {
+		println("Test", id, "completed")
+	}
 }
 
 func main() {
@@ -111,24 +111,24 @@ func main() {
 	totaltime := time.Duration(0)
 	testGenerationTime := time.Duration(0)
 
-    c := make(chan time.Duration)
+	c := make(chan time.Duration)
 	println("T length = ", len(t), "with 100 first char =", t[:100])
-    sol.preprocess(t)
-    start := time.Now()
+	sol.preprocess(t)
+	start := time.Now()
 	for test := 0; test < k; test++ {
-        start = time.Now()
-        slength := rand.Intn(100)
-        s := randstring.RandStringBytes(slength, []byte(letterBytes))
-        testGenerationTime += time.Now().Sub(start)
+		start = time.Now()
+		slength := rand.Intn(100)
+		s := randstring.RandStringBytes(slength, []byte(letterBytes))
+		testGenerationTime += time.Now().Sub(start)
 
-        go sol.test(test, t, s, c)
-        if test%1_000_000 == 0 {
-            fmt.Print(test, " ")
-        }
+		go sol.test(test, t, s, c)
+		if test%1_000_000 == 0 {
+			fmt.Print(test, " ")
+		}
 	}
-    for test:= 0; test < k; test++ {
-        totaltime += <-c
-    }
-    printTime("ArrayList test done in:", totaltime)
-    printTime("Total generation time:", testGenerationTime)
+	for test := 0; test < k; test++ {
+		totaltime += <-c
+	}
+	printTime("ArrayList test done in:", totaltime)
+	printTime("Total generation time:", testGenerationTime)
 }
