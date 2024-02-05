@@ -12,7 +12,7 @@ Quick and easy way to done this is:
 
 The best way is jumping in sqrt(n), this allowing both step (even in the worst possible outcome) will take only O(sqrt n) time complexity to complete
 
-## The code
+## How to used
 
 `two_crystal_ball.c` this containing these `c` languages features:
 - global variables
@@ -20,3 +20,13 @@ The best way is jumping in sqrt(n), this allowing both step (even in the worst p
 - function ref as other function argument
 - local (main function, function only) variables
 - library call
+
+Build the code using VIM make command, quick fix list
+
+```vimrc
+" Setup compiler
+" c
+set makeprg=gcc\ -fdiagnostics-plain-output\ -g\ -I.\ -o\ dist/%:r\ %
+" quick fix list error parse
+set errorformat=%f:%l:%c:%t:%m,%f:%l:%c:%m,%f:%m,%m
+```

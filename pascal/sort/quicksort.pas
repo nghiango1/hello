@@ -10,7 +10,6 @@ begin
     y := temp;
 end;
 
-
 procedure quicksort(var a: int8array; l:integer; r: integer);
 var
     m, i, j : integer;
