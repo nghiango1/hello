@@ -1,10 +1,13 @@
 # Ignore build artifacts
 *.o
 *.exe
-myprogram
+
+# Ignore the cland .cache directory
+.cache/
 
 # Ignore the build directory
-/build
+build/
+dist/
 
 # Ignore editor-specific temporary files
 *~
