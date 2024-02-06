@@ -1,0 +1,32 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/hello.o",
+      "src/hello.c"
+    ],
+    "directory": "/home/ylong/workspace/hello/c/ProjectTemplate",
+    "file": "/home/ylong/workspace/hello/c/ProjectTemplate/src/hello.c",
+    "output": "/home/ylong/workspace/hello/c/ProjectTemplate/build/hello.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Iinclude",
+      "-c",
+      "-o",
+      "build/world.o",
+      "src/world.c"
+    ],
+    "directory": "/home/ylong/workspace/hello/c/ProjectTemplate",
+    "file": "/home/ylong/workspace/hello/c/ProjectTemplate/src/world.c",
+    "output": "/home/ylong/workspace/hello/c/ProjectTemplate/build/world.o"
+  }
+]
