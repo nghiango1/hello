@@ -29,8 +29,8 @@ Create Pluggable database (pdb) using `dbca` GUI Tool
 
 Using CLI `sqlplus`
 - Login with `sqlpus`
-    ```bash
-    $ connect sys/<password> as <role>/sysdba
+    ```sqlplus
+    connect sys/<password> as <role>/sysdba
     ```
 - Create
     ```sqlplus
@@ -62,16 +62,16 @@ instance started
 
 Focus seession container, this will ensure we just working with one PDB
 - Command
-    ```
+    ```sqlplus
     alter session set container=PDB_PDB1;
     ```
 - Recheck
-    ```
+    ```sqlplus
     show pdbs
     # This now should return only one PDB_PDB1
     ```
 - Back to `root` (normal session)
-    ```
+    ```sqlplus
     alter session set container=cdb$root;
     ```
 
@@ -79,7 +79,7 @@ Focus seession container, this will ensure we just working with one PDB
 
 Create a new user for all pdb
 - Command: container is set to all so that user will be created in all pdb
-    ```
+    ```sqlplus
     create user c##<username> indentified by <username> contaner=all;
     ```
     - Common user
@@ -91,16 +91,16 @@ Create a new user for all pdb
         - Must login to container with a user that have `CREATE_USER` roles
         - All other is the same
 - Grand roles, here we can go to specific pdb and set the role
-    ```
+    ```sqlplus
     alter session set container=PDB_PDB2;
     grant dba, resource, connect to c##<username>;
     ```
     or we can grant all
-    ```
+    ```sqlplus
     grant dba, resource, connect to c##<username> container=all;
     ```
 - Recheck
-    ```
-    $ connect sys/<password> as <role>/sysdba
+    ```sqlplus
+    connect sys/<password> as <role>/sysdba
     ```
 
