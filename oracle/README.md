@@ -46,3 +46,11 @@ Shared storage space
 - Batch size clonning: After reach a threshold (eg: 4GB data size), DC will have to be stop and data being pushed to DR
 - Smart clonning - "Best of both world": Only push data when the System have low load (Oracle handle automatically)
 - Real-time clonning: DC data and DR data much be the same, making the system halt until all writing being done in both DC and DR
+
+### Tool for move DB in oracle
+
+> Read more in `moveOracleDB/`
+
+### Plugable database
+
+> Read more in `PlugableDatabase/`
