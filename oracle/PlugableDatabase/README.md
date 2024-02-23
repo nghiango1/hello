@@ -1,6 +1,6 @@
 # Pluggable database
 
-A database can be seperated from Oracle DBMS, with it own set of user, local user, ect
+A database can be seperated from Oracle DBMS, with it own set of user, local user, etc..
 
 ## Notes
 
@@ -24,7 +24,7 @@ Create Pluggable database (pdb) using `dbca` GUI Tool
     ```
 - Save the state of newly created PDB (so that it will be open with the same mode, eg "READ WRITE", when DBMS start)
     ```sqlplus
-    akter pluggable database PBDPDB1 save state instances=all;
+    alter pluggable database PBDPDB1 save state instances=all;
     ```
 
 Using CLI `sqlplus`
@@ -104,3 +104,71 @@ Create a new user for all pdb
     connect sys/<password> as <role>/sysdba
     ```
 
+### Example
+
+Connect to RAC instance with `sqlplus`
+```bash
+$ sqlplus / as sysdba
+```
+
+Create pluggable database
+- We can recheck every step with
+    ```
+    show pdbs
+    ```
+- Create new pdb
+    ```
+    create pluggable databse pdb_pdb1 admin user admin identified by admin defaul tablespace user datafile size 1G;
+    alter pluggable database pdb_pdb1 open;
+    alter pluggable database pbd_pdb1 save state instances=all;
+
+    show pdbs
+    ```
+    We should se READ WRITE state PDB_PDB1 now from `show pdbs` output, along with oother PDB
+- Change session to newly created PDB_PDB1
+    ```
+    alter session set container=PDB_PDB1;
+
+    show pdbs
+    ```
+    We should only see PDB_PDB1 now from `show pdbs` output
+- Create new table space (that match with what about to clone db)
+    ```
+    create tablespace TBS_FILE datafile size 1G;
+    create tablespace TBS_QLCV datafile size 1G;
+    ```
+- Create user
+    ```
+    create user c##trongnv indentified by trongnv contaner=all;
+    grant dba, resource, connect to c##trongnv;
+    ```
+- Get data from `moveOracleDB/README.md` Example LAP
+- Import data
+    ```
+    impdp userid=c##trongnv/admin@192.168.2.45/pdb_pdb1 dumpfile=qlcv.dmp logfile=qlv.log directory=backup cluster=N status=100
+    ```
+    - We use `sqlplus` on `rac-19c-01` as our client
+        - In RAC environment, sometimes we use SCAN IP to connect to RAC instance, which then forward us to RAC1 or RAC2
+        - Which may casuse directory become invalid, as we have dump file in RAC1
+    - `<ip>` -> 192.168.2.45: here should be the specific machine that have backup directory
+    - For current LAP, thing done in `rac-19c-01` machine, with ip 192.168.2.45
+
+
+## GUI tools
+
+We can get all user tablespace with `get_owner_tables.sql`
+```sql
+SELECT DISTINCT TABLESPACE_NAME FROM DBA_TABLES WHERE OWNER=UPPER('<name>');
+```
+
+### Using `Toad` for PDB administation
+
+Database -> administration -> tablespace
+
+Create tablespace can be  done from Toad GUI
+- General: Set Big file/Small file, Block Size
+- Size 1 GB
+
+### Using `PL/SQL developer` for PDB administation
+
+We can use Compile Invalid Objects to check for errors

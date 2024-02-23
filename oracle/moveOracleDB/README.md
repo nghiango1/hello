@@ -1,5 +1,7 @@
 # Moving Oracle DB to other Machine
 
+Or backup/dump Oracle BB
+
 ## Prerequired
 
 We set that DB from Machine A (sent) being move to Machine B (receive)
@@ -53,7 +55,7 @@ It come with Oracle DB 19c Client (client_home) (Windows)
 - `INDEXES`: Set indexes = N. And re-index later for faster Dump
 - `TABLESPACES`: List all table space (that we will use for export)
 
-### Example
+### Example LAP
 
 `exp.par`
 ```par
@@ -68,6 +70,8 @@ Run `exp` with created config
 ```cmd
 exp parfile=exp_qlcv.par
 ```
+
+> This will be use to be imported by newly created pdb, check `PlugableDatabase/README.md` for the next Example LAP step
 
 
 ## EXP Data Pump 10g
