@@ -21,6 +21,8 @@ Other:
 - `container`: a low footprint seperated with specific environment (linked library, application) for my low resource pc/laptop. But with KVM it become non-trivial.
     > `chroot` should work better in most usecase, I use build container's image to get my secondary root directory
 - `nginx`: for sharing my local project over VPN, use as a reverse proxy
+- `oracle`: for setup and using oracle database and other oracle product (Oracle Linux, Grid, RAC)
+- `linux`: (notes on how to use) various tools for administering a linux system
 
 ## How to used
 
