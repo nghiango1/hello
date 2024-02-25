@@ -21,10 +21,11 @@ Trỏ dns cho api vips và ingress và đảm bảo kết nối từ node tới 
 ## 1. Tạo mirror registry.
 
 Truy cập vào https://console.redhat.com để tải về
-    • pull secret
-    • oc command-line tool (tải đúng ver  của openshift 4.13.2 tại đây)
-    • openshift-install tool (tải đúng ver  của openshift 4.13.2 tại đây)
-    • mirror-registry
+- pull secret
+- oc command-line tool (tải đúng ver  của openshift 4.13.2 [tại đây](https://access.redhat.com/downloads/content/290/ver=4.13/rhel---8/4.13.2/x86_64/product-software))
+- openshift-install tool (tải đúng ver  của openshift 4.13.2 [tại đây](https://access.redhat.com/downloads/content/290/ver=4.13/rhel---8/4.13.2/x86_64/product-software))
+- mirror-registry
+
 Copy và giải nén các file download về bastion host
 ```sh
 wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.13.2/openshift-install-linux-4.13.2.tar.gz [user@bastion ~]# wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/4.13.2/openshift-client-linux-4.13.2.tar.gz
@@ -33,7 +34,7 @@ tar zxf openshift-install-linux.tar.gz
 mv oc kubectl openshift-install /usr/bin
 ```
 
-tạo thư mục ~/mirror, cho pull-secret.txt vào thư mục mirror
+Tạo thư mục ~/mirror, cho pull-secret.txt vào thư mục mirror
 ```sh
 mkdir ~/mirror && mv pull-secret.txt mirror/
 ```
@@ -51,7 +52,10 @@ export REGISTRY_SERVER=quay.openshift.dev
 sudo mkdir /quay
 tar xzvf mirror-registry.tar.gz 
 sudo ./mirror-registry install –quayHostname $REGISTRY_SERVER --quayRoot /quay
-ài đặt xong, update trusted CA trên bastion host
+```
+
+Cài đặt xong, update trusted CA trên bastion host
+```
 sudo cp /quay/quay-rootCA/rootCA* /etc/pki/ca-trust/source/anchors/ -v
 sudo update-ca-trust extract
 ```
@@ -60,7 +64,8 @@ Login vào registry
 ```sh
 podman login --authfile pull-secret.txt -u init -p $REGISTRY_PW quay.openshift.dev:8443 --tls-verify=false
 ```
-sau câu lệnh đăng nhập này, một mục nội dung secret tương ứng với tên của mirror registry sẽ đựoc tự động thêm vào pull-secret.txt, chúng ta có thể kiểm tra bằng cách xem nội dung file này. Tiếp theo, sử dụng jq để chuyển pull-secret.txt sang dạng json và copy vào các đường dẫn cần thiết
+
+Sau câu lệnh đăng nhập này, một mục nội dung secret tương ứng với tên của mirror registry sẽ đựoc tự động thêm vào pull-secret.txt, chúng ta có thể kiểm tra bằng cách xem nội dung file này. Tiếp theo, sử dụng jq để chuyển pull-secret.txt sang dạng json và copy vào các đường dẫn cần thiết
 ```sh
 cat ./pull-secret.txt | jq . > pull-secret.json
 mkdir -p ~/.config/containers
@@ -89,9 +94,7 @@ oc adm release mirror -a ${LOCAL_SECRET_JSON} --to-dir=${REMOVABLE_MEDIA_PATH}/m
 
 Tải image đã mirror lên quay.openshift.dev:8443 (nếu gặp lỗi thì thêm tùy chọn --skip-missing, --continue-error). Sau khi chạy thành công sẽ xuất hiện thông tin imageContentSources. Lưu thông tin này để dùng khi tạo install-config.yaml
 
-	
-Nén thư mục mirror dạng tar và copy sang vùng không có internet, sau đó upload
-lên quay registry vùng không có internet.
+Nén thư mục mirror dạng tar và copy sang vùng không có internet, sau đó upload lên quay registry vùng không có internet.
 ```sh
 tar -czvf mirror_data.tar.gz mirror/
 oc image mirror -a ${LOCAL_SECRET_JSON} --from-dir=${REMOVABLE_MEDIA_PATH}/mirror "file://openshift/release:${OCP_RELEASE}*" ${LOCAL_REGISTRY}/${LOCAL_REPOSITORY}
@@ -108,6 +111,7 @@ oc-mirror init --registry $REGISTRY_SERVER:8443/ocp4/openshift4/mirror/oc-mirror
 ```
 
 Có thể chỉnh sửa file config để thêm operator mong muốn.
+
 Để xem danh sách các operator và channel có thể sử dụng với phiên bản openshift 4.13 chạy lệnh:
 ```sh
 oc-mirror list operators --catalog registry.redhat.io/redhat/redhat-operator-index:v4.13
