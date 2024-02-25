@@ -1,3 +1,7 @@
+# Openshift multi cluster deployment - LAP
+
+> This contain vietnamese node in specific environment, will re-write this in Englist later
+
 Cài đặt Openshift 4 trong môi trường không có kết nối internet trên VMware vSphere
 
 # I. Chuẩn bị
