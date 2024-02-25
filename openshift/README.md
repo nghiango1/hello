@@ -13,10 +13,10 @@ VMware vSphere version 7.0 Update 2 or later
 | vCenter host   | 7.0 Update 2 or later   |
 
 Trỏ dns cho api vips và ingress và đảm bảo kết nối từ node tới dns:
-        ◦ api Vip:    api.openshift.devtest.bca
-        ◦ ingress: *.apps.openshift.devtest.bca
-        ◦ quay:  quay.openshift.dev (máy bastion có internet)
-        ◦ quay:  quay.openshift.devtest.bca (nằm ở máy không có internet)
+- api Vip:    api.openshift.devtest.bca
+- ingress: *.apps.openshift.devtest.bca
+- quay:  quay.openshift.dev (máy bastion có internet)
+- quay:  quay.openshift.devtest.bca (nằm ở máy không có internet)
 
 ## 1. Tạo mirror registry.
 
@@ -197,16 +197,20 @@ Cấu hình DNS cho node mới (vd: worker03.openshift.devtest.bca – 192.168.1
 
             vd: ip=192.168.101.113::192.168.101.254:255.255.255.0:worker03.openshift.devtest.bca:ens192:none:172.119.3.1
 
-            ▪ stealclock.enable:   TRUE
+            - stealclock.enable:   TRUE
 
 3. Power On VM, chờ quá trình cài đặt:
-    Chạy lệnh : oc get -w csr
+    Chạy lệnh :
+
+        oc get -w csr
 
 4. nếu thấy có request pending thì cần approve chạy tiếp:
-    oc adm certificate approve <request_name>
+
+        oc adm certificate approve <request_name>
 
 5. Để Kiểm tra node mới đã được add thành công chưa chạy lệnh: 
-    oc get no
+
+        oc get no
 
 ## Add thêm worker cho cluster sử dụng iso
 
@@ -244,7 +248,7 @@ Cấu hình DNS cho node mới (vd: worker03.openshift.devtest.bca – 192.168.1
 
 10. Chạy câu lệnh coreos-installer để cài
 
-        #sudo coreos-installer install --copy-network --insecure --insecure-ignition --ignition-url=http://quay.openshift.devtest.bca/worker.ign /dev/sda
+        sudo coreos-installer install --copy-network --insecure --insecure-ignition --ignition-url=http://quay.openshift.devtest.bca/worker.ign /dev/sda
 
     Đợi cho RHCOS được cài đặt thành công, sau đó reboot máy và chờ thao tác cài đặt worker node (khoảng 10')
 
@@ -267,8 +271,8 @@ Cấu hình DNS cho node mới (vd: worker03.openshift.devtest.bca – 192.168.1
     Từ trang chủ vCenter, tải xuống chứng chỉ CA gốc của vCenter. Nhấp vào Tải xuống Chứng chỉ Root CA đáng tin cậy trong phần SDK Dịch vụ web VSphere. Tải xuống tệp <vCenter>/certs/download.zip sau đó giải nén.
     Tiếp tục copy cert vào hệ thống để trust
 
-        [user@quay.openshift.devtest.bca]# cp certs/lin/* /etc/pki/ca-trust/source/anchors
-        [user@quay.openshift.devtest.bca]# update-ca-trust extract
+        cp certs/lin/* /etc/pki/ca-trust/source/anchors
+        update-ca-trust extract
   
     Dowdload template ova rhcos tại đây rồi copy vào /var/www/html
 
