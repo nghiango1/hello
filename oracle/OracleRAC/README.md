@@ -31,6 +31,27 @@ After that, start config
 - Add the seconed Distributed vSwtich
     - As you already have External network on the first step, We now add the private network for internal connection beetween two Oracle RAC server
 
+#### DNS preparation
+
+> Can use local DNS /etc/hosts
+
+Public
+- 172.20.0.1 rac1.<dns domain> db19c-rac1
+- 172.20.0.2 rac2.<dns domain> db19c-rac2
+
+Private
+- 172.21.0.1 rac1.<dns domain> db19c-rac1
+- 172.21.0.2 rac2.<dns domain> db19c-rac2
+
+VIP
+- 172.20.0.11 rac1-vip.<> db19c-rac1-vip
+- 172.20.0.12 rac2-vip.<> db19c-rac2-vip
+
+SCAN
+- 172.20.0.21 db19c-scan.<> db19c-scan
+- 172.20.0.22 db19c-scan.<> db19c-scan
+- 172.20.0.23 db19c-scan.<> db19c-scan
+
 #### OS config
 
 OS Installation process, which is mostly default
@@ -50,6 +71,36 @@ OS Installation process, which is mostly default
     ens192 => on
     ens224 => on
     hostnames => rac-19c-01, rac-19c-02
+    ```
+- Set up `fs` config for `/tmpfs` entry
+    - Open fstab config file
+
+    ```
+    vi /ect/fstab
+    ```
+
+    - Add this entry
+
+    ```
+    tmpfs /dev/shm /tmpfs rw,exec 0 0
+    ```
+
+    - Remount afterward
+
+    ```
+    mount -o remount /dev/shm
+    ```
+
+- Diable `selinux`
+    - Open file
+    ```
+    vi /etc/selinux/config
+    ```
+    
+    - Change entry
+    ```
+    SELINUX=disable
+    setenfoce 0
     ```
 
 > (*): For even restricted environment, this notes lab have full offline install
@@ -121,6 +172,7 @@ Set up these two diferent network interface
     - ens224 -> 10.1.1.0/24: For privated/internal
 
 Setup shared disk
+- Add 3 seperated disk for each machine (16GB each) - We not using 1 disk with 3 LVM 
 - If you follow minimal setup on VMware, this require you add two new Hard disk to rac-19c-01
     - Thick provision + Multi writer + dependant. Adding `disk.EnableUUID` with value `TRUE` to Advantage parameter in VMware VM setting
     - After it finish created, add Existed Hard disk to rac-19c-02
