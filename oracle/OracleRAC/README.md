@@ -14,6 +14,7 @@ Need at least  2 VM
 - Hardware Requirements: 4vCore 16GB RAM 256 GB Storage + 100 GB x2 Share RAC Storage
 - Use Oracle DB (Oracle RAC) install and Oracle Linux that comparable base on your preference
     - Here is reference which being used: Oracle DB 19c with Oracle Linux R7.U9
+        - Go to edelivery page from oracle, find 19c Edition 19.3.0.0.0 with Grid + DB LTS option enable
     - Download and upload them into VMware datastore
 - Completely create two VM "normally" (or minimally) till it up and running
     - Use only 1 each with the same configuration
@@ -329,7 +330,18 @@ Setup shared disk
         ```
     - Mount `multipath` device
 
-- We can create LVM right after
+- Partition created disk
+    - Using `parted`
+    ```
+    parted -s -a optimal /dev/sdg mklable gpt mkpart primary 0% 100%
+    parted -s -a optimal /dev/sdb mklable gpt mkpart primary 0% 100%
+    parted -s -a optimal /dev/sdc mklable gpt mkpart primary 0% 100%
+    parted -s -a optimal /dev/sdd mklable gpt mkpart primary 0% 100%
+
+    partprobe /dev/sdg
+    ```
+
+    Or other method - eg we can create LVM
     ```sh
     pvcreate /dev/odisk02p1
     pvcreate /dev/odisk03p1
@@ -339,6 +351,12 @@ Setup shared disk
 
 > Share disk can be config on one VM, other some time will need to reboot to update latest change
 > Reinstall OS will only need to
+
+udev
+/usr/lib/udev/scsi_id -g -u -d /dev/sdb1
+
+vi /etc/multipath/wwids
+
 
 #### RAC config
 
@@ -380,10 +398,15 @@ Ensure NTP with Oracle Cluster Time Synchronization
     > Only needed if we not have NTP server and can't access external NTP server
 
 Create `grid` user that install grid
-```sh
-useradd grid -g oinstall
-passwd grid
-```
+- User creation
+    ```sh
+    useradd grid -g oinstall -G dba, asmadmin, asmdba, asmoper -d /home/grid -s /bin/bash grid
+    passwd grid
+    ```
+- Group
+    ```sh
+    group -g 54333 asmdba asmoper asmadmin
+    ```
 - Config Resource Limits for grid user (?)
     ```sh
     vi /etc/security/limits.d/oracle-database-preinstall-19c.conf
@@ -440,17 +463,29 @@ fi
 
 Settin up enviroment variable
 - We update `.bash_profile` file
-- Setup ORACLE related environment
-    > 7 . If the ORACLE_SID, ORACLE_HOME, or ORACLE_BASE environment variables are set in the file, then remove these lines from the file
-    > 11. Unset any Oracle environment variables.
-    If you have an existing Oracle software installation, and you are using the same user to install this installation, then unset the $ORACLE_HOME, $ORA_NLS10, and $TNS_ADMIN environment variables.
-    If you have set $ORA_CRS_HOME as an environment variable, then unset it before starting an installation or upgrade. Do not use $ORA_CRS_HOME as a user environment variable, except as directed by Oracle Support.
+    - Setup ORACLE related environment
+        > 7 . If the ORACLE_SID, ORACLE_HOME, or ORACLE_BASE environment variables are set in the file, then remove these lines from the file
+        > 11. Unset any Oracle environment variables.
+        If you have an existing Oracle software installation, and you are using the same user to install this installation, then unset the $ORACLE_HOME, $ORA_NLS10, and $TNS_ADMIN environment variables.
+        If you have set $ORA_CRS_HOME as an environment variable, then unset it before starting an installation or upgrade. Do not use $ORA_CRS_HOME as a user environment variable, except as directed by Oracle Support.
 
+    - `vi /home/oracle/.bash_profile`
     ```sh
     export PATH
+    export TMP=/tmp
+    export TMPDIR=$TMP
+    export ORACLE_HOSTNAME=db19c-rac1. #<>
+    export ORACLE_HOSTNAME=db19c-rac1. #<>
+    export ORACLE_UNQNAME=cdb1x
+    # ...
     export ORACLE_SID=+ASM2
     export ORACLE_HOME=/u01/app/19.0.0/grid
     ```
+    - `vi /home/grid/.bash_profile`
+    ```sh
+
+    ```
+
 - Setup `umask` to 022, so file installation have 644 permission
     ```sh
     umask 022
@@ -468,7 +503,7 @@ Settin up enviroment variable
     fi
     ```
 
-More ..., finall `.bash_profile` look like this
+After all this, final `.bash_profile` look like this
 ```sh
 # .bash_profile
 
