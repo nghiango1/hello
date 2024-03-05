@@ -1,7 +1,5 @@
 /**
  * concat two string
- * @param {string} a str1
- * @param {string} b str2
  * @returns {string} Result
  */
 function conc(a, b) {

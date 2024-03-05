@@ -4,4 +4,5 @@ Add all environment, config file in `install` Notes to a single javascript proje
 - jsdoc
 - LSP: Type check, auto add JSdoc
 
-In right configuration, you will see LSP error for wrong type and Jsdoc missing
+Add more
+- esbuild: For bundle file to a single js for browser, web serve

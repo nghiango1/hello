@@ -35,6 +35,12 @@ Adding `jsdoc` eslint enforce (which will get fix when it not work anymore)
     ```sh
     npm install --save-dev eslint-plugin-jsdoc
     ```
+- Ass plugin jsdoc for auto Jsdoc LSP
+    ```
+    "extends": [
+        "plugin:jsdoc/recommended-error"
+    ],
+    ```
 - Force eslint to require `jsdoc` in file by adding these comment on top of the file
     ```js
     /* eslint "require-jsdoc": ["error", {
