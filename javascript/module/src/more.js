@@ -1,4 +1,4 @@
-import Split from './split/split.js'
+import Split from './split/split.js';
 
 const one = 1;
 const two = 2;

@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "showerr": "npx eslint -c .eslintrc.js --fix-dry-run index.js"
+    "start": "node index.js",
+    "serve": "npx http-server",
+    "bundle": "npx esbuild index.js --bundle --outfile=dist/release.js",
+    "serve-release": "npx http-server -o ./dist/"
   },
   "type": "module",
   "author": "",
@@ -13,6 +15,7 @@
   "devDependencies": {
     "esbuild": "0.20.1",
     "eslint": "^8.57.0",
-    "eslint-plugin-jsdoc": "^48.2.0"
+    "eslint-plugin-jsdoc": "^48.2.0",
+    "http-server": "^14.1.1"
   }
 }
