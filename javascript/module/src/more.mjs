@@ -1,4 +1,4 @@
-import Split from './split/split.js';
+import { sliceString } from "./split/split.mjs";
 
 const one = 1;
 const two = 2;
@@ -13,7 +13,7 @@ function add(x, y) {
   return x + y;
 }
 
-const str = Split.sliceString('This is it');
+const str = sliceString("This is it");
 
 // Export seperated from all init is possible
 export { one, two, add, str };

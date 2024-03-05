@@ -1,7 +1,7 @@
 // Exported module, need to import specifically
 export class moduleName {
   name() {
-    return 'hello';
+    return "hello";
   }
 }
 

@@ -1,7 +1,3 @@
 # Project template
 
 Add all environment, config file in `install` Notes to a single javascript project
-- jsdoc
-- LSP: Type check, auto add JSdoc
-
-In right configuration, you will see LSP error for wrong type and Jsdoc missing
