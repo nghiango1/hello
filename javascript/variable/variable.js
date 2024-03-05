@@ -112,6 +112,7 @@ console.log(`hello is out of scope so it now type = '${typeof hello}'`);
     car.go();
 
     // Object shorthand is enforce
+    // Check more in object.js
     const one = 'one';
     const count = {
         // function/method in object with short hand syntax
@@ -127,8 +128,11 @@ console.log(`hello is out of scope so it now type = '${typeof hello}'`);
     };
 
     console.log(count);
-}
 
+    // Check if object have a property
+    console.log(Object.prototype.hasOwnProperty.call(count, 'c'));
+    // Check more in object.js
+}
 
 // class
 // type Node struct {
