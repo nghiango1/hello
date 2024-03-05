@@ -1,3 +1,5 @@
+import Split from './split/split.js'
+
 const one = 1;
 const two = 2;
 
@@ -11,4 +13,10 @@ function add(x, y) {
   return x + y;
 }
 
-export { one, two, add };
+const str = Split.sliceString('This is it');
+
+// Export seperated from all init is possible
+export { one, two, add, str };
+
+// Defaul export as a object with str shorthand value
+export default { str };

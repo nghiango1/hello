@@ -25,10 +25,20 @@ Install javascript LSP - Only option is typescript-lsp
     ```
 - Or even better, set up `jsconfig.json`, which is config file for typescipt-lsp for javascript project, which persitance on all project file. Set checkJs flag to `true` to Enable type checking on JavaScript files.
     ```json
-    {
+    "compilerOptions": {
         "checkJs": true,
     }
     ```
+- ES6 and we have module support directly inside javascript, which is greate
+    - To have LSP support module import, export with ES6 JS module, config
+        ```json
+        "compilerOptions": {
+            "moduleResolution": "classic",
+        }
+        ```
+        This make sure we have `./src/index.js` a like for import to work
+    - Readmore at [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+
 
 Adding `jsdoc` eslint enforce (which will get fix when it not work anymore)
 - Install `jsdoc`

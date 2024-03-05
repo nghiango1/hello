@@ -1,4 +1,9 @@
-export const moduleName = 'hello';
+// Exported module, need to import specifically
+export class moduleName {
+  name() {
+    return 'hello';
+  }
+}
 
 /**
  * Hello the person, or object
@@ -8,3 +13,7 @@ export const moduleName = 'hello';
 export function hello(name) {
   console.log(`hello ${name}`);
 }
+
+// Exported default module, which is function hello
+// This can be default import with any name
+export default hello;

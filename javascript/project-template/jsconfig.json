@@ -3,9 +3,9 @@
     "baseUrl": ".",
     "paths": {
       "app/*": ["./*"],
-      "components/*": ["./components/*"]
+      "components/*": ["./src/*"]
     },
-    "moduleResolution": "webpack",
+    "moduleResolution": "classic",
     // Enable type checking
     "checkJs": true,
     "target": "ESNext",
