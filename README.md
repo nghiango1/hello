@@ -9,11 +9,10 @@ Dedicated note and code for a wide range of language and computer concept. This 
 - `pascal`: Mostly used in my High school to join Computer sience contest (National, Region Olympic, ...). I do used it to re-read some Algo book from this time.
 - `c`: I like this more and more, even better than c++ (which can be use and teach as an alternative to pascal). My first choice for fundamental concept learning.
 - `c#`: My niche [project](https://github.com/ylsama/RightClickMoveMode) use C#, it seem helped a lot of [people](https://www.nexusmods.com/stardewvalley/mods/2614?tab=posts) too. This is me try to use c# in linux.
-- `go`: I want to focus more in this language, and do believe on this language vision
+- `go`: I want to focus more in this language, and do believe on this language vision. One of my biggest side project writen in go lang is a new interpreter language [InterinGo](https://github.com/nghiango1/hello/tree/main/go/interpreter)
 - `java`: For actual job
 - `lua`: For neovim config
-- `node` (`javascript` as backend): I use javascript for web automation and chrome/chromium/edge console as the alway available option for coding/IDE on every computer. So it nature to know a thing or two in it's counter part, which require running javascript on backend 
-    > Most linux come with gcc, bash, python though, so you have a lot more option
+- `javascript`: I use javascript for web automation and chrome/chromium/edge console as the alway available option for coding/IDE on every computer. 
 - `python`: I use this the most back in university, for CTF (sercurity contest, i focus in breaking unsecured **crypto**graphy implementation), Machine learning (web anomally detection for my graduation thesis, personal interest on next step of programing aumation). And, it still the most comfortable language I want to use daily
 - `rust`: For joining btw cult
 
