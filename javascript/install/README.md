@@ -8,7 +8,7 @@ Create new project
 
 Install eslint and config code formating with LSP error on javascript formating
 - `npm init @eslint/config`: Create eslint, follow all instruction, recommend main use in node instead in browser for quick dev. Adding both is the right way to go.
-- Additional rules: Indent should use 4 space, and console.log() should not get us warrning
+- Additional rules: Indent should use 4 space, and console.log() should not get us warning
     ```
     rules: {
         'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -18,40 +18,46 @@ Install eslint and config code formating with LSP error on javascript formating
 
 Install javascript LSP - Only option is typescript-lsp 
 - Install typescript LSP using Mason (neovim)
-    ◍ typescript-language-server tsserver, tsserver
+
+        ◍ typescript-language-server tsserver, tsserver
+
 - Enable typescript type check in javascript file with this in the top of the file
     ```js
     // @ts-check
     ```
-- Or even better, set up `jsconfig.json`, which is config file for typescipt-lsp for javascript project, which persitance on all project file. Set checkJs flag to `true` to Enable type checking on JavaScript files.
+- Or even better, set up `jsconfig.json`, which is config file for typescipt-lsp for javascript project, which persitance on all project file. Set `checkJs` flag to `true` to Enable type checking on JavaScript files.
     ```json
     "compilerOptions": {
         "checkJs": true,
     }
     ```
-- ES6 and we have module support directly inside javascript, which is greate
+- ES6 and we have module support directly inside javascript, which is great
     - To have LSP support module import, export with ES6 JS module, config
         ```json
         "compilerOptions": {
             "moduleResolution": "classic",
         }
         ```
-        This make sure we have `./src/index.js` a like for import to work
+        This make sure we have `./src/index.mjs` a like for import to work
     - Readmore at [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+    - Use special extension for module javascript file `*.mjs` so LSP can work perfectly
 
 
-Adding `jsdoc` eslint enforce (which will get fix when it not work anymore)
-- Install `jsdoc`
+Adding `jsdoc` eslint enforce style guide have two option: Plugin base (recommend), or Native base
+- (Recommend) Install `jsdoc` plugin for eslint
     ```sh
     npm install --save-dev eslint-plugin-jsdoc
     ```
-- Ass plugin jsdoc for auto Jsdoc LSP
-    ```
+
+    and add it to eslint config
+
+    ```json
     "extends": [
         "plugin:jsdoc/recommended-error"
     ],
     ```
-- Force eslint to require `jsdoc` in file by adding these comment on top of the file
+
+- (Optional) Enable `eslint` built-in support for `jsdoc` in file by adding these comment on top of the file (this is said to be deprecated eslint document and may not work in future update)
     ```js
     /* eslint "require-jsdoc": ["error", {
         "require": {
@@ -63,7 +69,8 @@ Adding `jsdoc` eslint enforce (which will get fix when it not work anymore)
         }
     }] */
     ```
-- Simmilar, to make sure this is enfored on project. Set this config
+
+- (Optional) to make sure this is enfored on project. Set this in eslint config file (this is said to be deprecated eslint document and may not work in future update)
     ```json
     "rules": {
         "jsdoc/require-description": "warn",
@@ -71,6 +78,6 @@ Adding `jsdoc` eslint enforce (which will get fix when it not work anymore)
     },
     ```
 
-DAP
-- Install [mason] js-debug-adapter, config file with nvim in github
+DAP (neovim)
+- Install [mason] js-debug-adapter, using my nvim config in github
 - Use launch only (option 1)
