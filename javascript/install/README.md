@@ -44,20 +44,20 @@ Install javascript LSP - Only option is typescript-lsp
 
 
 Adding `jsdoc` eslint enforce style guide have two option: Plugin base (recommend), or Native base
-- (Recommend) Install `jsdoc` plugin for eslint
+- Option 1 (Recommend): Install `jsdoc` plugin for eslint
     ```sh
     npm install --save-dev eslint-plugin-jsdoc
     ```
 
-    and add it to eslint config
+    and add it to eslint config, with specify so it could work well with typescript-language-server LSP (typescript define type)
 
     ```json
     "extends": [
-        "plugin:jsdoc/recommended-error"
+        "plugin:jsdoc/recommended-typescript-flavor-error"
     ],
     ```
 
-- (Optional) Enable `eslint` built-in support for `jsdoc` in file by adding these comment on top of the file (this is said to be deprecated eslint document and may not work in future update)
+- Option 2 (Optional): Enable `eslint` built-in support for `jsdoc` in file by adding these comment on top of the file (this is said to be deprecated eslint document and may not work in future update)
     ```js
     /* eslint "require-jsdoc": ["error", {
         "require": {
@@ -70,7 +70,8 @@ Adding `jsdoc` eslint enforce style guide have two option: Plugin base (recommen
     }] */
     ```
 
-- (Optional) to make sure this is enfored on project. Set this in eslint config file (this is said to be deprecated eslint document and may not work in future update)
+    To make sure this is enfored on project. Set this in eslint config file (this is said to be deprecated eslint document and may not work in future update)
+
     ```json
     "rules": {
         "jsdoc/require-description": "warn",
