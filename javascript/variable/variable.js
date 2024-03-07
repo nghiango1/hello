@@ -83,7 +83,8 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
     println(`As we can see, value bar = ${bar} is the same with foo = ${foo}.\nWe have a reference to foo with bar = foo statement`);
 }
 
-// Scope - This break a lot of safety LSP, eslint rule, so just stick with this file and using only let and const
+// Scope - This break a lot of safety from LSP, eslint rule, so just stick with let and const
+// Read more on scope.js
 
 // Object - With some Airbnb js style guilde
 {
@@ -120,6 +121,9 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
     // Object with method
     const car = {
         engine: "v8",
+        /**
+         *
+         */
         go() {
             println(`car ${this.engine} engine go brrrr...`);
         },
@@ -232,6 +236,10 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
     const iterableObject = {
         counter: 0,
 
+        /**
+         * Part of Iterator protocol, required to make the object iterable
+         * @returns {Iterator<number, IteratorResult<number, boolean>>} Part of Iterator protocol
+         */
         [Symbol.iterator]() {
             // This is a function of iterableObject, so we can access its value
             // from `this` keyword
@@ -240,6 +248,10 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
 
             /** @type { Iterator<number> } */
             const interatorObject = {
+                /**
+                 * Part of Iterator protocol
+                 * @returns {IteratorResult<number>} Part of Iterator protocol
+                 */
                 next() {
                     if (upper.counter < 10) {
                         upper.counter += 1;
@@ -257,6 +269,11 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
                     return iteratorResult;
                 },
 
+                /**
+                 * (Optional) Part of Iterator protocol - Can be call to finish the iterate process early so the iterator can properly clean up
+                 * @param {number} value Caller repassed data back to iterator
+                 * @returns {IteratorResult<number>} Part of Iterator protocol
+                 */
                 return(value) {
                     console.log("Do some thing with", value);
                     console.log("Done interating, cleanning up");
@@ -268,6 +285,11 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
                     return iteratorResult;
                 },
 
+                /**
+                 * (Optional) Part of Iterator protocol - Can be call to finish the iterate process early that cause of error so the iterator can properly handle and clean up
+                 * @param {Error} exception Caller repassed a error back to iterator
+                 * @returns {IteratorResult<number>} Part of Iterator protocol
+                 */
                 throw(exception) {
                     console.log("Do some thing with", exception);
                     console.log("Done interating, cleanning up");
@@ -307,10 +329,16 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
      * @implements {Iterable<number>}
      */
     class customIterableClass {
+        /**
+         *
+         */
         constructor(counter = 0) {
             this.counter = counter;
         }
 
+        /**
+         *
+         */
         [Symbol.iterator]() {
             // This is a function of iterableObject, so we can access its value
             // from `this` keyword
@@ -319,6 +347,9 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
 
             /** @type { Iterator<number> } */
             const interatorObject = {
+                /**
+                 *
+                 */
                 next() {
                     if (upper.counter < 10) {
                         upper.counter += 1;
@@ -336,6 +367,9 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
                     return iteratorResult;
                 },
 
+                /**
+                 *
+                 */
                 return(value) {
                     console.log("Do some thing with", value);
                     console.log("Done interating, cleanning up");
@@ -347,6 +381,9 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
                     return iteratorResult;
                 },
 
+                /**
+                 *
+                 */
                 throw(exception) {
                     console.log("Do some thing with", exception);
                     console.log("Done interating, cleanning up");
@@ -388,6 +425,9 @@ println(`\nhello is out of scope so it now back to type = '${typeof hello}'`);
     class custom {
         what = 1;
         who = 1;
+        /**
+         * Constructor
+         */
         constructor() {
             this.done = 2;
         }

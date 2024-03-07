@@ -3,11 +3,9 @@
 
 /**
  * Scope
-- var: is function scope
-- let, const: is block scope
-- function: A function define is a mix of both, we could say it function
-scope. Eslint sytle can enforce all inner function in function need to be
-at the top of outer function
+ * - var: is function scope
+ * - let, const: is block scope
+ * - function: A function define is a mix of both, we could say it same as var
  * @param {number} x anynumber
  * @returns {number} return x + 1
  */
@@ -47,8 +45,9 @@ const inc = function increaseANumberByOne(x) {
 
     {
         /* eslint no-inner-declarations: off */
+        /* eslint func-style: off */
         /**
-         * This is function define which have function scope mix of var + let
+         * This is function define which have function scope (similar to var)
          * @param {number} x One
          * @param {number} y Two
          * @returns {number} Result

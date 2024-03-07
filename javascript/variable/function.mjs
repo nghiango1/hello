@@ -2,8 +2,8 @@
  * Log to output
  * @param {...any} x Anything
  */
-export function println(...x) {
+export const println = function aMoreComplexPrintlnFunctionName(...x) {
     console.log(...x);
-}
+};
 
 println("Hello", "world!");

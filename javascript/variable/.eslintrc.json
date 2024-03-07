@@ -13,6 +13,10 @@
         "sourceType": "module"
     },
     "rules": {
+        "func-style": [
+            "error",
+            "expression"
+        ],
         "indent": [
             "error",
             4
@@ -29,6 +33,16 @@
             "error",
             "always"
         ],
-        "no-array-constructor": [ "error" ]
+        "jsdoc/require-jsdoc": [
+            "error",
+            {
+                "require": {
+                    "ClassDeclaration": true,
+                    "MethodDefinition": true,
+                    "FunctionExpression": true,
+                    "ArrowFunctionExpression": true
+                }
+            }
+        ]
     }
 }

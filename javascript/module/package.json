@@ -2,12 +2,12 @@
   "name": "project-template",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.mjs",
   "scripts": {
     "start": "node index.mjs",
     "serve": "npx http-server",
     "bundle": "npx esbuild index.mjs --bundle --outfile=dist/release.js",
-    "serve-release": "npx http-server -o ./dist/"
+    "serve-release": "npx http-server -o dist/"
   },
   "type": "module",
   "author": "",

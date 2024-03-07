@@ -1,3 +1,6 @@
+/**
+ * Structure repesenting a Linked list node
+ */
 class Node {
   /**
    * @type {number}
@@ -20,6 +23,9 @@ class Node {
 }
 
 
+/**
+ * A Linked list implement
+ */
 class LinkedList {
   /**
    * @type {Node|null}
@@ -27,6 +33,7 @@ class LinkedList {
   head;
 
   /**
+   * @private
    * @type {Node|null}
    */
   end;
@@ -36,6 +43,9 @@ class LinkedList {
    */
   length;
 
+  /**
+   *
+   */
   constructor() {
     this.length = 0;
     this.head = null;
