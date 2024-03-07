@@ -13,6 +13,12 @@
         "sourceType": "module"
     },
     "rules": {
+        "no-object-constructor": [
+            "error"
+        ],
+        "prefer-object-spread": [
+            "error"
+        ],
         "func-style": [
             "error",
             "expression"
