@@ -1,7 +1,13 @@
 // Exported module, need to import specifically
+/**
+ * Have a single property name() that return the namem of the module
+ */
 export class moduleName {
+  /**
+   * @returns {string} This module name
+   */
   name() {
-    return "hello";
+    return "moduleName";
   }
 }
 
