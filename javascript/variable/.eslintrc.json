@@ -17,6 +17,25 @@
             "error",
             "expression"
         ],
+        "no-inner-declarations": [
+            "error",
+            "both"
+        ],
+        "default-param-last": [
+            "error"
+        ],
+        "prefer-rest-params": [
+            "error"
+        ],
+        "no-new-func": [
+            "error"
+        ],
+        "no-var": [
+            "error"
+        ],
+        "prefer-const": [
+            "error"
+        ],
         "indent": [
             "error",
             4

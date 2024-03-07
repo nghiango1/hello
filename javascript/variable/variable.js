@@ -2,7 +2,7 @@ import { println } from "./function.mjs";
 println("Hello", "world!");
 
 // Use let and const as they are block scope
-let hello = 1;
+const hello = 1;
 // Primitives
 {
     println("\nPromitives type\n===========\n");
