@@ -1,3 +1,5 @@
+import List from "./List.mjs";
+
 /**
  * Structure repesenting a Linked list node
  */
@@ -24,45 +26,41 @@ class Node {
 
 
 /**
- * A Linked list implement
+ * A List implement using Single linked array with numberic value
+ * @augments {List<number>}
  */
-class LinkedList {
+class LinkedList extends List {
   /**
+   * The head of the inner linked array
    * @type {Node|null}
    */
   head;
 
   /**
+   * The tail of the inner linked array
    * @private
    * @type {Node|null}
    */
-  end;
+  tail;
 
-  /**
-   * @type {number}
-   */
-  length;
-
-  /**
-   *
-   */
+  /** Linked list constructor */
   constructor() {
-    this.length = 0;
+    super();
     this.head = null;
-    this.end = null;
+    this.tail = null;
   }
 
   /**
    * Add a new value into the list
-   * @param {number} value added value
+   * @param {number} value Added value
    */
   push(value) {
-    if (this.end === null) {
+    if (this.tail === null) {
       this.head = new Node(value);
-      this.end = this.head;
+      this.tail = this.head;
     } else {
-      this.end.next = new Node(value);
-      this.end = this.end.next;
+      this.tail.next = new Node(value);
+      this.tail = this.tail.next;
     }
     this.length += 1;
   }
