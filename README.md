@@ -9,7 +9,7 @@ Dedicated note and code for a wide range of language and computer concept. This 
 - `pascal`: Mostly used in my High school to join Computer sience contest (National, Region Olympic, ...). I do used it to re-read some Algo book from this time.
 - `c`: I like this more and more, even better than c++ (which can be use and teach as an alternative to pascal). My first choice for fundamental concept learning.
 - `c#`: My niche [project](https://github.com/ylsama/RightClickMoveMode) use C#, it seem helped a lot of [people](https://www.nexusmods.com/stardewvalley/mods/2614?tab=posts) too. This is me try to use c# in linux.
-- `go`: I want to focus more in this language, and do believe on this language vision. One of my biggest side project writen in go lang is a new interpreter language [InterinGo](https://github.com/nghiango1/hello/tree/main/go/interpreter) which I built an [online site](aea5-113-20-109-15.ngrok-free.app/) for everyone to check it out
+- `go`: I want to focus more in this language, and do believe on this language vision. One of my biggest side project writen in go lang is a new interpreter language [InterinGo](https://github.com/nghiango1/hello/tree/main/go/interpreter) which I built an [online site](nghiango.io.vn/) for everyone to check it out
 - `java`: For actual job
 - `lua`: For neovim config
 - `javascript`: I use javascript for web automation and chrome/chromium/edge console as the alway available option for coding/IDE on every computer. 
