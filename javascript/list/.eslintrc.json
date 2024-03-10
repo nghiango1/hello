@@ -16,6 +16,7 @@
         "sourceType": "module"
     },
     "rules": {
+        "jsdoc/require-returns": "off",
         "indent": [
             "error",
             2
