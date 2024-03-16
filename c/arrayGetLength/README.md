@@ -11,7 +11,7 @@ Of course this isn't some normal way to use array variable `sizeof`. It just get
     length = sizeof(arr) / sizeof(long long);
 ```
 
-This clearly said in some random stackoverflow post "Yu KaN't dO It iN cPp" but I'm in disbelieve. C/cpp can't do it, what year is this, am I suppose to build application in Assembly and readding chip instruction or what. Wait, what about heap alocation? Can we free the memory inside a different function.
+This clearly said in some random stackoverflow post "Yu KaN't dO It iN cPp" but I'm in disbelieve. C/cpp can't do something then am I suppose to build application in Assembly and readding chip instruction or what. Now, how about heap alocation? Can we free the memory inside a different function.
 
 ```cpp
 func freeArray(long long arr[]) {
@@ -32,7 +32,7 @@ int main() {
 }
 ```
 
-You actually can, which mean c++ do know in the runtime how long the memory was alocated. This is my theory, we can alway recovered an alocated malloc heap size from the varible pointer, what ever the case.
+You actually can, which mean c++ do know in the runtime how long the memory was alocated. This is my theory, we can alway recovered an heap alocated memory size from `malloc()` with just the varible pointer, what ever the case.
 
 ## Building block
 
@@ -40,17 +40,17 @@ Now, how exactly can we dig that infomation out. So I need a good old friends, C
 
 ![Screenshot.png](Screenshot.png)
 
-I don't even know about chinese but there they are, a chunk size. So basically, memory is alocate by `malloc()` will be handle by heap chunk, which have a maximum size (may be of 128KB from previous slide). By usng chunk header, we can point them to the next chunk or end of linked chunk (linked list mention!!).
+I don't even know about chinese but there they are, a chunk size. So basically, memory is alocate by `malloc()` will be handle by heap chunk, which have a maximum size (may be of 128KB from previous slide). By using chunk header, we can point them to the next chunk or end of linked chunk (linked list mention! my years of learning data structure finally have a use case!).
 
 There is more to it, like: Large bin, small bin, fast bin, unsorted bin; which just to make memory fragmentation less of a problem but we will skip for now and raise these again when needed.
 
-It will be way easier when the code actually working and running. I can look at alocated memory in runtime directly. But can `c++` have in language API to support runtime infomation extracting. It turn out to these function that we can look into how we can navigate the chunk after I found out a post that exlained throughly how glibc `free()` work with chunk.
+It will be way easier when the code actually working and running. I can look at alocated memory in runtime directly. But can `c++` have in language API to support runtime infomation extracting. How we can navigate the heap chunk? After some time, I found out a post that exlained throughly how glibc `free()` work. It turn out these are the function that we need to look into:
 - `mem2chunk` is simple enough, point backward from the pointer, cast it into a chunk header structure. It seem appear in glibc source code `malloc.c` file, and I can't access that. A non public function.
     ```cpp
     #define mem2chunk(mem) ((mchunkptr)tag_at (((char*)(mem) - CHUNK_HDR_SZ)))
     ```
     We can re-implementing it tho, simple enough
-- `is_mmapped` is some flag check to handle chunk, not thing fancy, we can do it our self after understanding our chunk header object.
+- `is_mmapped` is a function for flag check in chunk header, we can come back to it after understanding our chunk header object.
 
 Here is the exact quote from the site I found
 > Long story short, [free](https://sourceware.org/git/?p=glibc.git;a=blob;f=malloc/malloc.c;h=e065785af77af72c17c773517c15b248b067b4ad;hb=ae37d06c7d127817ba43850f0f898b793d42aea7#l3237) works like the following. When it is called, the user would pass a pointer to the memory area to it, free would then call [mem2chunk](https://sourceware.org/git/?p=glibc.git;a=blob;f=malloc/malloc.c;h=e065785af77af72c17c773517c15b248b067b4ad;hb=ae37d06c7d127817ba43850f0f898b793d42aea7#l1310) to convert the pointer to point to the chunk header. Then, if the chunk is allocated by mmap indicated by the M flag, free calls munmap ([man 3p](https://man.archlinux.org/man/munmap.3p.en) | [man 2](https://man.archlinux.org/man/munmap.2.en)) to release the chunk; if not, it passes the chunk pointer to [_int_free](https://sourceware.org/git/?p=glibc.git;a=blob;f=malloc/malloc.c;h=e065785af77af72c17c773517c15b248b067b4ad;hb=ae37d06c7d127817ba43850f0f898b793d42aea7#l4302) for the actual freeing process.
@@ -70,7 +70,7 @@ Well, getting no where out of that, so I just get the source code
 git clone -b ubuntu/devel https://git.launchpad.net/ubuntu/+source/glibc
 ```
 
-Let see.
+Let dig into it.
 
 ## PoC implement
 

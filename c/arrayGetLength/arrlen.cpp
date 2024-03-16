@@ -8,12 +8,8 @@
 // chip architecture: ARM, MISP, ... or with a different glibc implement x64
 #define CHUNK_HDR_SZ 16
 
-// Special use case with 8 bytes size
-// typedef unsigned long long INTERNAL_SIZE_T;
-
 // Default use case with 4 bytes size
 typedef size_t INTERNAL_SIZE_T;
-
 
 // Chunk header implement base on malloc.c
 struct ChunkHeader {
@@ -31,27 +27,17 @@ struct ChunkHeader *mem2chunk(void *mem) {
   return (ChunkHeader *)((char *)mem - CHUNK_HDR_SZ);
 }
 
-// Print hex from a address length
-int printHex(void *arr, int length) {
-  printf("Array with %d length:\n", length);
-  for (int i = 0; i < length; i++) {
-    printf("%08x", ((unsigned int *)arr)[i]);
-    if (i != length - 1)
-      printf(", ");
-  }
-  printf("\n");
-
-  return 0;
-}
-
+// This return alocated data length from malloc
 INTERNAL_SIZE_T arrlen(short arr[]) {
   ChunkHeader *p = mem2chunk(arr);
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
+
   // Try to delete the first 3 bit using our crafted mask
   INTERNAL_SIZE_T chunksize = p->size & mark;
   // Get the final data size of the chunk, the array length in bytes
   INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
+
   return arrayLength;
 }
 
