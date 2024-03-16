@@ -4,7 +4,7 @@ I stumble upon this question: "Is it possible to get the lenght of a array in th
 
 ## Thought and knowledge check
 
-Ofcourse this isn't some normal way to use array variable `sizeof`. It just get decay to a pointer and lost it size.
+Of course this isn't some normal way to use array variable `sizeof`. It just get decay to a pointer and lost it size.
 
 ```cpp
     long long arr[4];
@@ -72,11 +72,91 @@ git clone -b ubuntu/devel https://git.launchpad.net/ubuntu/+source/glibc
 
 Let see.
 
-## Implementation PoC
+## PoC implement
 
-> `array.cpp` is there, complile it and check that out.
+A Prove of Concept - PoC mean I can prove it possible via an example, but it not in a general way and can be use in any situation, I get this term from those cvs exploit hacker guy articles and do hope you undertand what I mean here. The final PoC is `arrlen.cpp` file inside this repo directory.
 
-A Prove of Concept - PoC mean I can prove it possible via an example, but it not in a general way and can be use in any situation, I get this term from those cvs exploit hacker guy articles and do hope you undertand what I mean here. With that in mind, let start with a chunk structure in glibc `malloc.c`
+I still show it here anyway
+
+```cpp
+// provides `NULL`, `free`, `malloc`, `size_t`
+#include <cstdlib>
+
+// provides `printf`
+#include <stdio.h>
+
+// This base on gdb trace result, I'm unclear if it still this value in other
+// chip architecture: ARM, MISP, ... or with a different glibc implement x64
+#define CHUNK_HDR_SZ 16
+
+// Default use case with 4 bytes size
+typedef size_t INTERNAL_SIZE_T;
+
+// Chunk header implement base on malloc.c
+struct ChunkHeader {
+  INTERNAL_SIZE_T prev_size; /* Size of previous chunk (if free).  */
+  INTERNAL_SIZE_T size;      /* Size in bytes, including overhead. */
+  struct malloc_chunk *fd; /* double links -- used only if free. */
+  struct malloc_chunk *bk;
+};
+
+// This get the chunk header from a memory address
+struct ChunkHeader *mem2chunk(void *mem) {
+  if (mem == NULL) {
+    return NULL;
+  }
+  return (ChunkHeader *)((char *)mem - CHUNK_HDR_SZ);
+}
+
+// This return alocated data length from malloc
+INTERNAL_SIZE_T arrlen(short arr[]) {
+  ChunkHeader *p = mem2chunk(arr);
+  // Mark with value 0b11...11000
+  INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
+
+  // Try to delete the first 3 bit using our crafted mask
+  INTERNAL_SIZE_T chunksize = p->size & mark;
+  // Get the final data size of the chunk, the array length in bytes
+  INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
+
+  return arrayLength;
+}
+
+void arrayLenghtPoC(short arr[]) {
+  printf("arr pointer (function decay) size %zu\n", arrlen(arr) / sizeof(short));
+}
+
+int main() {
+  short *arrPrt;
+  arrPrt = (short *)malloc(sizeof(short) * 16);
+  for (int i = 0; i < 16; i++) {
+    arrPrt[i] = i;
+  }
+
+  // Sizeof can't do anything
+  printf("arr pointer (sizeof) size %lu\n", sizeof(arrPrt));
+
+  ChunkHeader *p = mem2chunk(arrPrt);
+  // Mark with value 0b11...11000
+  INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
+  // Try to delete the first 3 bit using our crafted mask
+  INTERNAL_SIZE_T chunksize = p->size & mark;
+  // Get the final data size of the chunk, the array length in bytes
+  INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
+  printf("arr pointer size %zu\n", arrayLength);
+  arrlen(arrPrt);
+
+  printf("arr pointer true size %zu\n", arrlen(arrPrt) / sizeof(short));
+  arrayLenghtPoC(arrPrt);
+  free(arrPrt);
+  arrPrt = NULL;
+  return 0;
+}
+```
+
+## Walk through notes
+
+The single `array.cpp` code should cover all of which I have done. You can check it out. With that in mind, let start with a chunk structure in glibc `malloc.c`
 
 ```c
 struct malloc_chunk {
@@ -97,18 +177,16 @@ typedef struct malloc_chunk* mchunkptr;
 #define mem2chunk(mem) ((mchunkptr)tag_at (((char*)(mem) - CHUNK_HDR_SZ)))
 ```
 
-In this code, we have notthing fancy going on, just to make clear
+In this code, we have notthing fancy going on, I will explaining it just to make clear
 
 - INTERNAL_SIZE_T is (as default) size_t, a `unsigned long` number type to contain the length in bytes of a structure/object. The `malloc.c` use a `#define` value here so that we can change it in a specifial case that you want to use `unsign long long` instead.
-- `mem2chunk` will point back to a `CHUNK_HDR_SZ` (chunk header size) and cast it to a `mallock_chunk` pointer.
+- `mem2chunk` will point back a `CHUNK_HDR_SZ` (chunk header size) length and cast it to a `mallock_chunk` pointer.
 - `tag_at` is unclear, I really don't see how that related to any of the implementation
-- It still un-clear for me what is `CHUNK_HDR_SZ` value are
+- It still un-clear for me what is `CHUNK_HDR_SZ` value are from the source code
 
-So I can't use them exactly in the code, but let get it close enough.
+So I can't use them exactly in the PoC code, but we get close to it enough.
 
-Can't do anything yet. I check the memory in a runtime using `gdb` debuger to find where my chunk header are. `0x5555555596b0` is the address of (function decay) array, jump it back 100 byte
-
-Which is 
+After some time digging the code and can't do anything yet. I check the memory in a runtime using `gdb` debuger to find where my chunk header are. `0x5555555596b0` is the address of (function decay) array, jump it back some bytes to see the header. This is what `gdb` showed me
 
 ```
 (gdb) i arg
@@ -136,38 +214,48 @@ p = 0x5555555596a6
 0x555555559730: 0x00000000      0x00000000      0x00000000      0x00000000
 ```
 
-Now I asumming that our header should be in between both pointer. Which make these are the chunk header
-
+Now I asumming that our header should be in between both pointer. Which make these are the chunk_header
 ```
 0x5555555596a0: 0x00000000      0x00000000      0x00000031      0x00000000
+...
 0x5555555596d0: 0x00000000      0x00000000      0x00000051      0x00000000
-// There is supicous value after both pointer
-0x555555559720: 0x00000000      0x00000000      0x000208e1      0x00000000
 ```
 
-We only focus in those that have a value. Changing arrPrt2 to 64 + 32 byte change some byte too
+We only focus in those that have a value. Changing arrPrt2 to `64 + 32 = 96 bytes` change some byte in the `0x5555555596d0` offset too
 ```
 0x31 == 0b00110001
 0x51 == 0b01010001 -> 0xd1 == 0b11010001
-
-// There is supicous value after both pointer
-0x000208e1 == 00000000000000100000100011100001
-->
-0x00020861 == 00000000000000100000100001100001
 ```
 
+for reference
 ```
-16      == 0b00010000 == 0x10
-64 + 32 == 0b01100000 == 0x60
+16   == 0b00010000 == 0x10
+96   == 0b01100000 == 0x60
 ```
 
-Can't really make any sense of this :'). Gave up time
+Can't really make any sense of this :'). Gave up time, double it and gave it to my professional friend to solve. And here is what he said:
+
+```
+0b00110001
+       ^^^ these three is the flag and should be ignore.
+    ^^^ Here is the chunk size, but it still need three more leadding 0
+```
+
+Making the true size is `0b00110000 = 48 bytes` total. Now while our first array have size `sizeof(short) * 16 = 2 * 16 = 32 bytes`, we have to count in chunk header (16 bytes) into the final size . So the final size fit `32 + 16 = 48 bytes`.
+
+After knowing that, other thing feel quite simple:
+```
+0x51 == 0b01010001 -> 0b01010000 size -> 80 bytes -> 64 bytes without header
+0xd1 == 0b11010001 -> 0b11010000 size -> 208 bytes -> 192 bytes without header
+```
+
+It now possible for me to implement it.
 
 ## Final take
 
-I covered PoC for Heap. Now about stack, if we can by any change, [expanding or trackback call stack](https://www.gnu.org/software/libc/manual/html_node/Backtraces.html) then run the `sizeof()` there. I do think that a general getting array length native support function implement into glibc is possible. Until then, the answer for title question is a solid "It depend!".
+I covered PoC for Heap, though it still in a single chunk size alocation but it gonna do it for now (PoC isn't a full implementation anyway). Now about stack, if we can [expanding or trackback call stack](https://www.gnu.org/software/libc/manual/html_node/Backtraces.html) then run the `sizeof()` there, I do think that a general **getting array length native support function** implement into glibc is possible. Until then, the answer for title question is a solid "It depend!", heap alocation "Yes!", stack alocation "Idk yet, have you try it?"
 
-Yeah, may be I should said that "Yes" with an overconfident voice. But you see, if someone said you can't do X, have some re-thought about that and use it to ecourage your self digging for the answer from the root instead of blindingly distribute them to others people.
+Yeah, may be I should said that "Yes!" with an overconfident voice. But you see, if someone said you can't do X, have some re-thought about that and use it to ecourage your self digging for the answer from the root instead of blindingly distribute them to others people.
 
 > Expecially the source come those internet site that soonner and later will be replace by AI. Not like any of those gonna give a better answer but sill.
 
