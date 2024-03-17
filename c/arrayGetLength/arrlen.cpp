@@ -32,8 +32,7 @@ INTERNAL_SIZE_T arrlen(short arr[]) {
   ChunkHeader *p = mem2chunk(arr);
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
-
-  // Try to delete the first 3 bit using our crafted mask
+  // Set the first 3 bit to 0 using our crafted mask
   INTERNAL_SIZE_T chunksize = p->size & mark;
   // Get the final data size of the chunk, the array length in bytes
   INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
@@ -58,12 +57,11 @@ int main() {
   ChunkHeader *p = mem2chunk(arrPrt);
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
-  // Try to delete the first 3 bit using our crafted mask
+  // Set the first 3 bit to 0 using our crafted mask
   INTERNAL_SIZE_T chunksize = p->size & mark;
   // Get the final data size of the chunk, the array length in bytes
   INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
   printf("arr pointer size %zu\n", arrayLength);
-  arrlen(arrPrt);
 
   printf("arr pointer true size %zu\n", arrlen(arrPrt) / sizeof(short));
   arrayLenghtPoC(arrPrt);

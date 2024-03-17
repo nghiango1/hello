@@ -16,19 +16,19 @@ sudo docker run hello-world
 
 - That running:
 
-```
+```sh
 sudo docker ps
 ```
 
 - or just all containner that been pulled
 
-```
+```sh
 sudo docker ps -a
 ```
 
 - or just a latest container
 
-```
+```sh
 sudo docker ps -l
 ```
 
@@ -36,13 +36,13 @@ sudo docker ps -l
 
 Using container-id, 
 
-```
+```sh
 sudo docker inspect <container-id>
 ```
 
 - Or using this for latest
 
-```
+```sh
 sudo docker inspect $(sudo docker ps -q -l)
 ```
 

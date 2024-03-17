@@ -8,7 +8,14 @@ I stumble upon this question: "Is it possible to get the length of a array in th
 
 A Prove of Concept - PoC mean I can prove it possible via an example, but it not in a general way and can be use in any situation, I get this term from those cvs exploit hacker guy articles and do hope you undertand what I mean here. The final PoC is `arrlen.cpp` file inside this repo directory.
 
-I still show it here anyway
+Build the code with `make` command. Or you can run container version (docker/podman/CRO?) using there command. I just want to make sure it work on others machines here.
+
+```sh
+sudo docker build -t arrlen .
+sudo docker run arrlen
+```
+
+I still show the source code here so you won't have to go into the code by your self.
 
 ```cpp
 // provides `NULL`, `free`, `malloc`, `size_t`
@@ -46,7 +53,7 @@ INTERNAL_SIZE_T arrlen(short arr[]) {
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
 
-  // Try to delete the first 3 bit using our crafted mask
+  // Set the first 3 bit to 0 using our crafted mask
   INTERNAL_SIZE_T chunksize = p->size & mark;
   // Get the final data size of the chunk, the array length in bytes
   INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
@@ -71,12 +78,11 @@ int main() {
   ChunkHeader *p = mem2chunk(arrPrt);
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
-  // Try to delete the first 3 bit using our crafted mask
+  // Set the first 3 bit to 0 using our crafted mask
   INTERNAL_SIZE_T chunksize = p->size & mark;
   // Get the final data size of the chunk, the array length in bytes
   INTERNAL_SIZE_T arrayLength = chunksize - CHUNK_HDR_SZ;
   printf("arr pointer size %zu\n", arrayLength);
-  arrlen(arrPrt);
 
   printf("arr pointer true size %zu\n", arrlen(arrPrt) / sizeof(short));
   arrayLenghtPoC(arrPrt);
