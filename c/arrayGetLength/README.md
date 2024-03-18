@@ -1,8 +1,8 @@
-# Array
+# Array length
 
 Keyword: c/c++ runtimes, heap, memory, ctf, security
 
-I stumble upon this question: "Is it possible to get the length of a array in that have been send as ref in a function?". With the background from security (and a CTF enjoyer), My answer is "Yes" and here is how I done it step by step
+I stumble upon this question: "Is it possible to get the length of a array in that have been send as ref in a function?". With the background from security (and a CTF enjoyer), my answer is "Yes" and here is how I done it step by step
 
 ## PoC implement
 
@@ -125,7 +125,7 @@ You actually can, which mean c++ do know in the runtime how long the memory was 
 
 ### Document readding till we find the root
 
-Now, how exactly can we dig that infomation out. So I need a good old friends, CTF PWN tutorial for runtime C/C++ executable (more of a crypto guy my self back in the security team). Let look at this [promissing link](https://www.slideshare.net/AngelBoy1/heap-exploitation-51891400).
+Now, how exactly can we dig that infomation out? So, I need a good old friends, CTF PWN tutorial for runtime C/C++ executable (more of a crypto guy my self back in the security team). Let look at this [promissing link](https://www.slideshare.net/AngelBoy1/heap-exploitation-51891400).
 
 ![Screenshot.png](Screenshot.png)
 
@@ -133,7 +133,7 @@ I don't even know about chinese but there they are, a chunk size. So basically, 
 
 There is more to it, like: Large bin, small bin, fast bin, unsorted bin; which just to make memory fragmentation less of a problem but we will skip for now and raise these again when needed.
 
-It will be way easier to look at those chunk when the code actually working and running. I can dump those alocated memory in runtime out directly. But can `c/c++` have in language API to support runtime infomation extracting like getting chunk/chunk size? How we can navigate the heap chunk? After some time, I found out a Blog post that exlained throughly how glibc `free()` work. It turn out these are the functions that we need to look into:
+It will be way easier to look at those chunk when the code actually working and running. I can dump those alocated memory in runtime out directly and manually read the chunk size. But, if `c/c++` have in language API to support runtime infomation extracting like getting chunk/chunk size? How we can navigate the heap chunk? After some time, I found out a Blog post that exlained throughly how glibc `free()` work. It turn out these are the functions that we need to look into:
 - `mem2chunk` is simple enough, point backward from the pointer, cast it into a chunk header structure. It seem appear in glibc source code `malloc.c` file, and I can't access that by using `malloc.h` (A non public function)
     ```cpp
     #define mem2chunk(mem) ((mchunkptr)tag_at (((char*)(mem) - CHUNK_HDR_SZ)))
@@ -186,7 +186,7 @@ typedef struct malloc_chunk* mchunkptr;
 
 In this code, we have notthing fancy going on, I will explaining it just to make clear
 
-- INTERNAL_SIZE_T is (as default) size_t, a `unsigned long` number type to contain the length in bytes of a structure/object. The `malloc.c` use a `#define` value here so that we can change it in a specifial case that you want to use `unsign long long` instead.
+- `INTERNAL_SIZE_T` is (as default) `size_t`, a `unsigned long` number type to contain the length in bytes of a structure/object. The `malloc.c` use a `#define` value here so that we can change it in a specifial case that you want to use `unsign long long` instead.
 - `mem2chunk` will point back a `CHUNK_HDR_SZ` (chunk header size) length and cast it to a `mallock_chunk` pointer.
 - `tag_at` is unclear, I really don't see how that related to any of the implementation
 - It still un-clear for me what is `CHUNK_HDR_SZ` value are from the source code
@@ -256,15 +256,13 @@ After knowing that, other thing feel quite simple:
 0xd1 == 0b11010001 -> 0b11010000 size -> 208 bytes -> 192 bytes without header
 ```
 
-It now possible for me to implement it.
+It now possible for me to re implement `mem2chunk` and diging `chunk_size`.
 
 ## Final take
 
 I covered PoC for Heap, though it still in a single chunk size alocation but it gonna do it for now (PoC isn't a full implementation anyway). About stack alocation, if we can [expanding or trackback call stack](https://www.gnu.org/software/libc/manual/html_node/Backtraces.html) then run the `sizeof()` there, I do think that a general **getting array length native support function** implement into glibc is possible. Until then, the answer for title question is a solid "It depend!", heap alocation "Yes!", stack alocation "Idk yet, have you try it?"
 
-You see, if someone said you can't do X, have some re-thought about that and use it to ecourage your self digging for the answer from the root instead of blindingly distribute them to others people.
-
-> Expecially the source come those internet site that soonner and later will be replace by AI. Not like any of those gonna give a better answer but sill.
+You see, if someone said you can't do X, have some re-thought and use it to ecourage your self digging for the answer from the root instead of blindingly building a blockage on your knowledge. I know as I have done it a lot. It is one of my proud of qualities and allow me to become better both as a developer and as a person.
 
 Source for relevance link that I get infomation from, kudo to the authors:
 - https://shuye.dev/blog/malloc_chunk/
