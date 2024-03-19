@@ -15,8 +15,6 @@ typedef size_t INTERNAL_SIZE_T;
 struct ChunkHeader {
   INTERNAL_SIZE_T prev_size; /* Size of previous chunk (if free).  */
   INTERNAL_SIZE_T size;      /* Size in bytes, including overhead. */
-  struct malloc_chunk *fd; /* double links -- used only if free. */
-  struct malloc_chunk *bk;
 };
 
 // This get the chunk header from a memory address
@@ -30,6 +28,8 @@ struct ChunkHeader *mem2chunk(void *mem) {
 // This return alocated data length from malloc
 INTERNAL_SIZE_T arrlen(short arr[]) {
   ChunkHeader *p = mem2chunk(arr);
+  if (p == NULL) return 0;
+
   // Mark with value 0b11...11000
   INTERNAL_SIZE_T mark = (~0) ^ (1 + 2 + 4);
 
