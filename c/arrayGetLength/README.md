@@ -1,6 +1,6 @@
 # Array length
 
-Keyword: c/c++ runtimes, heap, memory, ctf, security
+Keyword: c/c++ runtimes, heap, memory, ctf, security, docker, container
 
 I stumble upon this question: "Is it possible to get the length of a array in that have been send as ref in a function?". With the background from security (and a CTF enjoyer), my answer is "Yes" and here is how I done it step by step
 
