@@ -1,5 +1,7 @@
 # interpreter-in-go
 
+> As the project grow big enough, it now will be seperated from this repo, check newest implementation of InterinGo at this link [https://github.com/nghiango1/InterinGo](https://github.com/nghiango1/InterinGohttps://github.com/nghiango1/InterinGo)
+
 "interprester-in-go" or InterinGo (for short) is a new interpreter language. It can be run in 3 mode
 - REPL mode: Which stand for read-evaluation-print-loop, similar to `python`
 - File mode: Execute code as input from file
