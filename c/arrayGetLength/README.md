@@ -62,7 +62,7 @@ INTERNAL_SIZE_T arrlen(short arr[]) {
 }
 
 void arrayLenghtPoC(short arr[]) {
-  printf("arr pointer (function decay) size %zu\n", arrlen(arr) / sizeof(short));
+  printf("arr pointer (function decay) true size %zu\n", arrlen(arr) / sizeof(short));
 }
 
 int main() {
@@ -90,6 +90,14 @@ int main() {
   arrPrt = NULL;
   return 0;
 }
+```
+
+Output expected after run `sudo docker run arrlen` or run build file directly `dist/arrlen`)
+```
+arr pointer (sizeof) size 8
+arr pointer size 32
+arr pointer true size 16
+arr pointer (function decay) true size 16
 ```
 
 ## Full walkthough process
