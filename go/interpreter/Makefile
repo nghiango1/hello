@@ -51,6 +51,11 @@ repl-build-run: # Build the code then run executable file
 repl-clean: # Remove repl build file
 	rm -f interingo
 
+### Test
+
+gen-test:
+	python script/generateTestOutput.py
+
 ### Helper
 
 server-clean: # Remove all frontend build file
