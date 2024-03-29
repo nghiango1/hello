@@ -8,7 +8,7 @@ package org;
  * in the system, instead a whole big chunk of memory already alocated at the
  * start of the progam.
  */
-public class SingletonWithLock{
+public class SingletonWithLock {
     private static boolean isLock = false;
     private static SingletonWithLock _instance = null;
     private static int _totalInstance = 0;
