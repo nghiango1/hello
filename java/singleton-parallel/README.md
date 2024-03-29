@@ -4,30 +4,29 @@ Who isn't hate this patern
 
 ## The problem
 
-You have only one object of this class avaiable for entire runtime. Until use want to make it lazy created and every other function start a race condition to create the object.
+You have only one object of this class avaiable for entire runtime. Until you want to make it to be lazy initializtion and every other functions start a race condition to create the object. And you leave with two option
 
-- Better Init it in a single thread then
-- Block everything until a thread finish changing Singleton object
+- Better Init it in a single thread then (At a start of program, or whatever...)
+- Block everything until the first thread finish initializing/changing Singleton object
 
 But Singleton is the way to help with memory management, why?
-- If you not care about memory just please using all static property instead, it is way safer and done the same thing.
+
+- If you not care about memory, just please using all static property instead, it is way safer and done the same job.
 - By using singleton, we make sure that if it is the case that we don't need the object, only some static properties contain pointer is init and use in the system, instead a whole big chunk of memory already alocated at the start of the progam.
 
-So Init it in a single thread at start of the program should not be the case. But after start program init, creating Singleton object in only one thread is easier said than done in multi-thread progam.
+So init it in a single thread at start of the program should not be the use case for Singleton. But after start program init, creating Singleton object in only one thread is easier said than done in multi-thread progam. This is a strict case that we want to do Singletion - Parallel - Lazy instance initialization
 
-This is a strict case that we want to do Singletion - Parallel - Lazy instance initiation
+> Also, we may want to modify our Singleton data after finish, but I'm not touching that here.
 
 ## What this aim for
 
-Java tool chain is really mature, so I want to know what Java developer environment give to developer to debug a progam
-- DAP
-- LSP
+Java tool chain is really mature, so I want to know what Java development tools/environment give to developer to debug a progam
 
 ## Implement
 
 ### Problematic code
 
-A example Singleton with counter on 3 thread output that without thread lock already create 2 instance
+A example Singleton without thread lock: on 3 thread, output said that we already create 2 instance
 
 ```
 Thread 0 is running
@@ -86,10 +85,10 @@ public class Singleton {
 }
 ```
 
-You could make it even worst by assigning `_instance = new Singleton()` instead of using temporary `obj` object, which make multinstance just stack on each other. Then after that, thread access `_instance` value which were still being initiliazed by multi thread. And hope god know what the current instance data will be. Anyway, here is the result:
+You could make it even worst by assigning `_instance = new Singleton()` instead of using temporary `obj` object, which make multinstance just stack on each other. Then after that, the first thread access `_instance` value which were still being initialized by others thread. And you should hope and pray to know what the current `_instance` data will be. Anyway, here is the result:
 - There is two instance was created (I used 0 - index `instanceID`, the instance id showed up have id 1)
 - `data` value is all over the place (different than 8000), this is because that `_instance` change to object id 1 mid initialization, causing some addition from object id 0 initialization make it through and affect the value of object id 1 `data`
-- The process take that access Singleton instance is fast enough that the `"Lazy create..."` log string fail to log the createtion of object id 1
+- The process take that access Singleton instance is fast enough that the `"Lazy create..."` log string fail to log the creation of object id 0
 
 ```
 Thread 0 is running
@@ -120,6 +119,7 @@ public class Singleton {
 
     public static Singleton getInstance() {
         if (_instance == null) {
+            // Good luck debug this code
             _instance = new Singleton();
 
             System.out.printf("Lazy create object id %d, with hash %d start ...\n", _instance.instanceID,
@@ -153,6 +153,7 @@ package org;
 
 public class SingletonWithLock{
     private static boolean isLock = false;
+
     private static SingletonWithLock _instance = null;
     private static int _totalInstance = 0;
     private int instanceID = 0;
@@ -216,7 +217,7 @@ Hello from thread 1! This is instance id 0, with hash 1730871013, which containi
 Hello from thread 2! This is instance id 0, with hash 1730871013, which containing 8000
 ```
 
-Even with larger among of thread, `"Lazy create ..."` log string only appear once and all thread start to access data after `"Finish create object ..."` log string appear
+Even with larger among of thread (13 now instead of 3), `"Lazy create ..."` log string only appear once and all thread start to access data after `"Finish create object ..."` log string appear
 
 ```
 Thread 0 is running
@@ -231,4 +232,4 @@ Hello from thread 0! This is instance id 0, with hash 637978054, which containin
 Hello from thread 1! This is instance id 0, with hash 637978054, which containing 8000
 ```
 
-That pretty much cover the whole point of this project. Try to use your debug environment (DAP/Jetbean/...) that detect all what I said
+That pretty much cover the whole point of this project. Try to use your debug environment (DAP/Jetbean/...) that detect what I said. But to be honest, most Debug can't do well with multi Thread program at all good luck on your journey
