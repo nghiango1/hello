@@ -18,6 +18,7 @@ Java have LSP, a great LSP know to man provided by [Eclipse Foundation](https://
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
     '-Dosgi.sharedConfiguration.area=/nix/store/f4bck5zlwi9lw98pwcaxfb87n0qwix6k-jdt-language-server-1.26.0/share/config',
+    --              yes, i use nixos ^^^^^^^^^^
     '-Dosgi.sharedConfiguration.area.readOnly=true',
     '-Dosgi.checkConfiguration=true',
     '-Dosgi.configuration.cascaded=true',
