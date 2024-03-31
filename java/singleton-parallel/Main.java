@@ -54,7 +54,7 @@ public class Main extends Thread {
     public static void test(int type) {
         List<Main> threadList = new ArrayList<Main>();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10000; i++) {
             Main temp = new Main(type);
             temp.start();
             threadList.add(temp);
