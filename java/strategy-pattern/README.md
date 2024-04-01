@@ -8,7 +8,7 @@ Trendy High order function vs old passion programing pattern
 
 ## What this aim for
 
-Java tool chain is really mature, so I want to know what Java development tools/environment give to developer to debug a multi thread progam (which I not have that big of hope here)
+Java tool chain is really mature, so I want to know what Java development tools/environment give to developer.
 
 ## Implement
 
@@ -40,4 +40,4 @@ public class Main {
 }
 ```
 
-I think I was use to pass function as params more than enough in ever other language, that when I go back to Java, it feel odd.
+I think I was use to pass function as params more than enough in every other language, that when I go back to Java, it feel odd.
