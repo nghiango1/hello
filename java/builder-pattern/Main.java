@@ -11,7 +11,7 @@ public class Main {
     private static String defaultDocument;
 
     public static void main(String[] args) throws Exception {
-        // image using this `javax.swing.text.html.HTML` to generate some text
+        // imagine using this `javax.swing.text.html.HTML` to generate some text
         // HTML document;
         HTMLElementBuilder _HTMLBuilder = new HTMLElementBuilder();
         String document = _HTMLBuilder
