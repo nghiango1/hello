@@ -12,4 +12,4 @@ Java tool chain is really mature, so I want to know what Java development tools/
 
 ## Implement
 
-I example this pattern by create a easy to use HTMLElementBuilder.
+I example this pattern by create a easy to use HTMLElementBuilder, while also adding a HTML server along the way to serve that too. It listen on [0.0.0.0:8000](http://127.0.0.1:8000).
