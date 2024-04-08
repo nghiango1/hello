@@ -19,7 +19,7 @@ public class primitives {
         // Here is a 2 bytes length vietnamses character
         char c = 'ế';
 
-        // Here emoji is a 4 bytes character, which mean the start of log command `c == ...` is 3 bytes ahead
+        // Here emoji is a 4 bytes character, which mean the start of log command `c == ...` is 3 `char` ahead
         String example = "😁 c = %c = %d = %x\n";
 
         System.out.printf(example.substring(3, example.length()), c, (int) c, (int) c);
