@@ -40,7 +40,7 @@ public class PlaintextDWD<T> implements DataWriterDriver<T> {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Entities<T> id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
