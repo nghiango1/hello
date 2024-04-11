@@ -3,12 +3,9 @@ FROM ubuntu:22.04
 
 RUN apt-get update -y
 RUN apt-get upgrade -y
-RUN apt-get install -y wget
+RUN apt-get install -y curl
 
-WORKDIR /workspace/bin
-ENV PATH="$PATH:/workspace/bin"
-RUN wget -qO yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-RUN chmod a+x yq
+RUN curl -L  https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/bin/yq
+RUN chmod +x /usr/bin/yq
 
-WORKDIR /workspace
-ENTRYPOINT ["/bin/bash"]
+ENTRYPOINT ["yq"]
