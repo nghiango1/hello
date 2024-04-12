@@ -41,3 +41,14 @@ Now we actually can use our module in other java project using our created `gree
 ```java
 import nghiango1.asia.greeting.Greeting;
 ```
+
+## Sealed metadata
+
+Sealed ensures that all classes package must come from the same JAR file.
+
+```
+Name: nghiango1/asia/greeting/
+Sealed: true
+```
+
+If someone tries to subclass or override these sealed classes from outside the JAR, they will encounter runtime errors or exceptions, reinforcing the package's intended design and preventing unintended modifications.
