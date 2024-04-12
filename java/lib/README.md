@@ -1,10 +1,14 @@
-# Structure
+# Lib - Structure
 
-Package is the main way to create a module structure in Java project. It have a specification to enforce that package name is expected to be the same with the directory name in full relative paths using `.` as the seperator
+`package` keyword is the main way to create a module structure in Java project. It have a specification to enforce that package name is expected to be the same with the directory name in full relative paths using `.` as the seperator
 
-## Notes
+This create a `package` then package all build class file into a `.jar` archive so that we can distribute the file as other project dependancies.
+
+## `package` keyword and projet struture
 
 Sometime, companny really want to have they name in the package module. While this could help to make sure we not have collison when merging library/project, it not stricly needed
+
+> Also, most using backward domain name eg: com.google.<package-name>.<sub-class>
 
 ```sh
 .
