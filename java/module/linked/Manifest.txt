@@ -1,0 +1,3 @@
+Main-Class: Module
+Created-By: asia.nghiango
+Class-Path: greeting-lib.jar
