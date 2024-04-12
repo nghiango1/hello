@@ -47,13 +47,11 @@ Explain each configuration line;
         <java.version>1.8</java.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.2</version>
-        </dependency>
-    </dependencies>
+    <dependency>
+        <groupId>org.jenkins-ci.plugins</groupId>
+        <artifactId>daily-quote</artifactId>
+        <version>1.0</version>
+    </dependency>
 </project>
 ```
 
@@ -116,6 +114,22 @@ Too many thing happend here, so I don't care, this should be help with the frame
 - Changing maven compiler plugin to match later version that support JDK 17
 - Using maven-shade-plugin for full library compessing that can be run independ
 
+Example output packaged jar file without maven-shade-plugin
+
+```sh
+> java -cp target/HelloWorld-0.1.0.jar hello.HelloWorld
+# Hello world!
+# Exception in thread "main" java.lang.NoClassDefFoundError: com/google/gson/Gson
+#         at hello.Greeter$Obj.toJSON(Greeter.java:18)
+#         at hello.Greeter.sayHello(Greeter.java:25)
+#         at hello.HelloWorld.main(HelloWorld.java:6)
+# Caused by: java.lang.ClassNotFoundException: com.google.gson.Gson
+#         at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+#         at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+#         at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:525)
+#         ... 3 more
+```
+
 ## Using Maven CLI tool
 
 ### Dependancies
@@ -151,6 +165,9 @@ mvn dependency:go-offline
 ### Run project
 
 #### Run compiled code
+
+> This won't run properly as our dependancies isn't there, java can't detect them in runtimes
+
 ```sh
 mvn compile
 java -cp target/classes/ hello.HelloWorld
@@ -162,10 +179,15 @@ cd target/classes/
 java hello.HelloWorld
 ```
 
-#### Run packed code
+#### Run packaged code
 
 Run `.jar` file
 ```sh
 mvn package
 java -cp target/HelloWorld-0.1.0.jar hello.HelloWorld
+```
+
+or
+```sh
+java -jar target/HelloWorld-0.1.0.jar
 ```
