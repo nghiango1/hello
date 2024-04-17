@@ -72,6 +72,10 @@ public class Entity {
         return rs;
     }
 
+    public String getTableName() {
+        return data.getName();
+    }
+
     public static List<String> getColumnNames() {
         return Arrays.asList(columnNames);
     }

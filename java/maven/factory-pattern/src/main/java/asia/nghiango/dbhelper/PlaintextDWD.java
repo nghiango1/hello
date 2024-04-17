@@ -46,4 +46,10 @@ public class PlaintextDWD implements DataWriterDriver {
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
+    @Override
+    public void prepared() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'prepared'");
+    }
+
 }

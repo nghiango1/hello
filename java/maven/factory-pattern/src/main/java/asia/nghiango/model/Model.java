@@ -10,5 +10,6 @@ public interface Model {
 
     public Model convertRowToModel(ResultSet rs);
     public void setDataFromRow(ResultSet rs);
+    public String getName();
     public Dictionary<String, String> convertDict();
 }

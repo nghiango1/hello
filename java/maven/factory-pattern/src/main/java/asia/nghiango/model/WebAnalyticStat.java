@@ -174,4 +174,9 @@ public class WebAnalyticStat implements Model {
                 );
                 """;
     }
+
+    @Override
+    public String getName() {
+        return "record";
+    }
 }
