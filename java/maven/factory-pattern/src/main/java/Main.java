@@ -67,11 +67,11 @@ public class Main {
         dwd = new MysqlDWD(conn.get());
         wasDao = new WebAnalyticStatDAO(dwd);
 
-        // id: 0
-        wasDao.save(stat);
         // id: 1
-        Entity element2 = wasDao.save(stat);
+        wasDao.save(stat);
         // id: 2
+        Entity element2 = wasDao.save(stat);
+        // id: 3
         wasDao.save(stat);
         for (Entity wasEntities : wasDao.getAll()) {
             System.out.println(wasEntities);
@@ -82,7 +82,7 @@ public class Main {
             System.out.println(wasEntities);
         }
 
-        Optional<Entity> getElmt2 = wasDao.get(1); // 0-index
+        Optional<Entity> getElmt2 = wasDao.get(2);
         if (getElmt2.isEmpty()) {
             System.out.println("Element 2 not found!");
         }

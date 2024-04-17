@@ -21,7 +21,7 @@ import asia.nghiango.model.WebAnalyticStat;
  */
 public class MysqlDWD implements DataWriterDriver {
     private Connection conn;
-    private Integer currentId = 0;
+    private Integer currentId = 1;
 
     public MysqlDWD(Connection conn) {
         this.conn = conn;
@@ -43,9 +43,20 @@ public class MysqlDWD implements DataWriterDriver {
     }
 
     @Override
-    public List<Entity> getAll() {
+    public List<Entity> getAll(String tableName, List<String> colNames) {
         List<Entity> arrLst = new ArrayList<Entity>();
-        Optional<ResultSet> rs = execSelectSql("SELECT * from record");
+        String cols = "";
+        for (String name : colNames) {
+            if (cols.length() != 0) {
+                cols = cols.concat(", ");
+            }
+            cols = cols.concat(name);
+        }
+
+        String sqlStmt = String.format("SELECT %s from %s", cols, tableName);
+
+        Optional<ResultSet> rs = execSelectSql(sqlStmt);
+        System.out.println(sqlStmt);
         if (rs.isEmpty()) {
             System.out.println("Error exec SQL select command");
             return arrLst;
@@ -55,7 +66,7 @@ public class MysqlDWD implements DataWriterDriver {
 
         try {
             // if (!rSet.first())
-            //     return arrLst;
+            // return arrLst;
 
             while (rSet.next()) {
                 Optional<Entity> entity = Entity.convertRowToEntity(rSet, new WebAnalyticStat());
@@ -78,7 +89,7 @@ public class MysqlDWD implements DataWriterDriver {
     }
 
     @Override
-    public Optional<Entity> get(int id) {
+    public Optional<Entity> get(String tableName, List<String> colNames, int id) {
         return Optional.ofNullable(null);
     }
 
@@ -109,6 +120,7 @@ public class MysqlDWD implements DataWriterDriver {
                 VALUES (%s);
                 """;
         String sqlStmt = String.format(stmtTemplate, cols, values);
+        System.out.println(sqlStmt);
 
         try {
             Statement stmt = this.conn.createStatement();
@@ -126,6 +138,7 @@ public class MysqlDWD implements DataWriterDriver {
     @Override
     public Entity save(Model t) {
         Entity result = new Entity(this.currentId, t);
+        this.currentId += 1;
         execInsertStatement(result);
         return result;
     }

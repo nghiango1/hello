@@ -1,7 +1,9 @@
 package asia.nghiango.entities;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.Dictionary;
+import java.util.List;
 import java.util.Optional;
 
 import asia.nghiango.model.Model;
@@ -13,7 +15,7 @@ public class Entity {
     private final Integer id;
     private Boolean isDeleted = false;
 
-    private static String[] colName = {
+    private static String[] columnNames = {
             "ID",
             "IS_DELETE"
     };
@@ -60,13 +62,17 @@ public class Entity {
 
     public Dictionary<String, String> convertToDictionary() {
         Dictionary<String, String> rs = this.data.convertDict();
-        rs.put(Entity.colName[0], this.id.toString());
+        rs.put(Entity.columnNames[0], this.id.toString());
         if (this.isDeleted) {
-            rs.put(Entity.colName[1], "1");
+            rs.put(Entity.columnNames[1], "1");
         } else {
-            rs.put(Entity.colName[1], "0");
+            rs.put(Entity.columnNames[1], "0");
         }
 
         return rs;
+    }
+
+    public static List<String> getColumnNames() {
+        return Arrays.asList(columnNames);
     }
 }

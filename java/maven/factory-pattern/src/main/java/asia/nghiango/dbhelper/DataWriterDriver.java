@@ -9,9 +9,9 @@ import asia.nghiango.model.Model;
  * DataWriterDriver
  */
 public interface DataWriterDriver {
-    public List<Entity> getAll();
+    public List<Entity> getAll(String tableName, List<String> colNames);
 
-    public Optional<Entity> get(int id);
+    public Optional<Entity> get(String tableName, List<String> colNames, int id);
 
     /**
      * Save the data and return that element id

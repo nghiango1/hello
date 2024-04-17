@@ -9,7 +9,7 @@ import asia.nghiango.model.Model;
 /**
  * PlaintextDWD
  */
-public class PlaintextDWD<T> implements DataWriterDriver {
+public class PlaintextDWD implements DataWriterDriver {
     private String filePath;
 
     public PlaintextDWD(String filePath) {
@@ -17,13 +17,13 @@ public class PlaintextDWD<T> implements DataWriterDriver {
     }
 
     @Override
-    public List<Entity> getAll() {
+    public List<Entity> getAll(String tableName, List<String> colNames) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 
     @Override
-    public Optional<Entity> get(int id) {
+    public Optional<Entity> get(String tableName, List<String> colNames, int id) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'get'");
     }

@@ -1,5 +1,6 @@
 package asia.nghiango.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import asia.nghiango.model.WebAnalyticStat;
  * 
  */
 public class WebAnalyticStatDAO implements DataAccessObject<WebAnalyticStat> {
-    private DataWriterDriver driver; 
+    private DataWriterDriver driver;
 
     public WebAnalyticStatDAO() {
         this.driver = new InMemoryDWD();
@@ -23,11 +24,14 @@ public class WebAnalyticStatDAO implements DataAccessObject<WebAnalyticStat> {
     }
 
     public List<Entity> getAll() {
-        return this.driver.getAll();
+        List<String> colNames = new ArrayList<String>();
+        colNames.addAll(Entity.getColumnNames());
+        colNames.addAll(WebAnalyticStat.getColumnNames());
+        return this.driver.getAll(WebAnalyticStat.getTableNames(), colNames);
     };
 
     public Optional<Entity> get(int id) {
-        return this.driver.get(id);
+        return this.driver.get(WebAnalyticStat.getTableNames(), WebAnalyticStat.getColumnNames(), id);
     };
 
     public Entity save(WebAnalyticStat t) {

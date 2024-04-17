@@ -15,10 +15,10 @@ import asia.nghiango.model.Model;
  */
 public class InMemoryDWD implements DataWriterDriver {
     private Dictionary<Integer, Entity> data = new Hashtable<Integer, Entity>();
-    private Integer currentId = 0;
+    private Integer currentId = 1;
 
     @Override
-    public List<Entity> getAll() {
+    public List<Entity> getAll(String tableName, List<String> colNames) {
         List<Entity> arrLst = new ArrayList<Entity>();
 
         Enumeration<Integer> keys = this.data.keys();
@@ -34,7 +34,7 @@ public class InMemoryDWD implements DataWriterDriver {
     }
 
     @Override
-    public Optional<Entity> get(int id) {
+    public Optional<Entity> get(String tableName, List<String> colNames, int id) {
         try {
             Entity element = data.get(id);
 
