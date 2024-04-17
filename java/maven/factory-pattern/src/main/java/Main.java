@@ -5,6 +5,7 @@ import asia.nghiango.dao.*;
 import asia.nghiango.dbhelper.DWDFactory;
 import asia.nghiango.dbhelper.DataWriterDriver;
 import asia.nghiango.dbhelper.MysqlDWD;
+import asia.nghiango.dbhelper.PostgreSQLDWD;
 import asia.nghiango.dbhelper.DWDFactory.DWDType;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.model.WebAnalyticStat;
@@ -22,7 +23,7 @@ public class Main {
      * @return Connection to the databse if connect is success full
      */
     @SuppressWarnings("deprecation")
-    public static Optional<Connection> loadDriver() {
+    public static Optional<Connection> loadMysqlDriver() {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception ex) {
@@ -33,6 +34,28 @@ public class Main {
         try {
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webstat?" +
                     "user=root&password=example");
+            return Optional.of(conn);
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
+
+        return Optional.ofNullable(null);
+    }
+
+    /**
+     * We not need a Driver load for PostgreSQL, this is ensure by the provided jar
+     * dependancy
+     *
+     * @return connection instance for posgres_db
+     * @return null if there is any error
+     */
+    public static Optional<Connection> loadPostgreSQLDriver() {
+        try {
+            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webstat?" +
+                    "user=postgres&password=example");
             return Optional.of(conn);
         } catch (SQLException ex) {
             // handle any errors
@@ -63,8 +86,9 @@ public class Main {
                 "pc",
                 "linux");
 
-        Optional<Connection> conn = loadDriver();
-        dwd = new MysqlDWD(conn.get());
+        Optional<Connection> conn = loadPostgreSQLDriver();
+        dwd = new PostgreSQLDWD(conn.get());
+        dwd.prepared();
         wasDao = new WebAnalyticStatDAO(dwd);
 
         // id: 1

@@ -136,6 +136,7 @@ public class WebAnalyticStat implements Model {
         return Arrays.asList(columnNames);
     }
 
+    // MySQL create table sql command
     public static String createTableSQLCommand() {
         return """
                 CREATE TABLE `record` (
@@ -151,6 +152,26 @@ public class WebAnalyticStat implements Model {
                   `DEVICE_TYPE` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
                   `OPERATING_SYSTEM` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL
                 ) ENGINE='InnoDB' COLLATE 'utf8mb4_vietnamese_ci' AUTO_INCREMENT=1;
+                """;
+    }
+
+    // PostgreSQL create table sql command
+    public static String createTablePostgreSQLCommand() {
+        return """
+                CREATE TABLE "record" (
+                  "ID" serial NOT NULL,
+                  PRIMARY KEY ("ID"),
+                  "IS_DELETE" smallint NOT NULL DEFAULT '0',
+                  "PAGE_URL" character varying(50) NOT NULL,
+                  "PAGE_PATH" character varying(50) NOT NULL,
+                  "TIME_REQUEST" timestamp NOT NULL,
+                  "TIME_SERVE" timestamp NOT NULL,
+                  "TIME_LEAVE" timestamp NOT NULL,
+                  "REFERER" character varying(50) NOT NULL,
+                  "BROWSER" character varying(50) NOT NULL,
+                  "DEVICE_TYPE" character varying(50) NOT NULL,
+                  "OPERATING_SYSTEM" character varying(50) NOT NULL
+                );
                 """;
     }
 }
