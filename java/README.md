@@ -8,6 +8,8 @@ Reuse from vscode extension
 
 ## LSP
 
+### LSP start-up command
+
 Java have LSP, a great LSP know to man provided by [Eclipse Foundation](https://www.eclipse.org/org/foundation/) who help my poor soul to get out from Oracle Java in my main job. Tool chain of java could alway be like this when you try to look at it tho.
 
 ```lua
@@ -55,3 +57,28 @@ local root_files = {
   'build.gradle',
 }
 ```
+
+### LSP Build-Cache
+
+LSP will build the project! Some time you want to delete these built file to either:
+- Have LSP running/analysing update the code change that some how get loss/error
+- Having the LSP acutally running (Yes, the LSP just won't working because of it built-cache gone wrong)
+
+To rebuilt the code that LSP are using, we need to delete built-cache in the cache directory. Normaly it will be the `data_dir` provided to the LSP via IDE client configuration. Here is the path from my neovim config:
+```lua
+      local function get_jdtls_paths()
+        if cache_vars.paths then
+          return cache_vars.paths
+        end
+
+        local path = {}
+
+        path.data_dir = vim.fn.stdpath('cache') .. '/nvim-jdtls'
+```
+
+I can check it in runtime via command
+```vim
+:lua print(vim.fn.stdpath('cache') .. '/nvim-jdtls')
+```
+
+Which is in `~/.cache/nvim/nvim-jdtls` directory
