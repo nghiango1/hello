@@ -9,6 +9,7 @@ import asia.nghiango.dbhelper.PostgreSQLDWD;
 import asia.nghiango.dbhelper.DWDFactory.DWDType;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.utilities.Util;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -46,6 +47,7 @@ public class Main {
     }
 
     /**
+     * Create a new connection to postgresql database
      * We not need a Driver load for PostgreSQL, this is ensure by the provided jar
      * dependancy
      *
@@ -70,21 +72,9 @@ public class Main {
     public static void main(String[] args) {
         DWDFactory DWDFactoryInstance = new DWDFactory();
         DataWriterDriver dwd = DWDFactoryInstance.createDWD(DWDType.IN_MEM);
-        WebAnalyticStatDAO wasDao = new WebAnalyticStatDAO(dwd);
 
-        Timestamp requestTime = new Timestamp(11000);
-        Timestamp serveTime = new Timestamp(14000);
-        Timestamp leaveTime = new Timestamp(18000);
-        WebAnalyticStat stat = new WebAnalyticStat(
-                "https://nghiango.asia",
-                "/",
-                requestTime,
-                serveTime,
-                leaveTime,
-                "https://google.com",
-                "chrome",
-                "pc",
-                "linux");
+        WebAnalyticStatDAO wasDao = new WebAnalyticStatDAO(dwd);
+        WebAnalyticStat stat = Util.dummyWebVisitRecordData();
 
         Optional<Connection> conn = loadPostgreSQLDriver();
         dwd = new PostgreSQLDWD(conn.get());
