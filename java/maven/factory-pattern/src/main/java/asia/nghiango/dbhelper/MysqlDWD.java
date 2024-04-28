@@ -17,7 +17,7 @@ import asia.nghiango.model.Model;
 import asia.nghiango.model.WebAnalyticStat;
 
 /**
- * PlaintextDWD
+ * MysqlDWD
  */
 public class MysqlDWD implements DataWriterDriver {
     private Connection conn;
@@ -172,8 +172,8 @@ public class MysqlDWD implements DataWriterDriver {
     public void prepared() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(WebAnalyticStat.createTablePostgreSQLCommand());
-            stmt.executeUpdate(WebAnalyticStat.createTablePostgreSQLCommand());
+            System.out.println(WebAnalyticStat.createTableMySQLCommand());
+            stmt.executeUpdate(WebAnalyticStat.createTableMySQLCommand());
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());

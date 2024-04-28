@@ -137,7 +137,7 @@ public class WebAnalyticStat implements Model {
     }
 
     // MySQL create table sql command
-    public static String createTableSQLCommand() {
+    public static String createTableMySQLCommand() {
         return """
                 CREATE TABLE `record` (
                   `ID` int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
