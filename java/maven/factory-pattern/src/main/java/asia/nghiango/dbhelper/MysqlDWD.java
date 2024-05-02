@@ -30,8 +30,8 @@ public class MysqlDWD implements DataWriterDriver {
     public Optional<Integer> prepareTable() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(WebAnalyticStat.createTableSQLCommand());
-            int rs = stmt.executeUpdate(WebAnalyticStat.createTableSQLCommand());
+            System.out.println(WebAnalyticStat.createTableMySQLCommand());
+            int rs = stmt.executeUpdate(WebAnalyticStat.createTableMySQLCommand());
             return Optional.of(rs);
         } catch (SQLException ex) {
             // handle any errors
