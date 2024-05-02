@@ -12,8 +12,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 import asia.nghiango.entities.Entity;
+import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
-import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.model.PageVisitRecord;
 
 /**
  * PlaintextDWD
@@ -29,8 +30,8 @@ public class PostgreSQLDWD implements DataWriterDriver {
     public void prepared() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(WebAnalyticStat.createTablePostgreSQLCommand());
-            stmt.executeUpdate(WebAnalyticStat.createTablePostgreSQLCommand());
+            System.out.println(PageVisitRecord.createTablePostgreSQLCommand());
+            stmt.executeUpdate(PageVisitRecord.createTablePostgreSQLCommand());
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
@@ -81,7 +82,7 @@ public class PostgreSQLDWD implements DataWriterDriver {
             // return arrLst;
 
             while (rSet.next()) {
-                Optional<Entity> entity = Entity.convertRowToEntity(rSet, new WebAnalyticStat());
+                Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
                 if (entity.isEmpty()) {
                     System.out.printf("Error readding at row %s\n", rSet.getCursorName());
                 } else {
@@ -156,7 +157,7 @@ public class PostgreSQLDWD implements DataWriterDriver {
 
     @Override
     public Entity save(Model t) {
-        Entity result = new Entity(this.currentId, t);
+        Entity result = EntityFactory.create(this.currentId, t.getName(), t).get();
         this.currentId += 1;
         execInsertStatement(result);
         return result;

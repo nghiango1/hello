@@ -11,7 +11,7 @@ import asia.nghiango.model.Model;
 /**
  * Entities
  */
-public class Entity {
+public abstract class Entity {
     private final Integer id;
     private Boolean isDeleted = false;
 
@@ -30,9 +30,11 @@ public class Entity {
     public static Optional<Entity> convertRowToEntity(ResultSet rs, Model model) {
         try {
             model.setDataFromRow(rs);
-            Entity ret = new Entity(rs.getInt("ID"), model);
-            ret.isDeleted = rs.getInt("IS_DELETE") == 1;
-            return Optional.of(ret);
+            Optional<Entity> ret = EntityFactory.create(rs.getInt("ID"), model.getName(), model);
+            if (!ret.isEmpty()) {
+                ret.get().isDeleted = rs.getInt("IS_DELETE") == 1;
+            }
+            return ret;
         } catch (Exception e) {
             System.out.println(e.toString());
         }

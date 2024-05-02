@@ -7,12 +7,12 @@ import java.util.Optional;
 import asia.nghiango.dbhelper.DataWriterDriver;
 import asia.nghiango.dbhelper.InMemoryDWD;
 import asia.nghiango.entities.Entity;
-import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.model.PageVisitRecord;
 
 /**
  * 
  */
-public class WebAnalyticStatDAO implements DataAccessObject<WebAnalyticStat> {
+public class WebAnalyticStatDAO implements DataAccessObject<PageVisitRecord> {
     private DataWriterDriver driver;
 
     public WebAnalyticStatDAO() {
@@ -26,15 +26,15 @@ public class WebAnalyticStatDAO implements DataAccessObject<WebAnalyticStat> {
     public List<Entity> getAll() {
         List<String> colNames = new ArrayList<String>();
         colNames.addAll(Entity.getColumnNames());
-        colNames.addAll(WebAnalyticStat.getColumnNames());
-        return this.driver.getAll(WebAnalyticStat.getTableNames(), colNames);
+        colNames.addAll(PageVisitRecord.getColumnNames());
+        return this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
     };
 
     public Optional<Entity> get(int id) {
-        return this.driver.get(WebAnalyticStat.getTableNames(), WebAnalyticStat.getColumnNames(), id);
+        return this.driver.get(PageVisitRecord.getTableNames(), PageVisitRecord.getColumnNames(), id);
     };
 
-    public Entity save(WebAnalyticStat t) {
+    public Entity save(PageVisitRecord t) {
         return this.driver.save(t);
     };
 

@@ -13,8 +13,9 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 
 import asia.nghiango.entities.Entity;
+import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
-import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.model.PageVisitRecord;
 
 /**
  * MysqlDWD
@@ -30,8 +31,8 @@ public class MysqlDWD implements DataWriterDriver {
     public Optional<Integer> prepareTable() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(WebAnalyticStat.createTableSQLCommand());
-            int rs = stmt.executeUpdate(WebAnalyticStat.createTableSQLCommand());
+            System.out.println(PageVisitRecord.createTableMySQLCommand());
+            int rs = stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
             return Optional.of(rs);
         } catch (SQLException ex) {
             // handle any errors
@@ -85,7 +86,7 @@ public class MysqlDWD implements DataWriterDriver {
             // return arrLst;
 
             while (rSet.next()) {
-                Optional<Entity> entity = Entity.convertRowToEntity(rSet, new WebAnalyticStat());
+                Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
                 if (entity.isEmpty()) {
                     System.out.printf("Error readding at row %s\n", rSet.getCursorName());
                 } else {
@@ -153,7 +154,7 @@ public class MysqlDWD implements DataWriterDriver {
 
     @Override
     public Entity save(Model t) {
-        Entity result = new Entity(this.currentId, t);
+        Entity result = EntityFactory.create(this.currentId, t.getName(), t).get();
         this.currentId += 1;
         execInsertStatement(result);
         return result;
@@ -172,8 +173,8 @@ public class MysqlDWD implements DataWriterDriver {
     public void prepared() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(WebAnalyticStat.createTableMySQLCommand());
-            stmt.executeUpdate(WebAnalyticStat.createTableMySQLCommand());
+            System.out.println(PageVisitRecord.createTableMySQLCommand());
+            stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());

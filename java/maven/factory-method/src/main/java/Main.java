@@ -5,7 +5,7 @@ import asia.nghiango.dbhelper.DWDFactory;
 import asia.nghiango.dbhelper.DataWriterDriver;
 import asia.nghiango.dbhelper.DWDFactory.DWDType;
 import asia.nghiango.entities.Entity;
-import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Util;
 
 public class Main {
@@ -24,7 +24,7 @@ public class Main {
         }
 
         WebAnalyticStatDAO wasDao = new WebAnalyticStatDAO(dwd);
-        WebAnalyticStat stat = Util.dummyWebVisitRecordData();
+        PageVisitRecord stat = Util.dummyWebVisitRecordData();
 
         // id: 1
         wasDao.save(stat);

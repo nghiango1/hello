@@ -2,7 +2,7 @@ package asia.nghiango.utilities;
 
 import java.time.LocalDateTime;
 
-import asia.nghiango.model.WebAnalyticStat;
+import asia.nghiango.model.PageVisitRecord;
 
 import java.sql.Timestamp;
 
@@ -16,11 +16,11 @@ public class Util {
         return Timestamp.valueOf(t);
     }
 
-    public static WebAnalyticStat dummyWebVisitRecordData() {
+    public static PageVisitRecord dummyWebVisitRecordData() {
         Timestamp requestTime = Util.dateNow();
         Timestamp serveTime = Util.dateNow();
         Timestamp leaveTime = Util.dateNow();
-        WebAnalyticStat stat = new WebAnalyticStat(
+        PageVisitRecord stat = new PageVisitRecord(
                 "https://nghiango.asia",
                 "/",
                 requestTime,

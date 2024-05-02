@@ -8,9 +8,9 @@ import java.util.Hashtable;
 import java.util.List;
 
 /*
- * WebAnalyticStat modelling infomation of a web trafic needed for analystic
+ * PageVisitRecord modelling infomation of a web trafic needed for analystic
  */
-public class WebAnalyticStat implements Model {
+public class PageVisitRecord implements Model {
     public String pageURL;
     public String path;
 
@@ -24,10 +24,10 @@ public class WebAnalyticStat implements Model {
     public String operatingSystem;
 
     /**
-     * Construct an empty WebAnalyticStat object that you can set all value manually
+     * Construct an empty PageVisitRecord object that you can set all value manually
      * later, value will be set as default
      */
-    public WebAnalyticStat() {
+    public PageVisitRecord() {
         this.pageURL = "";
         this.path = "";
 
@@ -41,7 +41,7 @@ public class WebAnalyticStat implements Model {
         this.operatingSystem = "";
     }
 
-    public WebAnalyticStat(
+    public PageVisitRecord(
             String pageURL, String path, Timestamp request, Timestamp serve, Timestamp leave, String referer,
             String browser, String deviceType, String operatingSystem) {
         this.pageURL = pageURL;
@@ -69,7 +69,7 @@ public class WebAnalyticStat implements Model {
             "OPERATING_SYSTEM"
     };
 
-    public WebAnalyticStat(ResultSet rs) {
+    public PageVisitRecord(ResultSet rs) {
         try {
             this.pageURL = rs.getString("PAGE_URL");
             this.path = rs.getString("PAGE_PATH");
@@ -92,22 +92,22 @@ public class WebAnalyticStat implements Model {
 
     @Override
     public Model convertRowToModel(ResultSet rs) {
-        WebAnalyticStat t = new WebAnalyticStat(rs);
+        PageVisitRecord t = new PageVisitRecord(rs);
         return t;
     }
 
     @Override
     public Dictionary<String, String> convertDict() {
         Dictionary<String, String> rs = new Hashtable<String, String>();
-        rs.put(WebAnalyticStat.columnNames[0], this.pageURL);
-        rs.put(WebAnalyticStat.columnNames[1], this.path);
-        rs.put(WebAnalyticStat.columnNames[2], this.request.toString());
-        rs.put(WebAnalyticStat.columnNames[3], this.serve.toString());
-        rs.put(WebAnalyticStat.columnNames[4], this.leave.toString());
-        rs.put(WebAnalyticStat.columnNames[5], this.referer);
-        rs.put(WebAnalyticStat.columnNames[6], this.browser);
-        rs.put(WebAnalyticStat.columnNames[7], this.deviceType);
-        rs.put(WebAnalyticStat.columnNames[8], this.operatingSystem);
+        rs.put(PageVisitRecord.columnNames[0], this.pageURL);
+        rs.put(PageVisitRecord.columnNames[1], this.path);
+        rs.put(PageVisitRecord.columnNames[2], this.request.toString());
+        rs.put(PageVisitRecord.columnNames[3], this.serve.toString());
+        rs.put(PageVisitRecord.columnNames[4], this.leave.toString());
+        rs.put(PageVisitRecord.columnNames[5], this.referer);
+        rs.put(PageVisitRecord.columnNames[6], this.browser);
+        rs.put(PageVisitRecord.columnNames[7], this.deviceType);
+        rs.put(PageVisitRecord.columnNames[8], this.operatingSystem);
         return rs;
     }
 
@@ -177,6 +177,6 @@ public class WebAnalyticStat implements Model {
 
     @Override
     public String getName() {
-        return "record";
+        return "PageVisitRecord";
     }
 }
