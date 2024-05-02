@@ -7,31 +7,34 @@ import java.util.Optional;
 import asia.nghiango.dbhelper.DatabaseHandler;
 import asia.nghiango.dbhelper.InMemoryDatabaseHandler;
 import asia.nghiango.entities.Entity;
+import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 
 /**
  * 
  */
-public class WebAnalyticStatDAO implements DataAccessObject<PageVisitRecord> {
+public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
     private DatabaseHandler driver;
 
-    public WebAnalyticStatDAO() {
+    public PageVisitRecordDAO() {
         this.driver = new InMemoryDatabaseHandler();
     }
 
-    public WebAnalyticStatDAO(DatabaseHandler driver) {
+    public PageVisitRecordDAO(DatabaseHandler driver) {
         this.driver = driver;
     }
 
-    public List<Entity> getAll() {
+    @SuppressWarnings("unchecked")
+    public List<PageVisitRecordEntity> getAll() {
         List<String> colNames = new ArrayList<String>();
         colNames.addAll(Entity.getColumnNames());
         colNames.addAll(PageVisitRecord.getColumnNames());
-        return this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
+        return (List<PageVisitRecordEntity>) this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
     };
 
-    public Optional<Entity> get(int id) {
-        return this.driver.get(PageVisitRecord.getTableNames(), PageVisitRecord.getColumnNames(), id);
+    @SuppressWarnings("unchecked")
+    public Optional<PageVisitRecordEntity> get(int id) {
+        return (Optional<PageVisitRecordEntity>) this.driver.get(PageVisitRecord.getTableNames(), PageVisitRecord.getColumnNames(), id);
     };
 
     public Entity save(PageVisitRecord t) {

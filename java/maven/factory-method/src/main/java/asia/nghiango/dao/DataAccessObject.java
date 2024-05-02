@@ -8,9 +8,9 @@ import asia.nghiango.entities.Entity;
  * DataAccessObject
  */
 public interface DataAccessObject<T> {
-    public List<Entity> getAll();
+    public List<? extends Entity> getAll();
 
-    public Optional<Entity> get(int id);
+    public Optional<? extends Entity> get(int id);
 
     public Entity save(T t);
 

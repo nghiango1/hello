@@ -33,7 +33,7 @@ public class DatabaseHandlerFactory {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception ex) {
-            System.out.println(ex.toString());
+            System.out.printf("Fail to create new mysql connection, got error: %s\n", ex.toString());
             return Optional.ofNullable(null);
         }
 
@@ -83,7 +83,7 @@ public class DatabaseHandlerFactory {
      * @throws throw new UnsupportedOperationException("Unimplemented factory
      *               type");
      */
-    public static Optional<DatabaseHandler> createDWD(DatabaseType type) {
+    public static Optional<DatabaseHandler> create(DatabaseType type) {
         DatabaseHandler dwd;
         Optional<Connection> conn;
         switch (type) {
@@ -117,7 +117,7 @@ public class DatabaseHandlerFactory {
         return Optional.ofNullable(dwd);
     }
 
-    public static DatabaseHandler createInMemDWD() {
+    public static DatabaseHandler createInmemoryDatastore() {
         return new InMemoryDatabaseHandler();
     }
 }

@@ -14,9 +14,9 @@ public interface DatabaseHandler {
      */
     public void prepared();
 
-    public List<Entity> getAll(String tableName, List<String> colNames);
+    public List<? extends Entity> getAll(String tableName, List<String> colNames);
 
-    public Optional<Entity> get(String tableName, List<String> colNames, int id);
+    public Optional<? extends Entity> get(String tableName, List<String> colNames, int id);
 
     /**
      * Save the data and return that element id

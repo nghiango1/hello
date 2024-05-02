@@ -5,42 +5,43 @@ import asia.nghiango.dbhelper.DatabaseHandlerFactory;
 import asia.nghiango.dbhelper.DatabaseHandler;
 import asia.nghiango.dbhelper.DatabaseHandlerFactory.DatabaseType;
 import asia.nghiango.entities.Entity;
+import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Util;
 
 public class Main {
 
     public static void main(String[] args) {
-        Optional<DatabaseHandler> odwd = DatabaseHandlerFactory.createDWD(DatabaseType.IN_MEM);
+        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.PostgreSQL);
 
-        DatabaseHandler dwd;
-        if (odwd.isEmpty()) {
-            System.out.println("Can't create Data driver, fall back to Inmemory dwd");
+        DatabaseHandler databaseHandlerInstance;
+        if (optionalDBhandlerInstance.isEmpty()) {
+            System.out.println("Can't create DB Handler, fall back to In-memory Datastore");
 
-            dwd = DatabaseHandlerFactory.createInMemDWD();
+            databaseHandlerInstance = DatabaseHandlerFactory.createInmemoryDatastore();
         } else {
-            dwd = odwd.get();
+            databaseHandlerInstance = optionalDBhandlerInstance.get();
         }
 
-        WebAnalyticStatDAO wasDao = new WebAnalyticStatDAO(dwd);
-        PageVisitRecord stat = Util.dummyWebVisitRecordData();
+        PageVisitRecordDAO pvrDaoInstance = new PageVisitRecordDAO(databaseHandlerInstance);
+        PageVisitRecord dummyRecord = Util.dummyWebVisitRecordData();
 
         // id: 1
-        wasDao.save(stat);
+        pvrDaoInstance.save(dummyRecord);
         // id: 2
-        Entity element2 = wasDao.save(stat);
+        Entity element2 = pvrDaoInstance.save(dummyRecord);
         // id: 3
-        wasDao.save(stat);
-        for (Entity wasEntities : wasDao.getAll()) {
+        pvrDaoInstance.save(dummyRecord);
+        for (PageVisitRecordEntity wasEntities : pvrDaoInstance.getAll()) {
             System.out.println(wasEntities);
         }
 
-        wasDao.delete(element2);
-        for (Entity wasEntities : wasDao.getAll()) {
+        pvrDaoInstance.delete(element2);
+        for (Entity wasEntities : pvrDaoInstance.getAll()) {
             System.out.println(wasEntities);
         }
 
-        Optional<Entity> getElmt2 = wasDao.get(2);
+        Optional<PageVisitRecordEntity> getElmt2 = pvrDaoInstance.get(2);
         if (getElmt2.isEmpty()) {
             System.out.println("Element 2 not found!");
         }
