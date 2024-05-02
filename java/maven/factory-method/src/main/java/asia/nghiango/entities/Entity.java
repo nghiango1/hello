@@ -1,6 +1,7 @@
 package asia.nghiango.entities;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
@@ -27,19 +28,33 @@ public abstract class Entity {
         this.id = id;
     }
 
+    /**
+     * An SQL result row can be convert to their coresponse entity object instance
+     *
+     * @param rs    The {@link ResultSet} that return when executing a SQL statement
+     * @param model The {@link Model} that we want this SQL output to convert into
+     *              their coresponse Entity
+     * @return Entity that match with wanted model
+     * @return Null if there is any error
+     */
     public static Optional<Entity> convertRowToEntity(ResultSet rs, Model model) {
+        Boolean isDeleted = false;
+        Integer entityId = 0;
+
         try {
-            model.setDataFromRow(rs);
-            Optional<Entity> ret = EntityFactory.create(rs.getInt("ID"), model.getModelType(), model);
-            if (!ret.isEmpty()) {
-                ret.get().isDeleted = rs.getInt("IS_DELETE") == 1;
-            }
-            return ret;
-        } catch (Exception e) {
-            System.out.println(e.toString());
+            isDeleted = rs.getInt("IS_DELETE") == 1;
+            entityId = rs.getInt("ID");
+        } catch (SQLException e) {
+            System.out.println("Can't get must have infomation of Entity, got SQLException error: " + e.toString());
+            return Optional.ofNullable(null);
         }
 
-        return Optional.ofNullable(null);
+        model.setDataFromRow(rs);
+        Optional<Entity> ret = EntityFactory.create(entityId, model.getModelType(), model);
+        if (!ret.isEmpty()) {
+            ret.get().isDeleted = isDeleted;
+        }
+        return ret;
     }
 
     public Integer getId() {

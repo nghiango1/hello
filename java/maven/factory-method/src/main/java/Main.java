@@ -7,12 +7,19 @@ import asia.nghiango.dbhelper.DatabaseHandlerFactory.DatabaseType;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
+import asia.nghiango.utilities.Env;
 import asia.nghiango.utilities.Util;
 
 public class Main {
 
+    public static void init() {
+        Env.readEnv();
+    }
+
     public static void main(String[] args) {
-        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.PostgreSQL);
+        init();
+
+        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.MYSQL);
 
         DatabaseHandler databaseHandlerInstance;
         if (optionalDBhandlerInstance.isEmpty()) {

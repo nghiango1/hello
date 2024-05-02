@@ -1,4 +1,3 @@
-
 package asia.nghiango.dbhelper;
 
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
 import asia.nghiango.model.PageVisitRecord;
+import asia.nghiango.utilities.Env;
 
 /**
  * MysqlDWD
@@ -28,22 +28,6 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
         this.conn = conn;
     }
 
-    public Optional<Integer> prepareTable() {
-        try {
-            Statement stmt = this.conn.createStatement();
-            System.out.println(PageVisitRecord.createTableMySQLCommand());
-            int rs = stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
-            return Optional.of(rs);
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        }
-
-        return Optional.ofNullable(null);
-    }
-
     private Optional<ResultSet> execSelectSql(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
@@ -51,9 +35,12 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             return Optional.of(rs);
         } catch (SQLException ex) {
             // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.println("Fail to execute select statement, got SQLException error: " + ex.getMessage());
+            if (Env.isVerbose()) {
+                System.out.println("\tSQLState: " + ex.getSQLState());
+                System.out.println("\tVendorError: " + ex.getErrorCode());
+                System.out.println("\tSQL statement: " + sqlStmt);
+            }
         }
 
         return Optional.ofNullable(null);
@@ -73,18 +60,13 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
         String sqlStmt = String.format("SELECT %s from %s", cols, tableName);
 
         Optional<ResultSet> rs = execSelectSql(sqlStmt);
-        System.out.println(sqlStmt);
         if (rs.isEmpty()) {
-            System.out.println("Error exec SQL select command");
             return arrLst;
         }
 
         ResultSet rSet = rs.get();
 
         try {
-            // if (!rSet.first())
-            // return arrLst;
-
             while (rSet.next()) {
                 Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
                 if (entity.isEmpty()) {
@@ -95,9 +77,12 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             }
         } catch (SQLException ex) {
             // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.println("Fail to SQLException: " + ex.getMessage());
+            if (Env.isVerbose()) {
+                System.out.println("\tSQLException: " + ex.getMessage());
+                System.out.println("\tSQLState: " + ex.getSQLState());
+                System.out.println("\tVendorError: " + ex.getErrorCode());
+            }
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -137,16 +122,18 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
                 VALUES (%s);
                 """;
         String sqlStmt = String.format(stmtTemplate, cols, values);
-        System.out.println(sqlStmt);
 
         try {
             Statement stmt = this.conn.createStatement();
             int rs = stmt.executeUpdate(sqlStmt);
             return rs;
         } catch (SQLException ex) {
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.println("Can't insert into database, got SQLException error: " + ex.getMessage());
+            if (Env.isVerbose()) {
+                System.out.println("\tSQLState: " + ex.getSQLState());
+                System.out.println("\tVendorError: " + ex.getErrorCode());
+                System.out.println("\tSQLstatement: " + sqlStmt);
+            }
         }
 
         return 0;
@@ -173,13 +160,14 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
     public void prepared() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(PageVisitRecord.createTableMySQLCommand());
             stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            System.out.println("Fail to create new table, got SQLException error: " + ex.getMessage());
+            if (Env.isVerbose()) {
+                System.out.println("\tSQLState: " + ex.getSQLState());
+                System.out.println("\tVendorError: " + ex.getErrorCode());
+                System.out.println("\tSQL statement: " + PageVisitRecord.createTableMySQLCommand());
+            }
         }
     }
 

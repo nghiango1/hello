@@ -65,8 +65,7 @@ public class DatabaseHandlerFactory {
                     "user=postgres&password=example");
             return Optional.of(conn);
         } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
+            System.out.printf("Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
