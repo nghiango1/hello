@@ -8,7 +8,7 @@ import asia.nghiango.model.Model;
 /**
  * DataWriterDriver
  */
-public interface DataWriterDriver {
+public interface DatabaseHandler {
     /**
      * Prepare - create the table in the database
      */

@@ -10,11 +10,12 @@ import asia.nghiango.model.PageVisitRecord;
  */
 public class EntityFactory {
 
-    public static Optional<Entity> create(Integer id, String name, Model model) {
-        Class<? extends Model> c = model.getClass();
-        System.out.println(c.toString());
-        
-        if (model.getName() == "PageVisitRecord") {
+    public static enum SupportedType {
+        PageVisitRecord,
+    }
+
+    public static Optional<Entity> create(Integer id, SupportedType type, Model model) {
+        if (type == SupportedType.PageVisitRecord) {
             return Optional.of(new PageVisitRecordEntity(id, (PageVisitRecord) model));
         }
         

@@ -7,6 +7,8 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
+import asia.nghiango.entities.EntityFactory.SupportedType;
+
 /*
  * PageVisitRecord modelling infomation of a web trafic needed for analystic
  */
@@ -175,6 +177,16 @@ public class PageVisitRecord implements Model {
                 """;
     }
 
+    @Override
+    public SupportedType getModelType() {
+        return SupportedType.PageVisitRecord;
+    }
+
+    /**
+     * Tell the name of the Model, this is different from SQL table name
+     *
+     * @return 
+     */
     @Override
     public String getName() {
         return "PageVisitRecord";

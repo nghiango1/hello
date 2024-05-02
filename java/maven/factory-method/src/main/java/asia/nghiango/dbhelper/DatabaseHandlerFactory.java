@@ -2,7 +2,7 @@ package asia.nghiango.dbhelper;
 
 import java.util.Optional;
 
-import asia.nghiango.dbhelper.DWDFactory;
+import asia.nghiango.dbhelper.DatabaseHandlerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,14 +12,14 @@ import java.sql.SQLException;
  * DWDFactory, now i actually hate this pattern the moment I have to implement
  * it
  */
-public class DWDFactory {
+public class DatabaseHandlerFactory {
 
-    public static enum DWDType {
+    public static enum DatabaseType {
         IN_MEM,
         FILE,
         MYSQL,
         ORACLE,
-        PSQL
+        PostgreSQL
     }
 
     /**
@@ -83,12 +83,12 @@ public class DWDFactory {
      * @throws throw new UnsupportedOperationException("Unimplemented factory
      *               type");
      */
-    public Optional<DataWriterDriver> createDWD(DWDType type) {
-        DataWriterDriver dwd;
+    public static Optional<DatabaseHandler> createDWD(DatabaseType type) {
+        DatabaseHandler dwd;
         Optional<Connection> conn;
         switch (type) {
             case IN_MEM:
-                dwd = new InMemoryDWD();
+                dwd = new InMemoryDatabaseHandler();
                 break;
 
             case MYSQL:
@@ -97,17 +97,17 @@ public class DWDFactory {
                     dwd = null;
                     break;
                 }
-                dwd = new MysqlDWD(conn.get());
+                dwd = new MysqlDatabaseHandler(conn.get());
                 dwd.prepared();
                 break;
 
-            case PSQL:
+            case PostgreSQL:
                 conn = loadPostgreSQLDriver();
                 if (conn.isEmpty()) {
                     dwd = null;
                     break;
                 }
-                dwd = new PostgreSQLDWD(conn.get());
+                dwd = new PostgreSQLDatabaseHandler(conn.get());
                 dwd.prepared();
                 break;
 
@@ -117,7 +117,7 @@ public class DWDFactory {
         return Optional.ofNullable(dwd);
     }
 
-    public DataWriterDriver createInMemDWD() {
-        return new InMemoryDWD();
+    public static DatabaseHandler createInMemDWD() {
+        return new InMemoryDatabaseHandler();
     }
 }

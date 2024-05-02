@@ -30,7 +30,7 @@ public abstract class Entity {
     public static Optional<Entity> convertRowToEntity(ResultSet rs, Model model) {
         try {
             model.setDataFromRow(rs);
-            Optional<Entity> ret = EntityFactory.create(rs.getInt("ID"), model.getName(), model);
+            Optional<Entity> ret = EntityFactory.create(rs.getInt("ID"), model.getModelType(), model);
             if (!ret.isEmpty()) {
                 ret.get().isDeleted = rs.getInt("IS_DELETE") == 1;
             }

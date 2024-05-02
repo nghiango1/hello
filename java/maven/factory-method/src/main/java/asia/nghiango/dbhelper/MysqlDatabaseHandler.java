@@ -1,3 +1,4 @@
+
 package asia.nghiango.dbhelper;
 
 import java.util.ArrayList;
@@ -17,27 +18,30 @@ import asia.nghiango.model.Model;
 import asia.nghiango.model.PageVisitRecord;
 
 /**
- * PlaintextDWD
+ * MysqlDWD
  */
-public class PostgreSQLDWD implements DataWriterDriver {
+public class MysqlDatabaseHandler implements DatabaseHandler {
     private Connection conn;
     private Integer currentId = 1;
 
-    public PostgreSQLDWD(Connection conn) {
+    public MysqlDatabaseHandler(Connection conn) {
         this.conn = conn;
     }
 
-    public void prepared() {
+    public Optional<Integer> prepareTable() {
         try {
             Statement stmt = this.conn.createStatement();
-            System.out.println(PageVisitRecord.createTablePostgreSQLCommand());
-            stmt.executeUpdate(PageVisitRecord.createTablePostgreSQLCommand());
+            System.out.println(PageVisitRecord.createTableMySQLCommand());
+            int rs = stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
+            return Optional.of(rs);
         } catch (SQLException ex) {
             // handle any errors
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
+
+        return Optional.ofNullable(null);
     }
 
     private Optional<ResultSet> execSelectSql(String sqlStmt) {
@@ -63,10 +67,10 @@ public class PostgreSQLDWD implements DataWriterDriver {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(String.format("\"%s\"", name));
+            cols = cols.concat(name);
         }
 
-        String sqlStmt = String.format("SELECT %s from \"%s\"", cols, tableName);
+        String sqlStmt = String.format("SELECT %s from %s", cols, tableName);
 
         Optional<ResultSet> rs = execSelectSql(sqlStmt);
         System.out.println(sqlStmt);
@@ -120,19 +124,12 @@ public class PostgreSQLDWD implements DataWriterDriver {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(String.format("\"%s\"", k));
+            cols = cols.concat(k);
 
             if (values.length() != 0) {
                 values = values.concat(", ");
             }
-            
-            // PosgresSQL insert look like this '"string"'
-            // The boolean recevied interger 1/0 so we use '1'/'0' for ID_DELETE instead
-            if (k == "IS_DELETE" || k == "ID") {
-                values = values.concat(String.format("'%s'", v));
-            } else {
-                values = values.concat(String.format("'\"%s\"'", v));
-            }
+            values = values.concat(String.format("\"%s\"", v));
         }
 
         String stmtTemplate = """
@@ -157,7 +154,7 @@ public class PostgreSQLDWD implements DataWriterDriver {
 
     @Override
     public Entity save(Model t) {
-        Entity result = EntityFactory.create(this.currentId, t.getName(), t).get();
+        Entity result = EntityFactory.create(this.currentId, t.getModelType(), t).get();
         this.currentId += 1;
         execInsertStatement(result);
         return result;
@@ -170,6 +167,20 @@ public class PostgreSQLDWD implements DataWriterDriver {
     @Override
     public void delete(Entity t) {
         t.remove();
+    }
+
+    @Override
+    public void prepared() {
+        try {
+            Statement stmt = this.conn.createStatement();
+            System.out.println(PageVisitRecord.createTableMySQLCommand());
+            stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
+        } catch (SQLException ex) {
+            // handle any errors
+            System.out.println("SQLException: " + ex.getMessage());
+            System.out.println("SQLState: " + ex.getSQLState());
+            System.out.println("VendorError: " + ex.getErrorCode());
+        }
     }
 
 }

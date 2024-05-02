@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import asia.nghiango.dbhelper.DataWriterDriver;
-import asia.nghiango.dbhelper.InMemoryDWD;
+import asia.nghiango.dbhelper.DatabaseHandler;
+import asia.nghiango.dbhelper.InMemoryDatabaseHandler;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.model.PageVisitRecord;
 
@@ -13,13 +13,13 @@ import asia.nghiango.model.PageVisitRecord;
  * 
  */
 public class WebAnalyticStatDAO implements DataAccessObject<PageVisitRecord> {
-    private DataWriterDriver driver;
+    private DatabaseHandler driver;
 
     public WebAnalyticStatDAO() {
-        this.driver = new InMemoryDWD();
+        this.driver = new InMemoryDatabaseHandler();
     }
 
-    public WebAnalyticStatDAO(DataWriterDriver driver) {
+    public WebAnalyticStatDAO(DatabaseHandler driver) {
         this.driver = driver;
     }
 

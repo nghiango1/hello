@@ -1,9 +1,9 @@
 import java.util.Optional;
 
 import asia.nghiango.dao.*;
-import asia.nghiango.dbhelper.DWDFactory;
-import asia.nghiango.dbhelper.DataWriterDriver;
-import asia.nghiango.dbhelper.DWDFactory.DWDType;
+import asia.nghiango.dbhelper.DatabaseHandlerFactory;
+import asia.nghiango.dbhelper.DatabaseHandler;
+import asia.nghiango.dbhelper.DatabaseHandlerFactory.DatabaseType;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Util;
@@ -11,14 +11,13 @@ import asia.nghiango.utilities.Util;
 public class Main {
 
     public static void main(String[] args) {
-        DWDFactory DWDFactoryInstance = new DWDFactory();
-        Optional<DataWriterDriver> odwd = DWDFactoryInstance.createDWD(DWDType.MYSQL);
+        Optional<DatabaseHandler> odwd = DatabaseHandlerFactory.createDWD(DatabaseType.IN_MEM);
 
-        DataWriterDriver dwd;
+        DatabaseHandler dwd;
         if (odwd.isEmpty()) {
             System.out.println("Can't create Data driver, fall back to Inmemory dwd");
 
-            dwd = DWDFactoryInstance.createInMemDWD();
+            dwd = DatabaseHandlerFactory.createInMemDWD();
         } else {
             dwd = odwd.get();
         }

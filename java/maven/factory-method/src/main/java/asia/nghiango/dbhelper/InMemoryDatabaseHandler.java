@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Optional;
 
 import asia.nghiango.entities.Entity;
+import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
 
 /**
  * PlaintextDWD
  */
-public class InMemoryDWD implements DataWriterDriver {
+public class InMemoryDatabaseHandler implements DatabaseHandler {
     private Dictionary<String, Dictionary<Integer, Entity>> database = new Hashtable<>();
     private Integer currentId = 1;
 
@@ -64,9 +65,9 @@ public class InMemoryDWD implements DataWriterDriver {
 
     @Override
     public Entity save(Model t) {
-        Entity result = new Entity(this.currentId, t);
+        Entity result = EntityFactory.create(this.currentId, t.getModelType(), t).get();
 
-        Dictionary<Integer, Entity> table = getTable(t.getName());
+        Dictionary<Integer, Entity> table = getTable("record");
         table.put(this.currentId, result);
         this.currentId += 1;
         return result;
@@ -74,7 +75,7 @@ public class InMemoryDWD implements DataWriterDriver {
 
     @Override
     public void update(Entity t) {
-        Dictionary<Integer, Entity> table = getTable(t.getTableName());
+        Dictionary<Integer, Entity> table = getTable("record");
         table.put(t.getId(), t);
     }
 
