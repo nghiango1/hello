@@ -6,6 +6,11 @@
 
 Run `docker-repo.sh` in ubuntu server to add the keyring. I can't really said if it up to date though, so I recheck Docker Doc time to time if error happend
 
+After that, we can install the Docker packages
+```sh
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
 ## What I have used Docker for
 
 Too quickly install latest application and quickly setup my environment instead of manually install, which affect my normal workspace. Application used:

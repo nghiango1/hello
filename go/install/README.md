@@ -11,6 +11,13 @@ sudo apt-get install bison
 bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
 ```
 
+## Using gvm to install go
+
+```sh
+gvm install go1.22.2 -B
+gvm use go1.22.2 --default
+```
+
 ## Build `go` executable from source
 
 > Start from go1.4 go source need to build from go
