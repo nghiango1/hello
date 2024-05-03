@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 /**
  * Env
@@ -25,6 +26,12 @@ public class Env {
         } else {
             return !(isVerbose == "FALSE");
         }
+    }
+
+    public static Level getLogLevel() {
+        if (isVerbose())
+            return Level.FINE;
+        return Level.SEVERE;
     }
 
     public static void readEnv() {
@@ -68,6 +75,6 @@ public class Env {
 
     private static void setDefault() {
         env = new Hashtable<String, String>();
-        env.put("VERBOSE", "FALSE");
+        env.put("VERBOSE", "TRUE");
     }
 }

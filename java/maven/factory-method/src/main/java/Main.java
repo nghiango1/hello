@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         init();
 
-        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.MYSQL);
+        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.POSTGRESQL);
 
         DatabaseHandler databaseHandlerInstance;
         if (optionalDBhandlerInstance.isEmpty()) {

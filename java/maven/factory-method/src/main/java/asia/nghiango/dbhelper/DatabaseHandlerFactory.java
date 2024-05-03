@@ -19,7 +19,7 @@ public class DatabaseHandlerFactory {
         FILE,
         MYSQL,
         ORACLE,
-        PostgreSQL
+        POSTGRESQL
     }
 
     /**
@@ -100,7 +100,7 @@ public class DatabaseHandlerFactory {
                 dwd.prepared();
                 break;
 
-            case PostgreSQL:
+            case POSTGRESQL:
                 conn = loadPostgreSQLDriver();
                 if (conn.isEmpty()) {
                     dwd = null;

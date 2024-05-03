@@ -1,5 +1,6 @@
 package asia.nghiango.entities;
 
+import java.lang.System.Logger.Level;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import asia.nghiango.model.Model;
+import asia.nghiango.utilities.Log;
 
 /**
  * Entities
@@ -45,7 +47,7 @@ public abstract class Entity {
             isDeleted = rs.getInt("IS_DELETE") == 1;
             entityId = rs.getInt("ID");
         } catch (SQLException e) {
-            System.out.println("Can't get must have infomation of Entity, got SQLException error: " + e.toString());
+            Log.printLog(Level.ERROR, "Can't get must have infomation of Entity, got SQLException error: " + e.toString());
             return Optional.ofNullable(null);
         }
 
@@ -74,7 +76,7 @@ public abstract class Entity {
     }
 
     public String toString() {
-        return String.format("{id: %d, data: %s}", this.id, this.data.toString());
+        return String.format("{id: %d, is_delete: %b, data: %s}", this.id, this.isDeleted, this.data.toString());
     }
 
     public Dictionary<String, String> convertToDictionary() {
