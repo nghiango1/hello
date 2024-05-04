@@ -87,6 +87,10 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
             while (rSet.next()) {
                 Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
                 if (!entity.isEmpty()) {
+                    if (entity.get().isRemoved()) {
+                        // skip if the entity is marks as removed
+                        continue;
+                    }
                     arrLst.add(entity.get());
                 }
             }
