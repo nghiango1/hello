@@ -15,11 +15,11 @@ import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
 import asia.nghiango.model.PageVisitRecord;
-import asia.nghiango.utilities.Env;
 import asia.nghiango.utilities.Log;
 
 /**
- * PlaintextDWD
+ * PostgreSQLDatabaseHandler
+ *
  */
 public class PostgreSQLDatabaseHandler implements DatabaseHandler {
     private Connection conn;
@@ -50,11 +50,9 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
         } catch (SQLException ex) {
             Log.printLog(Level.ERROR, "Fail to execute select statement, got SQLException error: " + ex.getMessage());
 
-            if (Env.isVerbose()) {
-                System.out.println("\tSQLState: " + ex.getSQLState());
-                System.out.println("\tVendorError: " + ex.getErrorCode());
-                System.out.println("\tSQLStatment: " + PageVisitRecord.createTablePostgreSQLCommand());
-            }
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQLStatment: " + PageVisitRecord.createTablePostgreSQLCommand());
         }
 
         return Optional.ofNullable(null);
@@ -207,6 +205,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
             return rs;
         } catch (SQLException ex) {
             Log.printLog(Level.ERROR, "False to update entity, got SQLException error: " + ex.getMessage());
+
             Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
             Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
             Log.printLog(Level.DEBUG, "SQLStatement: " + sqlStmt);
