@@ -3,7 +3,10 @@ package asia.nghiango.dbhelper;
 import java.util.Optional;
 
 import asia.nghiango.dbhelper.DatabaseHandlerFactory;
+import asia.nghiango.utilities.Env;
+import asia.nghiango.utilities.Log;
 
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,11 +18,10 @@ import java.sql.SQLException;
 public class DatabaseHandlerFactory {
 
     public static enum DatabaseType {
-        IN_MEM,
-        FILE,
+        INMEM,
         MYSQL,
-        ORACLE,
-        POSTGRESQL
+        POSTGRESQL,
+        FILE
     }
 
     /**
@@ -29,7 +31,7 @@ public class DatabaseHandlerFactory {
      * @return Connection to the databse if connect is success full
      */
     @SuppressWarnings("deprecation")
-    public static Optional<Connection> loadMysqlDriver() {
+    public static Optional<Connection> loadMysqlDriver(String connectionString) {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
         } catch (Exception ex) {
@@ -38,8 +40,7 @@ public class DatabaseHandlerFactory {
         }
 
         try {
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/webstat?" +
-                    "user=root&password=example");
+            Connection conn = DriverManager.getConnection(connectionString);
             return Optional.of(conn);
         } catch (SQLException ex) {
             // handle any errors
@@ -65,12 +66,38 @@ public class DatabaseHandlerFactory {
                     "user=postgres&password=example");
             return Optional.of(conn);
         } catch (SQLException ex) {
-            System.out.printf("Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage());
+            System.out
+                    .printf("Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
             System.out.println("VendorError: " + ex.getErrorCode());
         }
 
         return Optional.ofNullable(null);
+    }
+
+    /**
+     * Converte a string to DatabaseType, if string isn't coresponse to a support
+     * database type that have support and can be handle then this fall back to In
+     * memory datastore
+     *
+     * @param stringType
+     */
+    public static DatabaseType convertToEnumValue(String stringType) {
+        switch (stringType) {
+            case "INMEM":
+                return DatabaseType.INMEM;
+
+            case "MYSQL":
+                return DatabaseType.MYSQL;
+
+            case "POSTGRESQL":
+                return DatabaseType.POSTGRESQL;
+
+            default:
+                Log.printLog(Level.WARNING,
+                        "The DATABASE environment have unsupported type string, fall back to `INMEM` in-memory datastore");
+                return DatabaseType.INMEM;
+        }
     }
 
     /**
@@ -86,12 +113,12 @@ public class DatabaseHandlerFactory {
         DatabaseHandler dwd;
         Optional<Connection> conn;
         switch (type) {
-            case IN_MEM:
+            case INMEM:
                 dwd = new InMemoryDatabaseHandler();
                 break;
 
             case MYSQL:
-                conn = loadMysqlDriver();
+                conn = loadMysqlDriver(Env.getEnvironmentValue("MYSQL_CONNECTION_STRING"));
                 if (conn.isEmpty()) {
                     dwd = null;
                     break;
@@ -111,6 +138,8 @@ public class DatabaseHandlerFactory {
                 break;
 
             default:
+                // Why this throw isn't force to be set at the creation of this function, and
+                // can this stop my main function
                 throw new UnsupportedOperationException("Unimplemented factory type");
         }
         return Optional.ofNullable(dwd);

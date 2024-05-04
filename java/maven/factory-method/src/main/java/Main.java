@@ -1,13 +1,14 @@
+import java.lang.System.Logger.Level;
 import java.util.Optional;
 
 import asia.nghiango.dao.*;
 import asia.nghiango.dbhelper.DatabaseHandlerFactory;
 import asia.nghiango.dbhelper.DatabaseHandler;
-import asia.nghiango.dbhelper.DatabaseHandlerFactory.DatabaseType;
 import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Env;
+import asia.nghiango.utilities.Log;
 import asia.nghiango.utilities.Util;
 
 public class Main {
@@ -19,11 +20,11 @@ public class Main {
     public static void main(String[] args) {
         init();
 
-        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(DatabaseType.POSTGRESQL);
+        Optional<DatabaseHandler> optionalDBhandlerInstance = DatabaseHandlerFactory.create(Env.getDatabaseType());
 
         DatabaseHandler databaseHandlerInstance;
         if (optionalDBhandlerInstance.isEmpty()) {
-            System.out.println("Can't create DB Handler, fall back to In-memory Datastore");
+            Log.printLog(Level.WARNING, "Can't create DB Handler, fall back to In-memory Datastore");
 
             databaseHandlerInstance = DatabaseHandlerFactory.createInmemoryDatastore();
         } else {
@@ -39,18 +40,18 @@ public class Main {
         Entity element2 = pvrDaoInstance.save(dummyRecord);
         // id: 3
         pvrDaoInstance.save(dummyRecord);
-        for (PageVisitRecordEntity wasEntities : pvrDaoInstance.getAll()) {
-            System.out.println(wasEntities);
+        for (PageVisitRecordEntity pvrEntity : pvrDaoInstance.getAll()) {
+            Log.printLog(Level.INFO, pvrEntity.toString());
         }
 
         pvrDaoInstance.delete(element2);
-        for (Entity wasEntities : pvrDaoInstance.getAll()) {
-            System.out.println(wasEntities);
+        for (Entity entity : pvrDaoInstance.getAll()) {
+            Log.printLog(Level.INFO, entity.toString());
         }
 
         Optional<PageVisitRecordEntity> getElmt2 = pvrDaoInstance.get(2);
         if (getElmt2.isEmpty()) {
-            System.out.println("Element 2 not found!");
+            Log.printLog(Level.INFO, "Element 2 not found!");
         }
     }
 }
