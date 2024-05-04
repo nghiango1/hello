@@ -44,9 +44,9 @@ public class DatabaseHandlerFactory {
             return Optional.of(conn);
         } catch (SQLException ex) {
             // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.ERROR, "SQLException: " + ex.getMessage());
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
         }
 
         return Optional.ofNullable(null);
@@ -66,10 +66,11 @@ public class DatabaseHandlerFactory {
                     "user=postgres&password=example");
             return Optional.of(conn);
         } catch (SQLException ex) {
-            System.out
-                    .printf("Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.ERROR, String.format(
+                    "Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage()));
+
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
         }
 
         return Optional.ofNullable(null);
