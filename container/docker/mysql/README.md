@@ -5,20 +5,27 @@ Docker sql instance
 ## Start a mysql server instance
 
 ```sh
-docker run --name some-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:tag
+sudo docker run --name mysql -e MYSQL_ROOT_PASSWORD=example -d -p 3306:3306 mysql #or mysql:tag
 ```
 
 Options explain
 
 - `some-mysql` is the name you want to assign to your container,
-- `my-secret-pw` is the password to be set for the MySQL root user
-- and `tag` is the tag specifying the MySQL version you want.
+- `example` is the password to be set for the MySQL root user -> Which isn't that great, we expose our root db infomation in the command here
+- and `tag` is the tag specifying the MySQL version you want. If we not address that, it should be 'mysql:lastest' as default
 
 Supported tags and respective Dockerfile links
 
 - 8.3.0, 8.3, 8, innovation, latest, 8.3.0-oraclelinux8, 8.3-oraclelinux8, 8-oraclelinux8, innovation-oraclelinux8, oraclelinux8, 8.3.0-oracle, 8.3-oracle, 8-oracle, innovation-oracle, oracle
 - 8.0.36, 8.0, 8.0.36-oraclelinux8, 8.0-oraclelinux8, 8.0.36-oracle, 8.0-oracle
 - 8.0.36-bookworm, 8.0-bookworm, 8.0.36-debian, 8.0-debian
+
+Kill and remove the containter when finshed using
+
+```sh
+sudo docker kill mysql
+sudo docker rm mysql
+```
 
 ## Compose container depploy
 
@@ -66,6 +73,22 @@ Creating service mysql_db
 ```
 
 Access admin server via [http://`<any-address>`:8080/](http://127.0.0.1:8080/) with root/example
+
+### Understanding swarn stack deployment
+
+Thing to look at:
+- `db`, `adminer` mean services's (container's) network name, which can be use to access that service of the swarn deploy.
+- `posts` is similar to `-p` flag, that expose a port of the container to the host machine
+
+This mean when using adminer (from our created `mysql` swarn), in the server field, we can use `db` directly instead of mysql server IP address when using the `adminer` WebUI.
+
+This isn't hold true when interacting with the same service name from other swarn deploy. For example, I start a new swarn `postgres` with `db` service is bind to postgres database server. This time, when I reuse adminer in `mysql` swarn and try to connect to created postgress using `db` as server address, adminer WebUI can't find and connect to the postgres server as it (`db`) resovle to a different IP address.
+
+Stop/remove `mysql` stack deployment
+
+```sh
+sudo docker stack rm mysql
+```
 
 ### Some problem along the way
 

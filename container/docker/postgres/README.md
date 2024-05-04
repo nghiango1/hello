@@ -11,8 +11,10 @@ You want to runing both:
 
 Runing stack deploy on compose file
 ```sh
-sudo docker stack deploy -c docker-compose.yml posgresql
+sudo docker stack deploy -c docker-compose.yml postgres
 ```
+
+> To understand more about docker-compose, read [mysql](../mysql/) which done the same thing
 
 Expected output
 
