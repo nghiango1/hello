@@ -10,9 +10,9 @@ Try to follow official documentation, remember to use `dotnet-install.sh` with t
 
 #### Setup dotnet cli
 
-Install the right version of .dotnet (I use dotnet v5.0)
+Install the right version of .dotnet (I use dotnet v6.0)
 ```sh
-/dotnet-install.sh --version 5.0.408
+/dotnet-install.sh --version 6.0.421
 ```
 
 Setup PATH, this can be done by adding there line to your `~/.profile` file
