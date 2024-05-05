@@ -13,8 +13,7 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Scanner;
 
-import asia.nghiango.dbhelper.DatabaseHandlerFactory;
-import asia.nghiango.dbhelper.DatabaseHandlerFactory.DatabaseType;
+import asia.nghiango.dbhelper.DatabaseType;
 
 /**
  * Env handle the program variable that come from external
@@ -56,7 +55,7 @@ public class Env {
         if (databaseTypeString == null)
             return DatabaseType.INMEM;
 
-        return DatabaseHandlerFactory.convertToEnumValue(databaseTypeString);
+        return DatabaseType.convertToEnumValue(databaseTypeString);
     }
 
     public static java.util.logging.Level getLogLevel() {
@@ -104,6 +103,12 @@ public class Env {
         return envFileURI;
     }
 
+    /**
+     * Check if DEMO_ENV_PATH is create yet, if not return default value for .env
+     * file
+     *
+     * @return URI to access env file
+     */
     private static URI getEnvFileURI() {
         String path = System.getenv("DEMO_ENV_PATH");
         URI def = null;
@@ -114,7 +119,7 @@ public class Env {
         try {
             def = new URI(path);
         } catch (URISyntaxException e) {
-            Log.printLog(Level.ERROR, "Default env file URI is wrong");
+            Log.printLog(Level.ERROR, "OS env DEMO_ENV_PATH file URI is wrong");
             return getDefaultEnvFileURI();
         }
 
@@ -171,6 +176,6 @@ public class Env {
         env.put("VERBOSE", "TRUE");
         env.put("DATABASE", "INMEM");
         env.put("MYSQL_CONNECTION_STRING", "jdbc:mysql://localhost:3306/webstat?user=root&password=example");
-        env.put("POSTGRES_CONNECTION_STRING", "jdbc:mysql://localhost:3306/webstat?user=root&password=example");
+        env.put("POSTGRESQL_CONNECTION_STRING", "jdbc:mysql://localhost:3306/webstat?user=root&password=example");
     }
 }

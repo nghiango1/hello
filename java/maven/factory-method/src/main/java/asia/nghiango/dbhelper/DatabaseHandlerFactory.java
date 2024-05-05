@@ -12,17 +12,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * DWDFactory, now i actually hate this pattern the moment I have to implement
- * it
+ * DatabaseHandlerFactory help create a {@link DatabaseHandler} interface
+ * complican object, also handle Database connection part
  */
 public class DatabaseHandlerFactory {
-
-    public static enum DatabaseType {
-        INMEM,
-        MYSQL,
-        POSTGRESQL,
-        FILE
-    }
 
     /**
      * This load mysql driver then create a new connection to mysql database
@@ -60,45 +53,19 @@ public class DatabaseHandlerFactory {
      * @return connection instance for posgres_db
      * @return null if there is any error
      */
-    public static Optional<Connection> loadPostgreSQLDriver() {
+    public static Optional<Connection> loadPostgreSQLDriver(String connectionString) {
         try {
-            Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/webstat?" +
-                    "user=postgres&password=example");
+            Connection conn = DriverManager.getConnection(connectionString);
             return Optional.of(conn);
         } catch (SQLException ex) {
             Log.printLog(Level.ERROR, String.format(
-                    "Fail to create new PostgreSQL connection, get SQLException error: %s\n" + ex.getMessage()));
+                    "Fail to create new PostgreSQL connection, get SQLException error: %s\n", ex.getMessage()));
 
             Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
             Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
         }
 
         return Optional.ofNullable(null);
-    }
-
-    /**
-     * Converte a string to DatabaseType, if string isn't coresponse to a support
-     * database type that have support and can be handle then this fall back to In
-     * memory datastore
-     *
-     * @param stringType
-     */
-    public static DatabaseType convertToEnumValue(String stringType) {
-        switch (stringType) {
-            case "INMEM":
-                return DatabaseType.INMEM;
-
-            case "MYSQL":
-                return DatabaseType.MYSQL;
-
-            case "POSTGRESQL":
-                return DatabaseType.POSTGRESQL;
-
-            default:
-                Log.printLog(Level.WARNING,
-                        "The DATABASE environment have unsupported type string, fall back to `INMEM` in-memory datastore");
-                return DatabaseType.INMEM;
-        }
     }
 
     /**
@@ -129,7 +96,7 @@ public class DatabaseHandlerFactory {
                 break;
 
             case POSTGRESQL:
-                conn = loadPostgreSQLDriver();
+                conn = loadPostgreSQLDriver(Env.getEnvironmentValue("POSTGRESQL_CONNECTION_STRING"));
                 if (conn.isEmpty()) {
                     dwd = null;
                     break;
