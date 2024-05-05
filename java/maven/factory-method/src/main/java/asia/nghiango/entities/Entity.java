@@ -67,7 +67,7 @@ public abstract class Entity {
         return this.data;
     }
 
-    public Boolean isRemoved() {
+    public Boolean isDelete() {
         return this.isDeleted;
     }
 

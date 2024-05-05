@@ -38,7 +38,7 @@ public class InMemoryDatabaseHandler implements DatabaseHandler {
         while (keys.hasMoreElements()) {
             Integer key = keys.nextElement();
             Entity element = table.get(key);
-            if (!element.isRemoved()) {
+            if (!element.isDelete()) {
                 arrLst.add(element);
             }
         }
@@ -53,7 +53,7 @@ public class InMemoryDatabaseHandler implements DatabaseHandler {
         try {
             Entity element = table.get(id);
 
-            if (element.isRemoved()) {
+            if (element.isDelete()) {
                 return Optional.ofNullable(null);
             }
 

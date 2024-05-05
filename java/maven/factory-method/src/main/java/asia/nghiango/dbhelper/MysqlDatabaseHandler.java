@@ -18,7 +18,7 @@ import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Log;
 
 /**
- * MysqlDWD
+ * Mysql Database Handler
  */
 public class MysqlDatabaseHandler implements DatabaseHandler {
     private Connection conn;
