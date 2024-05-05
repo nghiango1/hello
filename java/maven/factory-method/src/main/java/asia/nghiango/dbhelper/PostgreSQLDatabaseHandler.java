@@ -63,7 +63,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
     public List<Entity> getAll(String tableName, List<String> colNames) {
         List<Entity> arrLst = new ArrayList<Entity>();
 
-        SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgreSLQ();
+        SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
         Optional<ResultSet> rs = execSelectSql(sqlStmt);
