@@ -1,29 +1,51 @@
-from typing import List
+from typing import Generic, Optional, TypeVar
+
+T = TypeVar("T")
 
 
-class QNode:
-    def __init__(self, v, nextLink=None):
-        self.v = v
-        self.next: QNode = nextLink
+class QNode(Generic[T]):
+    def __init__(self, v: T, nextLink=None):  # noqa: F821
+        self.v: T = v
+        self.next: Optional[QNode] = nextLink
 
 
-class Queue:
+class Queue(Generic[T]):
     def __init__(self):
-        self.head: QNode = None
-        self.tail: QNode = None
-        self.length = 0
+        self.head: Optional[QNode[T]] = None
+        self.tail: Optional[QNode[T]] = None
+        self.length: int = 0
 
-    def add(self, v):
-        qNode = QNode(v, None)
+    def add(self, v: T):
+        """
+        Add a new element into the queue
+
+        Args:
+            v: Elements to be added
+
+        Raises:
+            ValueError: This should not never happend
+        """
+        qNode: QNode[T] = QNode(v, None)
         if self.head is None:
             self.head = self.tail = qNode
         else:
-            self.tail.next = qNode
-            self.tail = self.tail.next
+            # This should alway be true
+            if self.tail is not None:
+                self.tail.next = qNode
+                self.tail = self.tail.next
+            else:
+                raise ValueError("What, tail is none when head already init?!?")
         self.length += 1
 
-    def pop(self):
-        res = None
+    def pop(self) -> Optional[T]:
+        """
+        Get a element out of the queue, the first to get in will be the first to get out
+
+        Returns:
+        - Get the first element out of queue
+        - None if there isn't any element in the queue left
+        """
+        res: Optional[T] = None
         if self.head is not None:
             res = self.head.v
             self.head = self.head.next
@@ -38,55 +60,16 @@ class Queue:
         return self.head is None
 
 
-class Stack:
-    def __init__(self):
-        self.top = None
-        self.length = 0
-
-    def add(self, v):
-        if self.top is None:
-            self.top = QNode(v, None)
-        else:
-            self.top = QNode(v, self.top)
-        self.length += 1
-
-    def cycle(self):
-        res = []
-        p = self.top
-        while p is not None:
-            res.append(p.v.pop())
-            prev = p
-            p = p.next
-            while p is not None and p.v.isEmpty():
-                prev.next = p.next
-                p = p.next
-        return res
-
-    def isEmpty(self):
-        return self.top is None
-
-
-class Solution:
-    def findDiagonalOrder(self, nums: List[List[int]]) -> List[int]:
-        queues = []
-        for num in nums:
-            internal = Queue()
-            for v in num:
-                internal.add(v)
-            queues.append(internal)
-
-        res = []
-        stack = Stack()
-        for q in queues:
-            stack.add(q)
-            res += stack.cycle()
-
-        while not stack.isEmpty():
-            res += stack.cycle()
-
-        return res
-
-
 if __name__ == "__main__":
-    a = Solution()
-    a.findDiagonalOrder([[1, 2, 3], [1], [3]])
+    queue = Queue[int]()
+    queue.add(1)
+    queue.add(2)
+    queue.add(3)
+    queue.add(4)
+
+    for i in range(5):
+        t = queue.pop()
+        if t is not None:
+            print(t)
+        else:
+            print("Queue is empty")
