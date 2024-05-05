@@ -40,18 +40,18 @@ public class Main {
         Entity element2 = pvrDaoInstance.save(dummyRecord);
         // id: 3
         pvrDaoInstance.save(dummyRecord);
-        for (PageVisitRecordEntity pvrEntity : pvrDaoInstance.getAll()) {
-            Log.printLog(Level.INFO, pvrEntity.toString());
+        for (PageVisitRecordEntity pvre : pvrDaoInstance.getAll()) {
+            System.out.println(pvre);
         }
 
         pvrDaoInstance.delete(element2);
         for (Entity entity : pvrDaoInstance.getAll()) {
-            Log.printLog(Level.INFO, entity.toString());
+            System.out.println(entity);
         }
 
         Optional<PageVisitRecordEntity> getElmt2 = pvrDaoInstance.get(2);
         if (getElmt2.isEmpty()) {
-            Log.printLog(Level.INFO, "Element 2 not found!");
+            System.out.println("Element 2 not found!");
         }
     }
 }

@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Optional;
 import java.util.Scanner;
 
 import asia.nghiango.dbhelper.DatabaseType;
@@ -27,18 +28,23 @@ public class Env {
     }
 
     /**
-     * Is verbose return true when the environment variable env or env['VERBOSE']
-     * isn't set
+     * getVerbose is needed for Loging to work, this function can't use {{@link Log}
+     * as it will cause dead lock/infinity loop
+     *
+     * @return
      */
-    public static Boolean isVerbose() {
-        if (env == null)
-            return true;
+    public static Optional<Boolean> getVerbose() {
+        if (env == null) {
+            return Optional.ofNullable(null);
+        }
 
-        String isVerbose = env.get("VERBOSE");
-        if (isVerbose == null)
-            return true;
+        String verbose = env.get("VERBOSE");
+        if (verbose == null) {
+            return Optional.ofNullable(null);
+        }
 
-        return isVerbose.compareTo("TRUE") == 0;
+        Boolean isVerbose = verbose.compareTo("TRUE") == 0;
+        return Optional.of(isVerbose);
     }
 
     /**
@@ -56,12 +62,6 @@ public class Env {
             return DatabaseType.INMEM;
 
         return DatabaseType.convertToEnumValue(databaseTypeString);
-    }
-
-    public static java.util.logging.Level getLogLevel() {
-        if (isVerbose())
-            return java.util.logging.Level.FINE;
-        return java.util.logging.Level.SEVERE;
     }
 
     public static void generateEnvFile() {

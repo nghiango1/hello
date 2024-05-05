@@ -18,6 +18,25 @@ public class Log {
         public static String RESET = "\033[0m";
     }
 
+    public static java.util.logging.Level getLogLevel() {
+        if (checkVerbose())
+            return java.util.logging.Level.FINE;
+        return java.util.logging.Level.SEVERE;
+    }
+
+    /**
+     * Is verbose return true when the environment variable env or env['VERBOSE']
+     * isn't set, this send
+     */
+    public static Boolean checkVerbose() {
+        if (Env.getVerbose().isEmpty()) {
+            Log._safePrintLog(Level.INFO, "Environment env doesn't set yet, checkVerbose() fail back to true");
+            return true;
+        }
+
+        return Env.getVerbose().get();
+    }
+
     public static void printLog(Level level, String logString) {
         _printLog(level, logString, true);
     }
@@ -26,8 +45,23 @@ public class Log {
         _printLog(level, logString, color);
     }
 
+    /**
+     * Safe print log method come to writing Log inside of this Log module, this is
+     * here to ensure we don't start a dead lock method call when accessing Log.
+     *
+     * This method should not calling any other method that may cause dead
+     * lock/infinity loop.
+     *
+     * @param level
+     * @param logString
+     */
+    private static void _safePrintLog(Level level, String logString) {
+        String noNewline = logString.replace("\n", "\\n");
+        System.out.printf("[%s] (safe): %s\n", level, noNewline);
+    }
+
     private static void _printLog(Level level, String logString, Boolean color) {
-        if (level.getSeverity() < Env.getLogLevel().intValue())
+        if (level.getSeverity() < getLogLevel().intValue())
             return;
 
         if (color)

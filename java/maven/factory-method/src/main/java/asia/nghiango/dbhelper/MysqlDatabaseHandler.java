@@ -5,7 +5,7 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
-
+import java.lang.System.Logger.Level;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +15,7 @@ import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.EntityFactory;
 import asia.nghiango.model.Model;
 import asia.nghiango.model.PageVisitRecord;
-import asia.nghiango.utilities.Env;
+import asia.nghiango.utilities.Log;
 
 /**
  * MysqlDWD
@@ -35,12 +35,10 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             return Optional.of(rs);
         } catch (SQLException ex) {
             // handle any errors
-            System.out.println("Fail to execute select statement, got SQLException error: " + ex.getMessage());
-            if (Env.isVerbose()) {
-                System.out.println("\tSQLState: " + ex.getSQLState());
-                System.out.println("\tVendorError: " + ex.getErrorCode());
-                System.out.println("\tSQL statement: " + sqlStmt);
-            }
+            Log.printLog(Level.ERROR, "Fail to execute select statement, got SQLException error: " + ex.getMessage());
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQL statement: " + sqlStmt);
         }
 
         return Optional.ofNullable(null);
@@ -70,23 +68,19 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             while (rSet.next()) {
                 Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
                 if (entity.isEmpty()) {
-                    System.out.printf("Error readding at row %s\n", rSet.getCursorName());
+                    Log.printLog(Level.WARNING, String.format("Error readding at row %s\n", rSet.getCursorName()));
                 } else {
                     arrLst.add(entity.get());
                 }
             }
         } catch (SQLException ex) {
             // handle any errors
-            System.out.println("Fail to SQLException: " + ex.getMessage());
-            if (Env.isVerbose()) {
-                System.out.println("\tSQLException: " + ex.getMessage());
-                System.out.println("\tSQLState: " + ex.getSQLState());
-                System.out.println("\tVendorError: " + ex.getErrorCode());
-            }
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
+            Log.printLog(Level.ERROR, "Fail to SQLException: " + ex.getMessage());
 
+            Log.printLog(Level.DEBUG, "SQLException: " + ex.getMessage());
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+        }
         return arrLst;
     }
 
@@ -128,12 +122,11 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             int rs = stmt.executeUpdate(sqlStmt);
             return rs;
         } catch (SQLException ex) {
-            System.out.println("Can't insert into database, got SQLException error: " + ex.getMessage());
-            if (Env.isVerbose()) {
-                System.out.println("\tSQLState: " + ex.getSQLState());
-                System.out.println("\tVendorError: " + ex.getErrorCode());
-                System.out.println("\tSQLstatement: " + sqlStmt);
-            }
+            Log.printLog(Level.ERROR, "Can't insert into database, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQLstatement: " + sqlStmt);
         }
 
         return 0;
@@ -162,13 +155,11 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
             Statement stmt = this.conn.createStatement();
             stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
         } catch (SQLException ex) {
-            System.out.println("Fail to create new table, got SQLException error: " + ex.getMessage());
-            if (Env.isVerbose()) {
-                System.out.println("\tSQLState: " + ex.getSQLState());
-                System.out.println("\tVendorError: " + ex.getErrorCode());
-                System.out.println("\tSQL statement: " + PageVisitRecord.createTableMySQLCommand());
-            }
+            Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQL statement: " + PageVisitRecord.createTableMySQLCommand());
         }
     }
-
 }
