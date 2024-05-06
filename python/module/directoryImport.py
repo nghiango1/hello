@@ -35,7 +35,7 @@ def weirdImport():
     queue.add(1)
     queue.add(2)
     queue.add(3)
-    print("We can use `Queue` (class) through `dsi` normally, Queue value = ", queue)
+    print("We can only use exposed class/method/module imported directly (eg: `Queue` (class)) through `dsi`,\nQueue value = ", queue)
 
 def main():
     print("Start normal run\n================")
