@@ -1,24 +1,66 @@
 from math import trunc, log
+from typing import List
 
 
-def binarySearch(arr, x):
-    l, r = -1, len(arr)
-    n = len(arr)
-    logn = trunc(log(n+2,2))+1
-    for _ in range(logn):
-        m = (l + r) // 2
-        if l == r-1:
+def binarySearch(arr: List[int], target: int):
+    """
+
+    Args:
+        arr: Array of interger that need to search thorugh for the target, it should already be sort in increasing order
+        target: A interger value needed to be searched
+
+    Returns:
+        tuple of (isFound, lastPossition)
+    """
+    left, right = -1, len(arr)
+    length = len(arr)
+    log2n = trunc(log(length + 2, 2)) + 1
+    for _ in range(log2n):
+        mid = (left + right) // 2
+        if left == right - 1:
             break
-        if x < arr[m]:
-            r = m
+        if target < arr[mid]:
+            right = mid
         else:
-            l = m
-    assert l == r-1
-    return x == arr[l], l
+            left = mid
+    assert left == right - 1
+    return target == arr[left], left
 
 
+def main():
+    arr = [
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        4,
+        6,
+        8,
+        9,
+        142,
+        142,
+        142,
+        142,
+        255,
+        255,
+        255,
+        567,
+        1275,
+        1275,
+        1275,
+        2547,
+        2547,
+        5458,
+        9722,
+        92124,
+    ]
+    x = 567
 
-arr = [1, 2, 2, 2, 2, 3, 4, 6, 8, 9, 142, 142, 142, 142, 255, 255, 255, 567, 1275, 1275, 1275, 2547, 2547, 5458, 9722, 92124]
-x = 567
+    isFound, lastPossition = binarySearch(arr, x)
+    print(isFound, lastPossition)
 
-isFound, lastPossition = binarySearch(arr, x)
+
+if __name__ == "__main__":
+    main()

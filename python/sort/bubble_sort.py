@@ -1,8 +1,11 @@
-def bubbleSort(arr):
+from typing import List
+
+
+def bubbleSort(arr: List[int]):
     for i in range(len(arr)):
-        for j in range(len(arr) - i-1):
-            if arr[j] > arr[j+1]:
-                arr[j], arr[j+1] = arr[j+1], arr[j]
+        for j in range(len(arr) - i - 1):
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
 
 arr = [124, 1241, 412, 4, 54, 5, 34, 12, 4, 12, 321, 3, 33]
