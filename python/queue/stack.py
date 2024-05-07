@@ -7,17 +7,34 @@ class Node(Generic[T]):
     """
     Linked list node
 
-    Attributes: 
-        v: 
-        next: 
+    Attributes:
+        v:
+        next:
     """
+
     def __init__(self, v: T, nextLink=None):  # noqa: F821
         self.v: T = v
         self.next: Optional[Node] = nextLink
 
 
+class StackIterator(Generic[T]):
+    def __init__(self, node: Optional[Node[T]]):
+        self.node = node
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        if self.node is not None:
+            value = self.node.v
+            self.node = self.node.next
+            return value
+        raise StopIteration
+
+
 class Stack(Generic[T]):
     """Stack implement using Single linked-list"""
+
     def __init__(self):
         self.__top: Optional[Node[T]] = None
         self.__length: int = 0
@@ -69,6 +86,9 @@ class Stack(Generic[T]):
         """
         return self.__top is None
 
+    def __iter__(self):
+        return StackIterator(self.__top)
+
 
 if __name__ == "__main__":
     stack = Stack[str]()
@@ -76,6 +96,12 @@ if __name__ == "__main__":
     stack.add("2")
     stack.add("3")
     stack.add("4")
+
+    for i in stack:
+        print(i)
+
+    for index, value in enumerate(stack):
+        print(index, value)
 
     for i in range(5):
         t = stack.pop()
