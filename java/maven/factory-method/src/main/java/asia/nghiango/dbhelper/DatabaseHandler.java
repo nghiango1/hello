@@ -9,11 +9,6 @@ import asia.nghiango.model.Model;
  * DataWriterDriver
  */
 public interface DatabaseHandler {
-    /**
-     * Prepare - create the table in the database
-     */
-    public void prepared();
-
     public List<? extends Entity> getAll(String tableName, List<String> colNames);
 
     public Optional<? extends Entity> get(String tableName, List<String> colNames, int id);

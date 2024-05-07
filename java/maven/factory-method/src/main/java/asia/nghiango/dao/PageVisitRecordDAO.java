@@ -47,5 +47,9 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
 
     public void delete(Entity t) {
         this.driver.delete(t);
-    };
+    }
+
+	@Override
+	public void prepared() {
+	};
 }
