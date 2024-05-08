@@ -18,10 +18,15 @@ public class InMemoryDatabaseHandler implements DatabaseHandler {
     private Dictionary<String, Dictionary<Integer, Entity>> database = new Hashtable<>();
     private Integer currentId = 1;
 
+    @Override
+    public void createTable(String sqlStmt) {
+        // didn't have SQL stmt handle
+    }
+
     private Dictionary<Integer, Entity> getTable(String tableName) {
         Dictionary<Integer, Entity> table;
         table = this.database.get(tableName);
-        if (table == null){
+        if (table == null) {
             table = new Hashtable<>();
             this.database.put(tableName, table);
         }
@@ -83,9 +88,4 @@ public class InMemoryDatabaseHandler implements DatabaseHandler {
     public void delete(Entity t) {
         t.remove();
     }
-
-    @Override
-    public void prepared() {
-    }
-
 }

@@ -92,7 +92,6 @@ public class DatabaseHandlerFactory {
                     break;
                 }
                 dwd = new MysqlDatabaseHandler(conn.get());
-                dwd.prepared();
                 break;
 
             case POSTGRESQL:
@@ -102,7 +101,6 @@ public class DatabaseHandlerFactory {
                     break;
                 }
                 dwd = new PostgreSQLDatabaseHandler(conn.get());
-                dwd.prepared();
                 break;
 
             default:

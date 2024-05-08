@@ -29,17 +29,18 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
         this.conn = conn;
     }
 
-    public void prepared() {
+    @Override
+    public void createTable(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
-            stmt.executeUpdate(PageVisitRecord.createTablePostgreSQLCommand());
+            stmt.executeUpdate(sqlStmt);
         } catch (SQLException ex) {
             // handle any errors
             Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
 
             Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
             Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQLStatment: " + PageVisitRecord.createTablePostgreSQLCommand());
+            Log.printLog(Level.DEBUG, "SQLStatment: " + sqlStmt);
         }
     }
 
@@ -53,7 +54,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
 
             Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
             Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQLStatment: " + PageVisitRecord.createTablePostgreSQLCommand());
+            Log.printLog(Level.DEBUG, "SQLStatment: " + sqlStmt);
         }
 
         return Optional.ofNullable(null);
