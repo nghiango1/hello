@@ -1,0 +1,4 @@
+.build/
+.build
+qmk_firmware/
+qmk_firmware
