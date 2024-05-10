@@ -30,12 +30,12 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public void BLANK(String sqlStmt) {
+    public void doBLANK(String sqlStmt) {
         throw new UnsupportedOperationException("Unimplemented method 'BLANK'");
     }
 
     @Override
-    public Optional<Integer> INSERT(String sqlStmt) {
+    public Optional<Integer> doINSERT(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
             int rs = stmt.executeUpdate(sqlStmt);
@@ -52,7 +52,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public Optional<Integer> UPDATE(String sqlStmt) {
+    public Optional<Integer> doUPDATE(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
             int rs = stmt.executeUpdate(sqlStmt);
@@ -69,17 +69,17 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public void DELETE(String sqlStmt) {
+    public void doDELETE(String sqlStmt) {
         throw new UnsupportedOperationException("Unimplemented method 'DELETE'");
     }
 
     @Override
-    public void MOVE(String sqlStmt) {
+    public void doMOVE(String sqlStmt) {
         throw new UnsupportedOperationException("Unimplemented method 'MOVE'");
     }
 
     @Override
-    public Optional<ResultSet> SELECT(String sqlStmt) {
+    public Optional<ResultSet> doSELECT(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(sqlStmt);
@@ -96,12 +96,12 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public void WITH(String sqlStmt) {
+    public void doWITH(String sqlStmt) {
         throw new UnsupportedOperationException("Unimplemented method 'WITH'");
     }
 
     @Override
-    public void CREATE(String sqlStmt) {
+    public void doCREATE(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
             stmt.executeUpdate(sqlStmt);
@@ -116,13 +116,13 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public void ALTER(String sqlStmt) {
+    public void doALTER(String sqlStmt) {
         throw new UnsupportedOperationException("Unimplemented method 'ALTER'");
     }
 
     @Override
     public void createTable(String sqlStmt) {
-        CREATE(sqlStmt);
+        doCREATE(sqlStmt);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
-        Optional<ResultSet> rs = SELECT(sqlStmt);
+        Optional<ResultSet> rs = doSELECT(sqlStmt);
         if (rs.isEmpty()) {
             return arrLst;
         }
@@ -212,7 +212,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         Entity entity = EntityFactory.create(this.currentId, t.getModelType(), t).get();
         this.currentId += 1;
         String sqlStmt = constructInsertStatement(entity);
-        INSERT(sqlStmt);
+        doINSERT(sqlStmt);
         return entity;
     }
 
@@ -251,7 +251,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     @Override
     public void update(Entity t) {
         String sqlStmt = constructUpdateStatement(t);
-        UPDATE(sqlStmt);
+        doUPDATE(sqlStmt);
     }
 
     @Override

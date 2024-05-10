@@ -10,25 +10,25 @@ import org.postgresql.core.SqlCommandType;
  */
 public interface SQLCommandInterface {
 
-    public void BLANK(String sqlStmt);
+    public void doBLANK(String sqlStmt);
 
     // either (1) the row count for SQL Data Manipulation Language (DML) statements
     // or (2) 0 for SQL statements that return nothing
-    public Optional<Integer> INSERT(String sqlStmt);
+    public Optional<Integer> doINSERT(String sqlStmt);
 
     // either (1) the row count for SQL Data Manipulation Language (DML) statements
     // or (2) 0 for SQL statements that return nothing
-    public Optional<Integer> UPDATE(String sqlStmt);
+    public Optional<Integer> doUPDATE(String sqlStmt);
 
-    public void DELETE(String sqlStmt);
+    public void doDELETE(String sqlStmt);
 
-    public void MOVE(String sqlStmt);
+    public void doMOVE(String sqlStmt);
 
-    public Optional<ResultSet> SELECT(String sqlStmt);
+    public Optional<ResultSet> doSELECT(String sqlStmt);
 
-    public void WITH(String sqlStmt);
+    public void doWITH(String sqlStmt);
 
-    public void CREATE(String sqlStmt);
+    public void doCREATE(String sqlStmt);
 
-    public void ALTER(String sqlStmt);
+    public void doALTER(String sqlStmt);
 }
