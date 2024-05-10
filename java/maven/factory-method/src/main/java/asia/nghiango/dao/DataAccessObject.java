@@ -8,6 +8,11 @@ import asia.nghiango.entities.Entity;
  * DataAccessObject
  */
 public interface DataAccessObject<T> {
+    /**
+     * Prepare - create the table in the database
+     */
+    public void prepared();
+
     public List<? extends Entity> getAll();
 
     public Optional<? extends Entity> get(int id);

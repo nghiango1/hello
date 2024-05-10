@@ -28,6 +28,20 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
         this.conn = conn;
     }
 
+    @Override
+    public void createTable(String sqlStmt) {
+        try {
+            Statement stmt = this.conn.createStatement();
+            stmt.executeUpdate(sqlStmt);
+        } catch (SQLException ex) {
+            Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQL statement: " + sqlStmt);
+        }
+    }
+
     private Optional<ResultSet> execSelectSql(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
@@ -147,19 +161,5 @@ public class MysqlDatabaseHandler implements DatabaseHandler {
     @Override
     public void delete(Entity t) {
         t.remove();
-    }
-
-    @Override
-    public void prepared() {
-        try {
-            Statement stmt = this.conn.createStatement();
-            stmt.executeUpdate(PageVisitRecord.createTableMySQLCommand());
-        } catch (SQLException ex) {
-            Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
-
-            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQL statement: " + PageVisitRecord.createTableMySQLCommand());
-        }
     }
 }

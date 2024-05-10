@@ -10,9 +10,11 @@ import asia.nghiango.model.Model;
  */
 public interface DatabaseHandler {
     /**
-     * Prepare - create the table in the database
+     * Creatable is to vary between database so this help
+     *
+     * @param sqlStmt 
      */
-    public void prepared();
+    public void createTable(String sqlStmt);
 
     public List<? extends Entity> getAll(String tableName, List<String> colNames);
 

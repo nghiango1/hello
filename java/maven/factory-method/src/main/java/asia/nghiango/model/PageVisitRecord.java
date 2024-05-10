@@ -138,45 +138,6 @@ public class PageVisitRecord implements Model {
         return Arrays.asList(columnNames);
     }
 
-    // MySQL create table sql command
-    public static String createTableMySQLCommand() {
-        return """
-                CREATE TABLE `record` (
-                  `ID` int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                  `IS_DELETE` tinyint(1) unsigned NOT NULL DEFAULT '0',
-                  `PAGE_URL` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
-                  `PAGE_PATH` varchar(50) NOT NULL,
-                  `TIME_REQUEST` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                  `TIME_SERVE` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                  `TIME_LEAVE` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
-                  `REFERER` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
-                  `BROWSER` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
-                  `DEVICE_TYPE` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
-                  `OPERATING_SYSTEM` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL
-                ) ENGINE='InnoDB' COLLATE 'utf8mb4_vietnamese_ci' AUTO_INCREMENT=1;
-                """;
-    }
-
-    // PostgreSQL create table sql command
-    public static String createTablePostgreSQLCommand() {
-        return """
-                CREATE TABLE "record" (
-                  "ID" serial NOT NULL,
-                  PRIMARY KEY ("ID"),
-                  "IS_DELETE" smallint NOT NULL DEFAULT '0',
-                  "PAGE_URL" character varying(50) NOT NULL,
-                  "PAGE_PATH" character varying(50) NOT NULL,
-                  "TIME_REQUEST" timestamp NOT NULL,
-                  "TIME_SERVE" timestamp NOT NULL,
-                  "TIME_LEAVE" timestamp NOT NULL,
-                  "REFERER" character varying(50) NOT NULL,
-                  "BROWSER" character varying(50) NOT NULL,
-                  "DEVICE_TYPE" character varying(50) NOT NULL,
-                  "OPERATING_SYSTEM" character varying(50) NOT NULL
-                );
-                """;
-    }
-
     @Override
     public SupportedType getModelType() {
         return SupportedType.PageVisitRecord;
