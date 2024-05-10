@@ -21,7 +21,7 @@ import asia.nghiango.utilities.Log;
  * PostgreSQLDatabaseHandler
  *
  */
-public class PostgreSQLDatabaseHandler implements DatabaseHandler {
+public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
     private Connection conn;
     private Integer currentId = 1;
 
@@ -30,21 +30,56 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
     }
 
     @Override
-    public void createTable(String sqlStmt) {
+    public void BLANK(String sqlStmt) {
+        throw new UnsupportedOperationException("Unimplemented method 'BLANK'");
+    }
+
+    @Override
+    public Optional<Integer> INSERT(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
-            stmt.executeUpdate(sqlStmt);
+            int rs = stmt.executeUpdate(sqlStmt);
+            return Optional.of(rs);
         } catch (SQLException ex) {
-            // handle any errors
-            Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
+            Log.printLog(Level.ERROR, "False to insert into database, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "\tSQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "\tVendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "\tSQLStatement: " + sqlStmt);
+        }
+
+        return Optional.ofNullable(null);
+    }
+
+    @Override
+    public Optional<Integer> UPDATE(String sqlStmt) {
+        try {
+            Statement stmt = this.conn.createStatement();
+            int rs = stmt.executeUpdate(sqlStmt);
+            return Optional.of(rs);
+        } catch (SQLException ex) {
+            Log.printLog(Level.ERROR, "False to update entity, got SQLException error: " + ex.getMessage());
 
             Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
             Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQLStatment: " + sqlStmt);
+            Log.printLog(Level.DEBUG, "SQLStatement: " + sqlStmt);
         }
+
+        return Optional.ofNullable(null);
     }
 
-    private Optional<ResultSet> execSelectSql(String sqlStmt) {
+    @Override
+    public void DELETE(String sqlStmt) {
+        throw new UnsupportedOperationException("Unimplemented method 'DELETE'");
+    }
+
+    @Override
+    public void MOVE(String sqlStmt) {
+        throw new UnsupportedOperationException("Unimplemented method 'MOVE'");
+    }
+
+    @Override
+    public Optional<ResultSet> SELECT(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
             ResultSet rs = stmt.executeQuery(sqlStmt);
@@ -61,13 +96,43 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
     }
 
     @Override
+    public void WITH(String sqlStmt) {
+        throw new UnsupportedOperationException("Unimplemented method 'WITH'");
+    }
+
+    @Override
+    public void CREATE(String sqlStmt) {
+        try {
+            Statement stmt = this.conn.createStatement();
+            stmt.executeUpdate(sqlStmt);
+        } catch (SQLException ex) {
+            // handle any errors
+            Log.printLog(Level.ERROR, "Fail to create new table, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQLStatment: " + sqlStmt);
+        }
+    }
+
+    @Override
+    public void ALTER(String sqlStmt) {
+        throw new UnsupportedOperationException("Unimplemented method 'ALTER'");
+    }
+
+    @Override
+    public void createTable(String sqlStmt) {
+        CREATE(sqlStmt);
+    }
+
+    @Override
     public List<Entity> getAll(String tableName, List<String> colNames) {
         List<Entity> arrLst = new ArrayList<Entity>();
 
         SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
-        Optional<ResultSet> rs = execSelectSql(sqlStmt);
+        Optional<ResultSet> rs = SELECT(sqlStmt);
         if (rs.isEmpty()) {
             return arrLst;
         }
@@ -142,49 +207,13 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
         return sqlStmt;
     }
 
-    // either (1) the row count for SQL Data Manipulation Language (DML) statements
-    // or (2) 0 for SQL statements that return nothing
-    private int execInsertStatement(String sqlStmt) {
-        try {
-            Statement stmt = this.conn.createStatement();
-            int rs = stmt.executeUpdate(sqlStmt);
-            return rs;
-        } catch (SQLException ex) {
-            Log.printLog(Level.ERROR, "False to insert into database, got SQLException error: " + ex.getMessage());
-
-            Log.printLog(Level.DEBUG, "\tSQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "\tVendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "\tSQLStatement: " + sqlStmt);
-        }
-
-        return 0;
-    }
-
     @Override
     public Entity save(Model t) {
         Entity entity = EntityFactory.create(this.currentId, t.getModelType(), t).get();
         this.currentId += 1;
         String sqlStmt = constructInsertStatement(entity);
-        execInsertStatement(sqlStmt);
+        INSERT(sqlStmt);
         return entity;
-    }
-
-    // either (1) the row count for SQL Data Manipulation Language (DML) statements
-    // or (2) 0 for SQL statements that return nothing
-    private int execUpdateStatement(String sqlStmt) {
-        try {
-            Statement stmt = this.conn.createStatement();
-            int rs = stmt.executeUpdate(sqlStmt);
-            return rs;
-        } catch (SQLException ex) {
-            Log.printLog(Level.ERROR, "False to update entity, got SQLException error: " + ex.getMessage());
-
-            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQLStatement: " + sqlStmt);
-        }
-
-        return 0;
     }
 
     private String constructUpdateStatement(Entity entity) {
@@ -222,7 +251,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler {
     @Override
     public void update(Entity t) {
         String sqlStmt = constructUpdateStatement(t);
-        execUpdateStatement(sqlStmt);
+        UPDATE(sqlStmt);
     }
 
     @Override
