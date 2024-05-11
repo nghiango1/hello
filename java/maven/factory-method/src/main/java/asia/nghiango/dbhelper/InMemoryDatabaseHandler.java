@@ -1,91 +1,49 @@
 package asia.nghiango.dbhelper;
 
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-import asia.nghiango.entities.Entity;
-import asia.nghiango.entities.EntityFactory;
-import asia.nghiango.model.Model;
+import asia.nghiango.entities.PageVisitRecordEntity;
 
 /**
  * PlaintextDWD
  */
 public class InMemoryDatabaseHandler implements DatabaseHandler {
-    private Dictionary<String, Dictionary<Integer, Entity>> database = new Hashtable<>();
-    private Integer currentId = 1;
 
     @Override
     public void createTable(String sqlStmt) {
-        // didn't have SQL stmt handle
-    }
-
-    private Dictionary<Integer, Entity> getTable(String tableName) {
-        Dictionary<Integer, Entity> table;
-        table = this.database.get(tableName);
-        if (table == null) {
-            table = new Hashtable<>();
-            this.database.put(tableName, table);
-        }
-        return table;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createTable'");
     }
 
     @Override
-    public List<Entity> getAll(String tableName, List<String> colNames) {
-        Dictionary<Integer, Entity> table = getTable(tableName);
-
-        List<Entity> arrLst = new ArrayList<Entity>();
-
-        Enumeration<Integer> keys = table.keys();
-        while (keys.hasMoreElements()) {
-            Integer key = keys.nextElement();
-            Entity element = table.get(key);
-            if (!element.isDelete()) {
-                arrLst.add(element);
-            }
-        }
-
-        return arrLst;
+    public Optional<Integer> insert(String sqlStmt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insert'");
     }
 
     @Override
-    public Optional<Entity> get(String tableName, List<String> colNames, int id) {
-        Dictionary<Integer, Entity> table = getTable(tableName);
-
-        try {
-            Entity element = table.get(id);
-
-            if (element.isDelete()) {
-                return Optional.ofNullable(null);
-            }
-
-            return Optional.of(element);
-        } catch (NullPointerException e) {
-        }
-        return Optional.ofNullable(null);
+    public Optional<Integer> update(String sqlStmt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
     }
 
     @Override
-    public Entity save(Model t) {
-        Entity result = EntityFactory.create(this.currentId, t.getModelType(), t).get();
-
-        Dictionary<Integer, Entity> table = getTable("record");
-        table.put(this.currentId, result);
-        this.currentId += 1;
-        return result;
+    public Optional<ResultSet> getAll(String tableName, List<String> colNames) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }
 
     @Override
-    public void update(Entity t) {
-        Dictionary<Integer, Entity> table = getTable("record");
-        table.put(t.getId(), t);
+    public String constructInsertStatement(PageVisitRecordEntity entity) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'constructInsertStatement'");
     }
 
     @Override
-    public void delete(Entity t) {
-        t.remove();
+    public String constructUpdateStatement(PageVisitRecordEntity t) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'constructUpdateStatement'");
     }
 }

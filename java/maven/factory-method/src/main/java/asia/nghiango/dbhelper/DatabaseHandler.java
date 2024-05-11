@@ -1,9 +1,10 @@
 package asia.nghiango.dbhelper;
 
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
-import asia.nghiango.entities.Entity;
-import asia.nghiango.model.Model;
+
+import asia.nghiango.entities.PageVisitRecordEntity;
 
 /**
  * DataWriterDriver
@@ -16,18 +17,12 @@ public interface DatabaseHandler {
      */
     public void createTable(String sqlStmt);
 
-    public List<? extends Entity> getAll(String tableName, List<String> colNames);
+    public Optional<Integer> insert(String sqlStmt);
+    public Optional<Integer> update(String sqlStmt);
 
-    public Optional<? extends Entity> get(String tableName, List<String> colNames, int id);
+    public Optional<ResultSet> getAll(String tableName, List<String> colNames);
 
-    /**
-     * Save the data and return that element id
-     *
-     * @param t
-     */
-    public Entity save(Model t);
+    public String constructInsertStatement(PageVisitRecordEntity entity);
 
-    public void update(Entity t);
-
-    public void delete(Entity id);
+    public String constructUpdateStatement(PageVisitRecordEntity t);
 }

@@ -3,8 +3,6 @@ package asia.nghiango.dbhelper;
 import java.sql.ResultSet;
 import java.util.Optional;
 
-import org.postgresql.core.SqlCommandType;
-
 /**
  * SQLCommandInterface share commond sql statment
  */

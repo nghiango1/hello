@@ -1,22 +1,26 @@
 package asia.nghiango.dao;
 
+import java.lang.System.Logger.Level;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import asia.nghiango.dbhelper.DatabaseHandler;
 import asia.nghiango.dbhelper.InMemoryDatabaseHandler;
-import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Env;
+import asia.nghiango.utilities.Log;
 
 /**
  * PageVisitRecordDAO should have all SQL/Databse related infomation to storing
  * {@link PageVisitRecord} busines object model
  */
-public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
+public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, PageVisitRecordEntity> {
     private DatabaseHandler driver;
+    private Integer currentId = 1;
 
     public PageVisitRecordDAO() {
         this.driver = new InMemoryDatabaseHandler();
@@ -26,30 +30,90 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
         this.driver = driver;
     }
 
-    @SuppressWarnings("unchecked")
-    public List<PageVisitRecordEntity> getAll() {
-        List<String> colNames = new ArrayList<String>();
-        colNames.addAll(Entity.getColumnNames());
-        colNames.addAll(PageVisitRecord.getColumnNames());
-        return (List<PageVisitRecordEntity>) this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
-    };
+    public Optional<List<PageVisitRecordEntity>> getAll() {
+        Optional<ResultSet> rs = driver.getAll(PageVisitRecordEntity.getTableName(),
+                PageVisitRecordEntity.getColumnNames());
+        if (rs.isEmpty()) {
+            return Optional.ofNullable(null);
+        }
 
-    @SuppressWarnings("unchecked")
+        List<PageVisitRecordEntity> arrLst = new ArrayList<PageVisitRecordEntity>();
+
+        ResultSet rSet = rs.get();
+
+        try {
+            while (rSet.next()) {
+                Optional<PageVisitRecordEntity> entity = Optional.ofNullable(null);
+                try {
+                    entity = Optional.of(new PageVisitRecordEntity(rSet));
+                } catch (SQLException ex) {
+                    Log.printLog(Level.ERROR,
+                            "False to read result set for create PageVisitRecordEntity, got SQLException error: "
+                                    + ex.getMessage());
+
+                    Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+                    Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+                    Log.printLog(Level.DEBUG, "Current ResultSet value: " + rSet.toString());
+                }
+
+                if (entity.isEmpty()) {
+                    Log.printLog(Level.INFO, "Encounter error creating Entity, skip to next line");
+                    continue;
+                }
+
+                if (entity.get().isDelete()) {
+                    Log.printLog(Level.INFO,
+                            String.format(
+                                    "Entity {id=%d} marked as is deleted and won't be add to getAll() result list",
+                                    entity.get().getId()));
+                    continue;
+                }
+
+                arrLst.add(entity.get());
+            }
+        } catch (SQLException ex) {
+            // handle any errors
+            Log.printLog(Level.ERROR, "Fail to read result set, got SQLException error: " + ex.getMessage());
+
+            Log.printLog(Level.DEBUG, "\tSQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "\tVendorError: " + ex.getErrorCode());
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        return Optional.of(arrLst);
+
+        // return (List<PageVisitRecordEntity>)
+        // this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
+    }
+
     public Optional<PageVisitRecordEntity> get(int id) {
-        return (Optional<PageVisitRecordEntity>) this.driver.get(PageVisitRecord.getTableNames(),
-                PageVisitRecord.getColumnNames(), id);
+        // return (Optional<PageVisitRecordEntity>)
+        // this.driver.get(PageVisitRecordEntity.getTableName(),
+        // PageVisitRecordEntity.getBaseColumnNames(), id);
+        return Optional.ofNullable(null);
+    }
+
+    public PageVisitRecordEntity save(PageVisitRecord t) {
+        PageVisitRecordEntity entity = new PageVisitRecordEntity(this.currentId, false, t);
+        this.currentId += 1;
+        String sqlStmt = driver.constructInsertStatement(entity);
+        driver.insert(sqlStmt);
+        return entity;
+    }
+
+    public void update(PageVisitRecordEntity t) {
+        String sqlStmt = driver.constructUpdateStatement(t);
+        driver.update(sqlStmt);
     };
 
-    public Entity save(PageVisitRecord t) {
-        return this.driver.save(t);
-    };
-
-    public void update(Entity t) {
-        this.driver.update(t);
-    };
-
-    public void delete(Entity t) {
-        this.driver.delete(t);
+    public void delete(PageVisitRecordEntity t) {
+        t.remove();
+        try {
+            update(t);
+        } catch (Exception e) {
+            Log.printLog(Level.WARNING, "Fail to delete element, got Error:" + e.getMessage());
+        }
     }
 
     // MySQL create table sql command
@@ -96,7 +160,7 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
         switch (Env.getDatabaseType()) {
             case FILE:
                 throw new UnsupportedOperationException("File storage isn't implemented yet");
-                //break;
+            // break;
 
             case MYSQL:
                 this.driver.createTable(createTableMySQLCommand());
@@ -108,7 +172,7 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord> {
 
             default:
                 throw new UnsupportedOperationException("File storage isn't implemented yet");
-                //break;
+            // break;
         }
         // this.driver.createTable(tableName, column, extras);
     }

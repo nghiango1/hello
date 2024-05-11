@@ -1,101 +1,118 @@
 package asia.nghiango.entities;
 
-import java.lang.System.Logger.Level;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
-import java.util.Optional;
 
 import asia.nghiango.model.Model;
-import asia.nghiango.utilities.Log;
 
 /**
  * Entities
  */
-public abstract class Entity {
-    private final Integer id;
-    private Boolean isDeleted = false;
+public abstract class Entity<T extends Model> {
+    protected final Integer id;
+    protected Boolean isDelete = false;
 
-    private static String[] columnNames = {
+    protected static String[] baseColumnNames = {
             "ID",
             "IS_DELETE"
     };
 
-    private Model data;
+    protected T data;
 
-    public Entity(Integer id, Model t) {
-        this.data = t;
+    public Entity(Integer id, Boolean isDelete, T t) {
         this.id = id;
+        this.isDelete = isDelete;
+        this.data = t;
     }
 
-    /**
-     * An SQL result row can be convert to their coresponse entity object instance
-     *
-     * @param rs    The {@link ResultSet} that return when executing a SQL statement
-     * @param model The {@link Model} that we want this SQL output to convert into
-     *              their coresponse Entity
-     * @return Entity that match with wanted model
-     * @return Null if there is any error
-     */
-    public static Optional<Entity> convertRowToEntity(ResultSet rs, Model model) {
-        Boolean isDeleted = false;
-        Integer entityId = 0;
-
-        try {
-            isDeleted = rs.getInt("IS_DELETE") == 1;
-            entityId = rs.getInt("ID");
-        } catch (SQLException e) {
-            Log.printLog(Level.ERROR, "Can't get must have infomation of Entity, got SQLException error: " + e.toString());
-            return Optional.ofNullable(null);
-        }
-
-        model.setDataFromRow(rs);
-        Optional<Entity> ret = EntityFactory.create(entityId, model.getModelType(), model);
-        if (!ret.isEmpty()) {
-            ret.get().isDeleted = isDeleted;
-        }
-        return ret;
+    public Entity(ResultSet rs) throws SQLException {
+        this.id = Entity.readID(rs);
+        this.isDelete = Entity.readIS_DELETE(rs);
+        this.data = readData(rs);
     }
+
+    public static int readID(ResultSet rs) throws SQLException {
+        return rs.getInt("ID");
+    }
+
+    public static boolean readIS_DELETE(ResultSet rs) throws SQLException {
+        return rs.getInt("IS_DELETE") == 1;
+    }
+
+    public abstract T readData(ResultSet rs) throws SQLException;
+
+    public void setData(T data) {
+        this.data = data;
+    };
 
     public Integer getId() {
         return this.id;
     }
 
-    public Model getData() {
+    public T getData() {
         return this.data;
     }
 
     public Boolean isDelete() {
-        return this.isDeleted;
+        return this.isDelete;
     }
 
     public void remove() {
-        this.isDeleted = true;
+        this.isDelete = true;
     }
 
     public String toString() {
-        return String.format("{id: %d, is_delete: %b, data: %s}", this.id, this.isDeleted, this.data.toString());
+        return String.format("{id: %d, is_delete: %b, data: %s}", this.id, this.isDelete, this.data.toString());
     }
 
+    public static String getTableName() {
+        throw new UnsupportedOperationException("Base entity don't have table name");
+    };
+
+    public static List<String> getBaseColumnNames() {
+        return Arrays.asList(baseColumnNames);
+    };
+
+    /**
+     * Base entity does not have data information, this static method should be overided by implemented concrete class/type
+     *
+     * @throws throw new UnsupportedOperationException( 
+     */
+    public static List<String> getDataColumnNames() {
+        throw new UnsupportedOperationException(
+                "Base entity don't have data, this should be replace in the concrete implement");
+    };
+
+    /**
+     * Base entity does not have inner data information, this static method should be overided by implemented concrete class/type
+     * I want to share this code but it seem not posible, this may need some thing like Zig compiler time template class instead (not possible in Java)
+     *
+     * @throws throw new UnsupportedOperationException( 
+     */
+    public static List<String> getColumnNames() {
+        List<String> colname = new ArrayList<String>();
+        colname.addAll(getBaseColumnNames());
+        colname.addAll(getDataColumnNames());
+
+        return colname;
+    }
+
+    public abstract Dictionary<String, String> convertDataToDict();
+
     public Dictionary<String, String> convertToDictionary() {
-        Dictionary<String, String> rs = this.data.convertDict();
-        rs.put(Entity.columnNames[0], this.id.toString());
-        if (this.isDeleted) {
-            rs.put(Entity.columnNames[1], "1");
+        Dictionary<String, String> rs = convertDataToDict();
+        rs.put(Entity.baseColumnNames[0], this.id.toString());
+        if (this.isDelete) {
+            rs.put(Entity.baseColumnNames[1], "1");
         } else {
-            rs.put(Entity.columnNames[1], "0");
+            rs.put(Entity.baseColumnNames[1], "0");
         }
 
         return rs;
     }
 
-    public String getTableName() {
-        return data.getName();
-    }
-
-    public static List<String> getColumnNames() {
-        return Arrays.asList(columnNames);
-    }
 }

@@ -4,7 +4,6 @@ import java.util.Optional;
 import asia.nghiango.dao.*;
 import asia.nghiango.dbhelper.DatabaseHandlerFactory;
 import asia.nghiango.dbhelper.DatabaseHandler;
-import asia.nghiango.entities.Entity;
 import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Env;
@@ -37,15 +36,15 @@ public class Main {
         // id: 1
         pvrDaoInstance.save(dummyRecord);
         // id: 2
-        Entity element2 = pvrDaoInstance.save(dummyRecord);
+        PageVisitRecordEntity element2 = pvrDaoInstance.save(dummyRecord);
         // id: 3
         pvrDaoInstance.save(dummyRecord);
-        for (PageVisitRecordEntity pvre : pvrDaoInstance.getAll()) {
+        for (PageVisitRecordEntity pvre : pvrDaoInstance.getAll().get()) {
             System.out.println(pvre);
         }
 
         pvrDaoInstance.delete(element2);
-        for (Entity entity : pvrDaoInstance.getAll()) {
+        for (PageVisitRecordEntity entity : pvrDaoInstance.getAll().get()) {
             System.out.println(entity);
         }
 

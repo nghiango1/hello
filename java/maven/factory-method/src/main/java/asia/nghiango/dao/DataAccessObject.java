@@ -3,23 +3,24 @@ package asia.nghiango.dao;
 import java.util.List;
 import java.util.Optional;
 import asia.nghiango.entities.Entity;
+import asia.nghiango.model.Model;
 
 /**
  * DataAccessObject
  */
-public interface DataAccessObject<T> {
+public interface DataAccessObject<T extends Model, K extends Entity<T>> {
     /**
      * Prepare - create the table in the database
      */
     public void prepared();
 
-    public List<? extends Entity> getAll();
+    public Optional<List<K>> getAll();
 
-    public Optional<? extends Entity> get(int id);
+    public Optional<K> get(int id);
 
-    public Entity save(T t);
+    public K save(T t);
 
-    public void update(Entity t);
+    public void update(K t);
 
-    public void delete(Entity t);
+    public void delete(K t);
 }

@@ -1,6 +1,5 @@
 package asia.nghiango.dbhelper;
 
-import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.List;
@@ -11,10 +10,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-import asia.nghiango.entities.Entity;
-import asia.nghiango.entities.EntityFactory;
-import asia.nghiango.model.Model;
-import asia.nghiango.model.PageVisitRecord;
+import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.utilities.Log;
 
 /**
@@ -23,7 +19,6 @@ import asia.nghiango.utilities.Log;
  */
 public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
     private Connection conn;
-    private Integer currentId = 1;
 
     public PostgreSQLDatabaseHandler(Connection conn) {
         this.conn = conn;
@@ -126,52 +121,25 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public List<Entity> getAll(String tableName, List<String> colNames) {
-        List<Entity> arrLst = new ArrayList<Entity>();
-
+    public Optional<ResultSet> getAll(String tableName, List<String> colNames) {
         SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
         Optional<ResultSet> rs = doSELECT(sqlStmt);
-        if (rs.isEmpty()) {
-            return arrLst;
-        }
-
-        ResultSet rSet = rs.get();
-
-        try {
-            // if (!rSet.first())
-            // return arrLst;
-
-            while (rSet.next()) {
-                Optional<Entity> entity = Entity.convertRowToEntity(rSet, new PageVisitRecord());
-                if (!entity.isEmpty()) {
-                    if (entity.get().isDelete()) {
-                        // skip if the entity is marks as removed
-                        continue;
-                    }
-                    arrLst.add(entity.get());
-                }
-            }
-        } catch (SQLException ex) {
-            // handle any errors
-            Log.printLog(Level.ERROR, "False to read result set, got SQLException error: " + ex.getMessage());
-
-            Log.printLog(Level.DEBUG, "\tSQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "\tVendorError: " + ex.getErrorCode());
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-        return arrLst;
+        return rs;
     }
 
     @Override
-    public Optional<Entity> get(String tableName, List<String> colNames, int id) {
-        return Optional.ofNullable(null);
+    public Optional<Integer> insert(String sqlStmt) {
+        return doINSERT(sqlStmt);
     }
 
-    private String constructInsertStatement(Entity entity) {
+    @Override
+    public Optional<Integer> update(String sqlStmt) {
+        return doUPDATE(sqlStmt);
+    }
+
+    public String constructInsertStatement(PageVisitRecordEntity entity) {
         Dictionary<String, String> de = entity.convertToDictionary();
         Enumeration<String> dkey = de.keys();
         String cols = "";
@@ -207,21 +175,12 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         return sqlStmt;
     }
 
-    @Override
-    public Entity save(Model t) {
-        Entity entity = EntityFactory.create(this.currentId, t.getModelType(), t).get();
-        this.currentId += 1;
-        String sqlStmt = constructInsertStatement(entity);
-        doINSERT(sqlStmt);
-        return entity;
-    }
-
-    private String constructUpdateStatement(Entity entity) {
+    public String constructUpdateStatement(PageVisitRecordEntity entity) {
         String id = entity.getId().toString();
         String isDelete = "0";
         if (entity.isDelete())
             isDelete = "1";
-            
+
         Dictionary<String, String> de = entity.convertToDictionary();
         Enumeration<String> dkey = de.keys();
         String values = "";
@@ -247,17 +206,4 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         String sqlStmt = String.format(stmtTemplate, isDelete, values, id);
         return sqlStmt;
     }
-
-    @Override
-    public void update(Entity t) {
-        String sqlStmt = constructUpdateStatement(t);
-        doUPDATE(sqlStmt);
-    }
-
-    @Override
-    public void delete(Entity t) {
-        t.remove();
-        update(t);
-    }
-
 }
