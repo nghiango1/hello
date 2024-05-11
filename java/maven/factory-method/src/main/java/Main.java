@@ -31,6 +31,7 @@ public class Main {
         }
 
         PageVisitRecordDAO pvrDaoInstance = new PageVisitRecordDAO(databaseHandlerInstance);
+        pvrDaoInstance.prepared();
         PageVisitRecord dummyRecord = Util.dummyWebVisitRecordData();
 
         // id: 1
