@@ -1,5 +1,6 @@
 package asia.nghiango.entities;
 
+import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -8,6 +9,7 @@ import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 
+import asia.nghiango.dbhelper.DataField;
 import asia.nghiango.model.Model;
 import asia.nghiango.utilities.Util;
 
@@ -20,11 +22,11 @@ public abstract class Entity<T extends Model> {
     protected final Timestamp dateUpdated;
     protected Timestamp dateCreated;
 
-    protected static String[] baseColumnNames = {
-            "ID",
-            "IS_DELETE",
-            "DATE_UPDATED",
-            "DATE_CREATED",
+    protected static DataField[] baseDataFields = {
+            new DataField("ID", JDBCType.INTEGER),
+            new DataField("IS_DELETE", JDBCType.INTEGER),
+            new DataField("DATE_UPDATED", JDBCType.INTEGER),
+            new DataField("DATE_CREATED", JDBCType.INTEGER),
     };
 
     protected T data;
@@ -92,15 +94,16 @@ public abstract class Entity<T extends Model> {
     }
 
     public String toString() {
-        return String.format("{id: %d, is_delete: %b, updated: %s, created: %s, data: %s}", this.id, this.isDelete, this.dateCreated.toString(), this.dateUpdated.toString(), this.data.toString());
+        return String.format("{id: %d, is_delete: %b, updated: %s, created: %s, data: %s}", this.id, this.isDelete,
+                this.dateCreated.toString(), this.dateUpdated.toString(), this.data.toString());
     }
 
     public static String getTableName() {
         throw new UnsupportedOperationException("Base entity don't have table name");
     };
 
-    public static List<String> getBaseColumnNames() {
-        return Arrays.asList(baseColumnNames);
+    public static List<DataField> getBaseDataFields() {
+        return Arrays.asList(baseDataFields);
     };
 
     /**
@@ -109,7 +112,7 @@ public abstract class Entity<T extends Model> {
      *
      * @throws throw new UnsupportedOperationException(
      */
-    public static List<String> getDataColumnNames() {
+    public static List<DataField> getDataFields() {
         throw new UnsupportedOperationException(
                 "Base entity don't have data, this should be replace in the concrete implement");
     };
@@ -122,10 +125,10 @@ public abstract class Entity<T extends Model> {
      *
      * @throws throw new UnsupportedOperationException(
      */
-    public static List<String> getColumnNames() {
-        List<String> colname = new ArrayList<String>();
-        colname.addAll(getBaseColumnNames());
-        colname.addAll(getDataColumnNames());
+    public static List<DataField> getColumnNames() {
+        List<DataField> colname = new ArrayList<DataField>();
+        colname.addAll(getBaseDataFields());
+        colname.addAll(getDataFields());
 
         return colname;
     }
@@ -134,14 +137,14 @@ public abstract class Entity<T extends Model> {
 
     public Dictionary<String, String> convertToDictionary() {
         Dictionary<String, String> rs = convertDataToDict();
-        rs.put(Entity.baseColumnNames[0], this.id.toString());
+        rs.put(Entity.baseDataFields[0].name, this.id.toString());
         if (this.isDelete) {
-            rs.put(Entity.baseColumnNames[1], "1");
+            rs.put(Entity.baseDataFields[1].name, "1");
         } else {
-            rs.put(Entity.baseColumnNames[1], "0");
+            rs.put(Entity.baseDataFields[1].name, "0");
         }
-        rs.put(Entity.baseColumnNames[2], this.dateUpdated.toString());
-        rs.put(Entity.baseColumnNames[3], this.dateCreated.toString());
+        rs.put(Entity.baseDataFields[2].name, this.dateUpdated.toString());
+        rs.put(Entity.baseDataFields[3].name, this.dateCreated.toString());
 
         return rs;
     }

@@ -14,11 +14,11 @@ public class SelectSQLBuilderForPostgres extends SelectSQLBuilder {
     @Override
     public String build() {
         String cols = "";
-        for (String name : this.selectedField) {
+        for (DataField name : this.selectedField) {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(String.format("\"%s\"", name));
+            cols = cols.concat(String.format("\"%s\"", name.name));
         }
 
         return String.format("SELECT %s from \"%s\"", cols, this.tableName);

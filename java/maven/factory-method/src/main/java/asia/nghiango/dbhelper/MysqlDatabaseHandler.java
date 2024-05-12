@@ -110,13 +110,13 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
     }
 
     @Override
-    public Optional<ResultSet> getAll(String tableName, List<String> colNames) {
+    public Optional<ResultSet> getAll(String tableName, List<DataField> colNames) {
         String cols = "";
-        for (String name : colNames) {
+        for (DataField name : colNames) {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(name);
+            cols = cols.concat(name.name);
         }
 
         String sqlStmt = String.format("SELECT %s from %s", cols, tableName);
@@ -182,5 +182,11 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
     public String constructUpdateStatement(PageVisitRecordEntity t) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'constructUpdateStatement'");
+    }
+
+    @Override
+    public String constructInsertStatement(String tableName, DataField colNames) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'constructInsertStatement'");
     }
 }

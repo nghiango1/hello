@@ -1,5 +1,6 @@
 package asia.nghiango.entities;
 
+import java.sql.JDBCType;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -9,22 +10,23 @@ import java.util.Dictionary;
 import java.util.Hashtable;
 import java.util.List;
 
+import asia.nghiango.dbhelper.DataField;
 import asia.nghiango.model.PageVisitRecord;
 
 /**
  * PageVisitRecordEntity
  */
 public class PageVisitRecordEntity extends Entity<PageVisitRecord> {
-    private static String[] dataColumnNames = {
-            "PAGE_URL",
-            "PAGE_PATH",
-            "TIME_REQUEST",
-            "TIME_SERVE",
-            "TIME_LEAVE",
-            "REFERER",
-            "BROWSER",
-            "DEVICE_TYPE",
-            "OPERATING_SYSTEM",
+    private static DataField[] dataFields = {
+            new DataField("PAGE_URL", JDBCType.VARCHAR),
+            new DataField("PAGE_PATH", JDBCType.VARCHAR),
+            new DataField("TIME_REQUEST", JDBCType.TIMESTAMP),
+            new DataField("TIME_SERVE", JDBCType.TIMESTAMP),
+            new DataField("TIME_LEAVE", JDBCType.TIMESTAMP),
+            new DataField("REFERER", JDBCType.VARCHAR),
+            new DataField("BROWSER", JDBCType.VARCHAR),
+            new DataField("DEVICE_TYPE", JDBCType.VARCHAR),
+            new DataField("OPERATING_SYSTEM", JDBCType.VARCHAR),
     };
 
     public PageVisitRecordEntity(Integer id, Boolean isDelete, PageVisitRecord t) {
@@ -68,14 +70,14 @@ public class PageVisitRecordEntity extends Entity<PageVisitRecord> {
         return dict;
     }
 
-    public static List<String> getDataColumnNames() {
-        return Arrays.asList(dataColumnNames);
+    public static List<DataField> getDataFields() {
+        return Arrays.asList(dataFields);
     }
 
-    public static List<String> getColumnNames() {
-        List<String> colname = new ArrayList<String>();
-        colname.addAll(getBaseColumnNames());
-        colname.addAll(getDataColumnNames());
+    public static List<DataField> getColumnNames() {
+        List<DataField> colname = new ArrayList<DataField>();
+        colname.addAll(getBaseDataFields());
+        colname.addAll(getDataFields());
 
         return colname;
     }

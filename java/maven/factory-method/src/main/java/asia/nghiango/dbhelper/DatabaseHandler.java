@@ -20,9 +20,11 @@ public interface DatabaseHandler {
     public Optional<Integer> insert(String sqlStmt);
     public Optional<Integer> update(String sqlStmt);
 
-    public Optional<ResultSet> getAll(String tableName, List<String> colNames);
+    public Optional<ResultSet> getAll(String tableName, List<DataField> colNames);
 
     public String constructInsertStatement(PageVisitRecordEntity entity);
+
+    public String constructInsertStatement(String tableName, DataField colNames);
 
     public String constructUpdateStatement(PageVisitRecordEntity t);
 }

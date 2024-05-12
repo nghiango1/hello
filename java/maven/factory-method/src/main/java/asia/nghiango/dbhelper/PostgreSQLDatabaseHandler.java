@@ -121,7 +121,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public Optional<ResultSet> getAll(String tableName, List<String> colNames) {
+    public Optional<ResultSet> getAll(String tableName, List<DataField> colNames) {
         SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 

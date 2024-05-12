@@ -30,7 +30,7 @@ public class InMemoryDatabaseHandler implements DatabaseHandler {
     }
 
     @Override
-    public Optional<ResultSet> getAll(String tableName, List<String> colNames) {
+    public Optional<ResultSet> getAll(String tableName, List<DataField> colNames) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAll'");
     }

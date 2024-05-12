@@ -10,12 +10,12 @@ public abstract class SelectSQLBuilder {
 
     protected String tableName;
 
-    protected List<String> selectedField;
+    protected List<DataField> selectedField;
 
     protected String whereExpression;
 
     public SelectSQLBuilder() {
-        this.selectedField = new ArrayList<String>();
+        this.selectedField = new ArrayList<DataField>();
     }
 
     public SelectSQLBuilder setTablename(String tableName) {
@@ -23,12 +23,12 @@ public abstract class SelectSQLBuilder {
         return this;
     };
 
-    public SelectSQLBuilder addSelectedFeild(String feildName) {
+    public SelectSQLBuilder addSelectedFeild(DataField feildName) {
         this.selectedField.add(feildName);
         return this;
     };
 
-    public SelectSQLBuilder addSelectedFeilds(List<String> feildList) {
+    public SelectSQLBuilder addSelectedFeilds(List<DataField> feildList) {
         this.selectedField.addAll(feildList);
         return this;
     };
