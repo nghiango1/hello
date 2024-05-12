@@ -143,6 +143,7 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
     public Optional<Integer> insert(String sqlStmt) {
         return doINSERT(sqlStmt);
     }
+
     @Override
     public Optional<Integer> update(String sqlStmt) {
         return doUPDATE(sqlStmt);
@@ -184,9 +185,4 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
         throw new UnsupportedOperationException("Unimplemented method 'constructUpdateStatement'");
     }
 
-    @Override
-    public String constructInsertStatement(String tableName, DataField colNames) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'constructInsertStatement'");
-    }
 }

@@ -6,7 +6,9 @@ import java.util.ArrayList;
 /**
  * 
  */
-public abstract class SelectSQLBuilder {
+public class SelectSQLBuilder {
+
+    protected VendorSQLInterface vendorSQLHandler;
 
     protected String tableName;
 
@@ -14,7 +16,8 @@ public abstract class SelectSQLBuilder {
 
     protected String whereExpression;
 
-    public SelectSQLBuilder() {
+    public SelectSQLBuilder(VendorSQLInterface vendor) {
+        this.vendorSQLHandler = vendor;
         this.selectedField = new ArrayList<DataField>();
     }
 
@@ -38,9 +41,16 @@ public abstract class SelectSQLBuilder {
         return this;
     };
 
-    public abstract SelectSQLBuilder addWhereCommpairExpression(String feildName, String Operation,
-            String expessionValue);
+    public String build() {
+        String cols = "";
+        for (DataField df : this.selectedField) {
+            if (cols.length() != 0) {
+                cols = cols.concat(", ");
+            }
+            cols = cols.concat(vendorSQLHandler.vendorHandler(df));
+        }
 
-    public abstract String build();
+        return String.format("SELECT %s from \"%s\"", cols, this.tableName);
+    }
 
 }

@@ -24,7 +24,5 @@ public interface DatabaseHandler {
 
     public String constructInsertStatement(PageVisitRecordEntity entity);
 
-    public String constructInsertStatement(String tableName, DataField colNames);
-
     public String constructUpdateStatement(PageVisitRecordEntity t);
 }

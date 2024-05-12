@@ -17,7 +17,7 @@ import asia.nghiango.utilities.Log;
  * PostgreSQLDatabaseHandler
  *
  */
-public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
+public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface, VendorSQLInterface {
     private Connection conn;
 
     public PostgreSQLDatabaseHandler(Connection conn) {
@@ -122,7 +122,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
 
     @Override
     public Optional<ResultSet> getAll(String tableName, List<DataField> colNames) {
-        SelectSQLBuilder sqlBuilder = new SelectSQLBuilderForPostgres();
+        SelectSQLBuilder sqlBuilder = new SelectSQLBuilder(this);
         String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
         Optional<ResultSet> rs = doSELECT(sqlStmt);
@@ -139,6 +139,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         return doUPDATE(sqlStmt);
     }
 
+    @Override
     public String constructInsertStatement(PageVisitRecordEntity entity) {
         Dictionary<String, String> de = entity.convertToDictionary();
         Enumeration<String> dkey = de.keys();
@@ -175,6 +176,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         return sqlStmt;
     }
 
+    @Override
     public String constructUpdateStatement(PageVisitRecordEntity entity) {
         String id = entity.getId().toString();
         String isDelete = "0";
@@ -205,5 +207,27 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
                 """;
         String sqlStmt = String.format(stmtTemplate, isDelete, values, id);
         return sqlStmt;
+    }
+    
+
+    @Override
+    public String vendorTableNameHandler(String tableName) {
+        return String.format("\"%s\"", tableName);
+    }
+
+    @Override
+    public String vendorHandler(DataField dataField) {
+        switch (dataField.type) {
+            default:
+                return String.format("\"%s\"", dataField.name);
+        }
+    }
+
+    @Override
+    public String vendorValueHandler(DataField dataField, String value) {
+        switch (dataField.type) {
+            default:
+                return String.format("\"%s\"", value);
+        }
     }
 }
