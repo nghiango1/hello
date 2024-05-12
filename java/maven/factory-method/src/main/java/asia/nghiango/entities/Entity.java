@@ -58,7 +58,7 @@ public abstract class Entity<T extends Model> {
     }
 
     public static boolean readIS_DELETE(ResultSet rs) throws SQLException {
-        return rs.getInt("IS_DELETE") == 1;
+        return rs.getBoolean("IS_DELETE");
     }
 
     public static Timestamp readDATE_UPDATED(ResultSet rs) throws SQLException {

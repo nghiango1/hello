@@ -121,7 +121,7 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
         return """
                 CREATE TABLE `record` (
                   `ID` int unsigned NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                  `IS_DELETE` tinyint(1) unsigned NOT NULL DEFAULT '0',
+                  `IS_DELETE` boolean NOT NULL DEFAULT '0',
                   `DATE_CREATED` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
                   `DATE_UPDATED` timestamp NOT NULL ON UPDATE CURRENT_TIMESTAMP,
                   `PAGE_URL` varchar(50) COLLATE 'utf8mb4_vietnamese_ci' NOT NULL,
