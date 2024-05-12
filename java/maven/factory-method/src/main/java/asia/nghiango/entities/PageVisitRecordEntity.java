@@ -56,17 +56,17 @@ public class PageVisitRecordEntity extends Entity<PageVisitRecord> {
     }
 
     @Override
-    public Dictionary<String, String> convertDataToDict() {
-        Dictionary<String, String> dict = new Hashtable<String, String>();
-        dict.put("PAGE_URL", this.data.pageURL.toString());
-        dict.put("PAGE_PATH", this.data.path.toString());
-        dict.put("TIME_REQUEST", this.data.request.toString());
-        dict.put("TIME_SERVE", this.data.serve.toString());
-        dict.put("TIME_LEAVE", this.data.leave.toString());
-        dict.put("REFERER", this.data.referer.toString());
-        dict.put("BROWSER", this.data.browser.toString());
-        dict.put("DEVICE_TYPE", this.data.deviceType.toString());
-        dict.put("OPERATING_SYSTEM", this.data.operatingSystem.toString());
+    public Dictionary<DataField, String> convertDataToDict() {
+        Dictionary<DataField, String> dict = new Hashtable<DataField, String>();
+        dict.put(PageVisitRecordEntity.dataFields[0], this.data.pageURL.toString());
+        dict.put(PageVisitRecordEntity.dataFields[1], this.data.path.toString());
+        dict.put(PageVisitRecordEntity.dataFields[2], this.data.request.toString());
+        dict.put(PageVisitRecordEntity.dataFields[3], this.data.serve.toString());
+        dict.put(PageVisitRecordEntity.dataFields[4], this.data.leave.toString());
+        dict.put(PageVisitRecordEntity.dataFields[5], this.data.referer.toString());
+        dict.put(PageVisitRecordEntity.dataFields[6], this.data.browser.toString());
+        dict.put(PageVisitRecordEntity.dataFields[7], this.data.deviceType.toString());
+        dict.put(PageVisitRecordEntity.dataFields[8], this.data.operatingSystem.toString());
         return dict;
     }
 

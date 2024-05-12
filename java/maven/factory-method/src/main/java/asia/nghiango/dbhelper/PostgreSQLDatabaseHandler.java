@@ -38,9 +38,9 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         } catch (SQLException ex) {
             Log.printLog(Level.ERROR, "False to insert into database, got SQLException error: " + ex.getMessage());
 
-            Log.printLog(Level.DEBUG, "\tSQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "\tVendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "\tSQLStatement: " + sqlStmt);
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQLStatement: " + sqlStmt);
         }
 
         return Optional.ofNullable(null);
@@ -141,38 +141,11 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
 
     @Override
     public String constructInsertStatement(PageVisitRecordEntity entity) {
-        Dictionary<String, String> de = entity.convertToDictionary();
-        Enumeration<String> dkey = de.keys();
-        String cols = "";
-        String values = "";
-        while (dkey.hasMoreElements()) {
-            String k = dkey.nextElement();
-            String v = de.get(k);
-
-            if (cols.length() != 0) {
-                cols = cols.concat(", ");
-            }
-            cols = cols.concat(String.format("\"%s\"", k));
-
-            if (values.length() != 0) {
-                values = values.concat(", ");
-            }
-
-            // PosgresSQL insert look like this '"string"'
-            // The boolean recevied interger 1/0 so we use '1'/'0' for ID_DELETE instead
-            if (k == "IS_DELETE" || k == "ID") {
-                values = values.concat(String.format("'%s'", v));
-            } else {
-                values = values.concat(String.format("'\"%s\"'", v));
-            }
-        }
-
-        String stmtTemplate = """
-                INSERT INTO record (%s)
-                VALUES (%s);
-                """;
-        String sqlStmt = String.format(stmtTemplate, cols, values);
-
+        InsertSQLBuilder builder = new InsertSQLBuilder(this);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .addValue(entity.convertToDictionary())
+                .build();
         return sqlStmt;
     }
 
@@ -183,20 +156,20 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         if (entity.isDelete())
             isDelete = "1";
 
-        Dictionary<String, String> de = entity.convertToDictionary();
-        Enumeration<String> dkey = de.keys();
+        Dictionary<DataField, String> de = entity.convertToDictionary();
+        Enumeration<DataField> dkey = de.keys();
         String values = "";
         while (dkey.hasMoreElements()) {
-            String k = dkey.nextElement();
+            DataField k = dkey.nextElement();
             String v = de.get(k);
 
             // Skip ID field as it already been handle
-            if (k == "ID" || k == "IS_DELETE") {
+            if (k.name == "ID" || k.name == "IS_DELETE") {
                 continue;
             }
 
             values = values.concat(",\n");
-            values = values.concat(String.format("\"%s\" = '\"%s\"'", k, v));
+            values = values.concat(String.format("\"%s\" = '\"%s\"'", k.name, v));
         }
 
         // PosgresSQL insert,update value look like this '"string"' / 'number'
@@ -208,7 +181,6 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
         String sqlStmt = String.format(stmtTemplate, isDelete, values, id);
         return sqlStmt;
     }
-    
 
     @Override
     public String vendorTableNameHandler(String tableName) {
@@ -225,9 +197,14 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
 
     @Override
     public String vendorValueHandler(DataField dataField, String value) {
+        // PosgresSQL insert string value look like this '"string"'
+        // The integer, boolean (recevied interger 1/0) look like this 'number'
         switch (dataField.type) {
+            case INTEGER:
+            case BOOLEAN:
+                return String.format("'%s'", value);
             default:
-                return String.format("\"%s\"", value);
+                return String.format("'\"%s\"'", value);
         }
     }
 }

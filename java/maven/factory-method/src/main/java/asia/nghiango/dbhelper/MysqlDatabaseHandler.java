@@ -151,18 +151,18 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
 
     @Override
     public String constructInsertStatement(PageVisitRecordEntity entity) {
-        Dictionary<String, String> de = entity.convertToDictionary();
-        Enumeration<String> dkey = de.keys();
+        Dictionary<DataField, String> de = entity.convertToDictionary();
+        Enumeration<DataField> dkey = de.keys();
         String cols = "";
         String values = "";
         while (dkey.hasMoreElements()) {
-            String k = dkey.nextElement();
+            DataField k = dkey.nextElement();
             String v = de.get(k);
 
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(k);
+            cols = cols.concat(k.name);
 
             if (values.length() != 0) {
                 values = values.concat(", ");

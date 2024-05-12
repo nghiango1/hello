@@ -133,18 +133,18 @@ public abstract class Entity<T extends Model> {
         return colname;
     }
 
-    public abstract Dictionary<String, String> convertDataToDict();
+    public abstract Dictionary<DataField, String> convertDataToDict();
 
-    public Dictionary<String, String> convertToDictionary() {
-        Dictionary<String, String> rs = convertDataToDict();
-        rs.put(Entity.baseDataFields[0].name, this.id.toString());
+    public Dictionary<DataField, String> convertToDictionary() {
+        Dictionary<DataField, String> rs = convertDataToDict();
+        rs.put(Entity.baseDataFields[0], this.id.toString());
         if (this.isDelete) {
-            rs.put(Entity.baseDataFields[1].name, "1");
+            rs.put(Entity.baseDataFields[1], "1");
         } else {
-            rs.put(Entity.baseDataFields[1].name, "0");
+            rs.put(Entity.baseDataFields[1], "0");
         }
-        rs.put(Entity.baseDataFields[2].name, this.dateUpdated.toString());
-        rs.put(Entity.baseDataFields[3].name, this.dateCreated.toString());
+        rs.put(Entity.baseDataFields[2], this.dateUpdated.toString());
+        rs.put(Entity.baseDataFields[3], this.dateCreated.toString());
 
         return rs;
     }

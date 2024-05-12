@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class SelectSQLBuilder {
 
-    protected VendorSQLInterface vendorSQLHandler;
+    protected VendorSQLInterface vendor;
 
     protected String tableName;
 
@@ -17,7 +17,7 @@ public class SelectSQLBuilder {
     protected String whereExpression;
 
     public SelectSQLBuilder(VendorSQLInterface vendor) {
-        this.vendorSQLHandler = vendor;
+        this.vendor = vendor;
         this.selectedField = new ArrayList<DataField>();
     }
 
@@ -47,10 +47,9 @@ public class SelectSQLBuilder {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(vendorSQLHandler.vendorHandler(df));
+            cols = cols.concat(vendor.vendorHandler(df));
         }
 
-        return String.format("SELECT %s from \"%s\"", cols, this.tableName);
+        return String.format("SELECT %s from %s", cols, vendor.vendorTableNameHandler(this.tableName));
     }
-
 }
