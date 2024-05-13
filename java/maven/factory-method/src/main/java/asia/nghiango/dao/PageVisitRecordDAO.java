@@ -53,16 +53,8 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
         return sqlStmt;
     }
 
-    public Optional<List<PageVisitRecordEntity>> getAll() {
-        Optional<ResultSet> rs = driver.getAll(PageVisitRecordEntity.getTableName(),
-                PageVisitRecordEntity.getColumnNames());
-        if (rs.isEmpty()) {
-            return Optional.ofNullable(null);
-        }
-
+    private Optional<List<PageVisitRecordEntity>> convertToEntity(ResultSet rSet) {
         List<PageVisitRecordEntity> arrLst = new ArrayList<PageVisitRecordEntity>();
-
-        ResultSet rSet = rs.get();
 
         try {
             while (rSet.next()) {
@@ -87,7 +79,7 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
                 if (entity.get().isDelete()) {
                     Log.printLog(Level.INFO,
                             String.format(
-                                    "Entity {id=%d} marked as is deleted and won't be add to getAll() result list",
+                                    "Entity {id=%d} marked as is deleted and won't be add to converted result list",
                                     entity.get().getId()));
                     continue;
                 }
@@ -105,16 +97,51 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
         }
 
         return Optional.of(arrLst);
-
-        // return (List<PageVisitRecordEntity>)
-        // this.driver.getAll(PageVisitRecord.getTableNames(), colNames);
     }
 
-    public Optional<PageVisitRecordEntity> get(int id) {
-        // return (Optional<PageVisitRecordEntity>)
-        // this.driver.get(PageVisitRecordEntity.getTableName(),
-        // PageVisitRecordEntity.getBaseColumnNames(), id);
-        return Optional.ofNullable(null);
+    public Optional<List<PageVisitRecordEntity>> getAll() {
+        Optional<ResultSet> rs = driver.getAll(PageVisitRecordEntity.getTableName(),
+                PageVisitRecordEntity.getColumnNames());
+        if (rs.isEmpty()) {
+            return Optional.ofNullable(null);
+        }
+
+        ResultSet rSet = rs.get();
+
+        return this.convertToEntity(rSet);
+    }
+
+    public Optional<PageVisitRecordEntity> get(Integer id) {
+        Optional<ResultSet> rs = driver.getByID(PageVisitRecordEntity.getTableName(),
+                PageVisitRecordEntity.getColumnNames(), PageVisitRecordEntity.getBaseDataFields().get(0),
+                id.toString());
+        if (rs.isEmpty()) {
+            return Optional.ofNullable(null);
+        }
+
+        ResultSet rSet = rs.get();
+
+        Optional<List<PageVisitRecordEntity>> optional = this.convertToEntity(rSet);
+        if (optional.isEmpty())
+            return Optional.ofNullable(null);
+
+        List<PageVisitRecordEntity> entity = optional.get();
+        if (entity.size() > 1) {
+            Log.printLog(Level.WARNING,
+                    String.format("Find by id return more than 1 record, got total record: %d", entity.size()));
+            for (PageVisitRecordEntity pageVisitRecordEntity : entity) {
+                Log.printLog(Level.DEBUG, "Record #" + pageVisitRecordEntity.toString());
+            }
+            return Optional.ofNullable(null);
+        }
+
+        if (entity.size() == 0) {
+            Log.printLog(Level.INFO, String.format("Can't found any record with id = %d in %s table", id,
+                    PageVisitRecordEntity.getTableName()));
+            return Optional.ofNullable(null);
+        }
+
+        return Optional.of(entity.get(0));
     }
 
     public PageVisitRecordEntity save(PageVisitRecord t) {

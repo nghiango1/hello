@@ -21,6 +21,8 @@ public interface DatabaseHandler {
 
     public Optional<ResultSet> getAll(String tableName, List<DataField> colNames);
 
+    public Optional<ResultSet> getByID(String tableName, List<DataField> colNames, DataField idFieldInfo, String idFieldValue);
+
     public String vendorTableNameHandler(String tableName);
 
     public String vendorFieldNameHandler(DataField dataField);

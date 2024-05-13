@@ -127,6 +127,16 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
+    public Optional<ResultSet> getByID(String tableName, List<DataField> colNames, DataField idFieldInfo,
+            String idFieldValue) {
+        SelectSQLBuilder sqlBuilder = new SelectSQLBuilder(this);
+        String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames)
+                .setFindById(idFieldInfo, idFieldValue).build();
+        Optional<ResultSet> rs = this.doSELECT(sqlStmt);
+        return rs;
+    }
+
+    @Override
     public Optional<Integer> insert(String sqlStmt) {
         return doINSERT(sqlStmt);
     }

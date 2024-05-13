@@ -1,6 +1,7 @@
 package asia.nghiango.dbhelper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 /**
@@ -8,16 +9,17 @@ import java.util.ArrayList;
  */
 public class SelectSQLBuilder {
 
-    protected DatabaseHandler vendor;
+    private DatabaseHandler vendor;
 
-    protected String tableName;
+    private String tableName;
 
-    protected List<DataField> selectedField;
+    private List<DataField> selectedField;
 
-    protected String whereExpression;
+    private Optional<String> whereExpression;
 
     public SelectSQLBuilder(DatabaseHandler vendor) {
         this.vendor = vendor;
+        this.whereExpression = Optional.ofNullable(null);
         this.selectedField = new ArrayList<DataField>();
     }
 
@@ -36,8 +38,9 @@ public class SelectSQLBuilder {
         return this;
     };
 
-    public SelectSQLBuilder addWhereExpression(String whereExpression) {
-        this.whereExpression = whereExpression;
+    public SelectSQLBuilder setFindById(DataField df, String value) {
+        String exps = String.format("%s = %s", vendor.vendorFieldNameHandler(df), vendor.vendorValueHandler(df, value));
+        this.whereExpression = Optional.of(exps);
         return this;
     };
 
@@ -50,6 +53,12 @@ public class SelectSQLBuilder {
             cols = cols.concat(vendor.vendorFieldNameHandler(df));
         }
 
-        return String.format("SELECT %s from %s", cols, vendor.vendorTableNameHandler(this.tableName));
+        String sqlStmt = String.format("SELECT %s FROM %s", cols, vendor.vendorTableNameHandler(this.tableName));
+        if (!this.whereExpression.isEmpty()) {
+            String where = String.format(" WHERE %s", this.whereExpression.get());
+            sqlStmt = sqlStmt.concat(where);
+        }
+
+        return sqlStmt;
     }
 }

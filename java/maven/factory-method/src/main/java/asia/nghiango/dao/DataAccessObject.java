@@ -16,7 +16,7 @@ public interface DataAccessObject<T extends Model, K extends Entity<T>> {
 
     public Optional<List<K>> getAll();
 
-    public Optional<K> get(int id);
+    public Optional<K> get(Integer id);
 
     public K save(T t);
 

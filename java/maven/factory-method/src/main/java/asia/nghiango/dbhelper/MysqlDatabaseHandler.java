@@ -111,6 +111,17 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
     }
 
     @Override
+    public Optional<ResultSet> getByID(String tableName, List<DataField> colNames, DataField idFieldInfo,
+            String idFieldValue) {
+        SelectSQLBuilder sqlBuilder = new SelectSQLBuilder(this);
+        String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames)
+                .setFindById(idFieldInfo, idFieldValue).build();
+
+        Optional<ResultSet> rs = doSELECT(sqlStmt);
+        return rs;
+    }
+
+    @Override
     public void createTable(String sqlStmt) {
         try {
             Statement stmt = this.conn.createStatement();
