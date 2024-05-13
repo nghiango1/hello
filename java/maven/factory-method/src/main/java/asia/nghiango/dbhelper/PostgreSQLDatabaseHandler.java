@@ -1,7 +1,5 @@
 package asia.nghiango.dbhelper;
 
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 import java.lang.System.Logger.Level;
@@ -166,7 +164,7 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     }
 
     @Override
-    public String vendorHandler(DataField dataField) {
+    public String vendorFieldNameHandler(DataField dataField) {
         switch (dataField.type) {
             default:
                 return String.format("\"%s\"", dataField.name);

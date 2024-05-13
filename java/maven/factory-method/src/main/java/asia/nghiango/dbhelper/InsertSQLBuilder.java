@@ -57,7 +57,7 @@ public class InsertSQLBuilder {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(vendor.vendorHandler(dataField));
+            cols = cols.concat(vendor.vendorFieldNameHandler(dataField));
         }
 
         String values = "";

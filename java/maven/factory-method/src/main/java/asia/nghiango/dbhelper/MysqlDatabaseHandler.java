@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +14,7 @@ import asia.nghiango.utilities.Log;
 /**
  * Mysql Database Handler
  */
-public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
+public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterface, VendorSQLInterface {
     private Connection conn;
 
     public MysqlDatabaseHandler(Connection conn) {
@@ -25,8 +23,24 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
 
     @Override
     public void doBLANK(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doBLANK'");
+    }
+
+    @Override
+    public Optional<ResultSet> doSELECT(String sqlStmt) {
+        try {
+            Statement stmt = this.conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sqlStmt);
+            return Optional.of(rs);
+        } catch (SQLException ex) {
+            // handle any errors
+            Log.printLog(Level.ERROR, "Fail to execute select statement, got SQLException error: " + ex.getMessage());
+            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
+            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
+            Log.printLog(Level.DEBUG, "SQL statement: " + sqlStmt);
+        }
+
+        return Optional.ofNullable(null);
     }
 
     @Override
@@ -65,61 +79,33 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
 
     @Override
     public void doDELETE(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doDELETE'");
     }
 
     @Override
     public void doMOVE(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doMOVE'");
     }
 
     @Override
     public void doWITH(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doWITH'");
     }
 
     @Override
     public void doCREATE(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doCREATE'");
     }
 
     @Override
     public void doALTER(String sqlStmt) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'doALTER'");
-    }
-
-    public Optional<ResultSet> doSELECT(String sqlStmt) {
-        try {
-            Statement stmt = this.conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlStmt);
-            return Optional.of(rs);
-        } catch (SQLException ex) {
-            // handle any errors
-            Log.printLog(Level.ERROR, "Fail to execute select statement, got SQLException error: " + ex.getMessage());
-            Log.printLog(Level.DEBUG, "SQLState: " + ex.getSQLState());
-            Log.printLog(Level.DEBUG, "VendorError: " + ex.getErrorCode());
-            Log.printLog(Level.DEBUG, "SQL statement: " + sqlStmt);
-        }
-
-        return Optional.ofNullable(null);
     }
 
     @Override
     public Optional<ResultSet> getAll(String tableName, List<DataField> colNames) {
-        String cols = "";
-        for (DataField name : colNames) {
-            if (cols.length() != 0) {
-                cols = cols.concat(", ");
-            }
-            cols = cols.concat(name.name);
-        }
-
-        String sqlStmt = String.format("SELECT %s from %s", cols, tableName);
+        SelectSQLBuilder sqlBuilder = new SelectSQLBuilder(this);
+        String sqlStmt = sqlBuilder.setTablename(tableName).addSelectedFeilds(colNames).build();
 
         Optional<ResultSet> rs = doSELECT(sqlStmt);
         return rs;
@@ -151,38 +137,44 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
 
     @Override
     public String constructInsertStatement(PageVisitRecordEntity entity) {
-        Dictionary<DataField, String> de = entity.convertToDictionary();
-        Enumeration<DataField> dkey = de.keys();
-        String cols = "";
-        String values = "";
-        while (dkey.hasMoreElements()) {
-            DataField k = dkey.nextElement();
-            String v = de.get(k);
-
-            if (cols.length() != 0) {
-                cols = cols.concat(", ");
-            }
-            cols = cols.concat(k.name);
-
-            if (values.length() != 0) {
-                values = values.concat(", ");
-            }
-            values = values.concat(String.format("\"%s\"", v));
-        }
-
-        String stmtTemplate = """
-                INSERT INTO record (%s)
-                VALUES (%s);
-                """;
-        String sqlStmt = String.format(stmtTemplate, cols, values);
-
+        InsertSQLBuilder builder = new InsertSQLBuilder(this);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .addValue(entity.convertToDictionary())
+                .build();
         return sqlStmt;
     }
 
     @Override
-    public String constructUpdateStatement(PageVisitRecordEntity t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'constructUpdateStatement'");
+    public String constructUpdateStatement(PageVisitRecordEntity entity) {
+        UpdateSQLBuilder builder = new UpdateSQLBuilder(this);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .setValue(entity.convertToDictionary())
+                .setUpdateByID(PageVisitRecordEntity.getBaseDataFields().get(0), entity.getId().toString())
+                .build();
+        return sqlStmt;
     }
 
+    @Override
+    public String vendorTableNameHandler(String tableName) {
+        return String.format("%s", tableName);
+    }
+
+    @Override
+    public String vendorFieldNameHandler(DataField dataField) {
+        switch (dataField.type) {
+            default:
+                return String.format("%s", dataField.name);
+        }
+    }
+
+    @Override
+    public String vendorValueHandler(DataField dataField, String value) {
+        // MySQL insert value look like this "any"
+        switch (dataField.type) {
+            default:
+                return String.format("\"%s\"", value);
+        }
+    }
 }

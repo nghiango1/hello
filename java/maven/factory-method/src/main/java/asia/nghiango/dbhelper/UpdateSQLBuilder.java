@@ -48,7 +48,7 @@ public class UpdateSQLBuilder {
     }
 
     public UpdateSQLBuilder setUpdateByID(DataField df, String value) {
-        String idFieldName = vendor.vendorHandler(df);
+        String idFieldName = vendor.vendorFieldNameHandler(df);
         String idFieldValue = vendor.vendorValueHandler(df, value);
         this.whereExpresion = String.format("%s = %s", idFieldName, idFieldValue);
         return this;
@@ -66,7 +66,7 @@ public class UpdateSQLBuilder {
                 Log.printLog(Level.WARNING, "A assigned inserted feild isn't have its value, skiping!");
                 Log.printLog(Level.DEBUG, String.format("Value = %s, Feild querry = %s", this.value, df.name));
             }
-            String formatName = vendor.vendorHandler(df);
+            String formatName = vendor.vendorFieldNameHandler(df);
             String formatValue = vendor.vendorValueHandler(df, fieldValue);
             values = values.concat(String.format("%s = %s", formatName, formatValue));
         }

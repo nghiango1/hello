@@ -47,7 +47,7 @@ public class SelectSQLBuilder {
             if (cols.length() != 0) {
                 cols = cols.concat(", ");
             }
-            cols = cols.concat(vendor.vendorHandler(df));
+            cols = cols.concat(vendor.vendorFieldNameHandler(df));
         }
 
         return String.format("SELECT %s from %s", cols, vendor.vendorTableNameHandler(this.tableName));
