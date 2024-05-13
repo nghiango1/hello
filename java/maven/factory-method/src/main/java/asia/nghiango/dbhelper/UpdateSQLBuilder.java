@@ -12,7 +12,7 @@ import asia.nghiango.utilities.Log;
  */
 public class UpdateSQLBuilder {
 
-    private VendorSQLInterface vendor;
+    private DatabaseHandler vendor;
 
     private String tableName;
 
@@ -22,7 +22,7 @@ public class UpdateSQLBuilder {
 
     private String whereExpresion;
 
-    public UpdateSQLBuilder(VendorSQLInterface vendor) {
+    public UpdateSQLBuilder(DatabaseHandler vendor) {
         this.vendor = vendor;
         this.dataFields = new ArrayList<DataField>();
     }

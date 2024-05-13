@@ -9,6 +9,8 @@ import java.util.Optional;
 
 import asia.nghiango.dbhelper.DatabaseHandler;
 import asia.nghiango.dbhelper.InMemoryDatabaseHandler;
+import asia.nghiango.dbhelper.InsertSQLBuilder;
+import asia.nghiango.dbhelper.UpdateSQLBuilder;
 import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.model.PageVisitRecord;
 import asia.nghiango.utilities.Env;
@@ -28,6 +30,27 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
 
     public PageVisitRecordDAO(DatabaseHandler driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public String constructInsertStatement(PageVisitRecordEntity entity) {
+        InsertSQLBuilder builder = new InsertSQLBuilder(driver);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .addValue(entity.convertToDictionary())
+                .build();
+        return sqlStmt;
+    }
+
+    @Override
+    public String constructUpdateStatement(PageVisitRecordEntity entity) {
+        UpdateSQLBuilder builder = new UpdateSQLBuilder(driver);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .setValue(entity.convertToDictionary())
+                .setUpdateByID(PageVisitRecordEntity.getBaseDataFields().get(0), entity.getId().toString())
+                .build();
+        return sqlStmt;
     }
 
     public Optional<List<PageVisitRecordEntity>> getAll() {
@@ -97,20 +120,20 @@ public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, Pag
     public PageVisitRecordEntity save(PageVisitRecord t) {
         PageVisitRecordEntity entity = new PageVisitRecordEntity(this.currentId, false, t);
         this.currentId += 1;
-        String sqlStmt = driver.constructInsertStatement(entity);
+        String sqlStmt = this.constructInsertStatement(entity);
         driver.insert(sqlStmt);
         return entity;
     }
 
-    public void update(PageVisitRecordEntity t) {
-        String sqlStmt = driver.constructUpdateStatement(t);
+    public void update(PageVisitRecordEntity entity) {
+        String sqlStmt = this.constructUpdateStatement(entity);
         driver.update(sqlStmt);
     };
 
-    public void delete(PageVisitRecordEntity t) {
-        t.remove();
+    public void delete(PageVisitRecordEntity entity) {
+        entity.remove();
         try {
-            update(t);
+            update(entity);
         } catch (Exception e) {
             Log.printLog(Level.WARNING, "Fail to delete element, got Error:" + e.getMessage());
         }

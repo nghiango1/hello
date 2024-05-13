@@ -8,14 +8,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.utilities.Log;
 
 /**
  * PostgreSQLDatabaseHandler
  *
  */
-public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface, VendorSQLInterface {
+public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
     private Connection conn;
 
     public PostgreSQLDatabaseHandler(Connection conn) {
@@ -135,27 +134,6 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
     @Override
     public Optional<Integer> update(String sqlStmt) {
         return doUPDATE(sqlStmt);
-    }
-
-    @Override
-    public String constructInsertStatement(PageVisitRecordEntity entity) {
-        InsertSQLBuilder builder = new InsertSQLBuilder(this);
-        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
-                .addFields(PageVisitRecordEntity.getColumnNames())
-                .addValue(entity.convertToDictionary())
-                .build();
-        return sqlStmt;
-    }
-
-    @Override
-    public String constructUpdateStatement(PageVisitRecordEntity entity) {
-        UpdateSQLBuilder builder = new UpdateSQLBuilder(this);
-        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
-                .addFields(PageVisitRecordEntity.getColumnNames())
-                .setValue(entity.convertToDictionary())
-                .setUpdateByID(PageVisitRecordEntity.getBaseDataFields().get(0), entity.getId().toString())
-                .build();
-        return sqlStmt;
     }
 
     @Override

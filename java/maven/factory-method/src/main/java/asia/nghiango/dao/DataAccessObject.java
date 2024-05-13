@@ -23,4 +23,8 @@ public interface DataAccessObject<T extends Model, K extends Entity<T>> {
     public void update(K t);
 
     public void delete(K t);
+
+    public String constructInsertStatement(K entity);
+
+    public String constructUpdateStatement(K entity);
 }

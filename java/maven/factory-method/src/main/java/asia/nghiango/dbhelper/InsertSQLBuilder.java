@@ -12,7 +12,7 @@ import asia.nghiango.utilities.Log;
  */
 public class InsertSQLBuilder {
 
-    private VendorSQLInterface vendor;
+    private DatabaseHandler vendor;
 
     private String tableName;
 
@@ -20,7 +20,7 @@ public class InsertSQLBuilder {
 
     private List<Dictionary<DataField, String>> values;
 
-    public InsertSQLBuilder(VendorSQLInterface vendor) {
+    public InsertSQLBuilder(DatabaseHandler vendor) {
         this.vendor = vendor;
         this.dataFields = new ArrayList<DataField>();
         this.values = new ArrayList<Dictionary<DataField, String>>();

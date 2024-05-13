@@ -8,13 +8,12 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 
-import asia.nghiango.entities.PageVisitRecordEntity;
 import asia.nghiango.utilities.Log;
 
 /**
  * Mysql Database Handler
  */
-public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterface, VendorSQLInterface {
+public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterface {
     private Connection conn;
 
     public MysqlDatabaseHandler(Connection conn) {
@@ -133,27 +132,6 @@ public class MysqlDatabaseHandler implements DatabaseHandler, SQLCommandInterfac
     @Override
     public Optional<Integer> update(String sqlStmt) {
         return doUPDATE(sqlStmt);
-    }
-
-    @Override
-    public String constructInsertStatement(PageVisitRecordEntity entity) {
-        InsertSQLBuilder builder = new InsertSQLBuilder(this);
-        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
-                .addFields(PageVisitRecordEntity.getColumnNames())
-                .addValue(entity.convertToDictionary())
-                .build();
-        return sqlStmt;
-    }
-
-    @Override
-    public String constructUpdateStatement(PageVisitRecordEntity entity) {
-        UpdateSQLBuilder builder = new UpdateSQLBuilder(this);
-        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
-                .addFields(PageVisitRecordEntity.getColumnNames())
-                .setValue(entity.convertToDictionary())
-                .setUpdateByID(PageVisitRecordEntity.getBaseDataFields().get(0), entity.getId().toString())
-                .build();
-        return sqlStmt;
     }
 
     @Override

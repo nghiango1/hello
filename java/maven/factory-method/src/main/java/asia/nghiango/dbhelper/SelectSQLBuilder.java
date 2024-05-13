@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class SelectSQLBuilder {
 
-    protected VendorSQLInterface vendor;
+    protected DatabaseHandler vendor;
 
     protected String tableName;
 
@@ -16,7 +16,7 @@ public class SelectSQLBuilder {
 
     protected String whereExpression;
 
-    public SelectSQLBuilder(VendorSQLInterface vendor) {
+    public SelectSQLBuilder(DatabaseHandler vendor) {
         this.vendor = vendor;
         this.selectedField = new ArrayList<DataField>();
     }

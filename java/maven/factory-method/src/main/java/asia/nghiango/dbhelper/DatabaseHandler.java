@@ -4,25 +4,26 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Optional;
 
-import asia.nghiango.entities.PageVisitRecordEntity;
-
 /**
- * DataWriterDriver
+ * DatabaseHandler
  */
 public interface DatabaseHandler {
     /**
      * Creatable is to vary between database so this help
      *
-     * @param sqlStmt 
+     * @param sqlStmt
      */
     public void createTable(String sqlStmt);
 
     public Optional<Integer> insert(String sqlStmt);
+
     public Optional<Integer> update(String sqlStmt);
 
     public Optional<ResultSet> getAll(String tableName, List<DataField> colNames);
 
-    public String constructInsertStatement(PageVisitRecordEntity entity);
+    public String vendorTableNameHandler(String tableName);
 
-    public String constructUpdateStatement(PageVisitRecordEntity t);
+    public String vendorFieldNameHandler(DataField dataField);
+
+    public String vendorValueHandler(DataField dataField, String value);
 }
