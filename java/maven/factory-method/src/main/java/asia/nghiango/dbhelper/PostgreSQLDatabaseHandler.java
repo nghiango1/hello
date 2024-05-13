@@ -151,34 +151,12 @@ public class PostgreSQLDatabaseHandler implements DatabaseHandler, SQLCommandInt
 
     @Override
     public String constructUpdateStatement(PageVisitRecordEntity entity) {
-        String id = entity.getId().toString();
-        String isDelete = "0";
-        if (entity.isDelete())
-            isDelete = "1";
-
-        Dictionary<DataField, String> de = entity.convertToDictionary();
-        Enumeration<DataField> dkey = de.keys();
-        String values = "";
-        while (dkey.hasMoreElements()) {
-            DataField k = dkey.nextElement();
-            String v = de.get(k);
-
-            // Skip ID field as it already been handle
-            if (k.name == "ID" || k.name == "IS_DELETE") {
-                continue;
-            }
-
-            values = values.concat(",\n");
-            values = values.concat(String.format("\"%s\" = '\"%s\"'", k.name, v));
-        }
-
-        // PosgresSQL insert,update value look like this '"string"' / 'number'
-        String stmtTemplate = """
-                UPDATE record SET
-                \"IS_DELETE\"='%s'%s
-                WHERE \"ID\" = %s;
-                """;
-        String sqlStmt = String.format(stmtTemplate, isDelete, values, id);
+        UpdateSQLBuilder builder = new UpdateSQLBuilder(this);
+        String sqlStmt = builder.addTableName(PageVisitRecordEntity.getTableName())
+                .addFields(PageVisitRecordEntity.getColumnNames())
+                .setValue(entity.convertToDictionary())
+                .setUpdateByID(PageVisitRecordEntity.getBaseDataFields().get(0), entity.getId().toString())
+                .build();
         return sqlStmt;
     }
 
