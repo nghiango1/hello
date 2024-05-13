@@ -81,10 +81,6 @@ public class DatabaseHandlerFactory {
         DatabaseHandler dwd;
         Optional<Connection> conn;
         switch (type) {
-            case INMEM:
-                dwd = new InMemoryDatabaseHandler();
-                break;
-
             case MYSQL:
                 conn = loadMysqlDriver(Env.getEnvironmentValue("MYSQL_CONNECTION_STRING"));
                 if (conn.isEmpty()) {
@@ -112,6 +108,6 @@ public class DatabaseHandlerFactory {
     }
 
     public static DatabaseHandler createInmemoryDatastore() {
-        return new InMemoryDatabaseHandler();
+        throw new UnsupportedOperationException("INMEN Datastore didn't implemented yet");
     }
 }

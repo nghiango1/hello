@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 import asia.nghiango.dbhelper.DatabaseHandler;
-import asia.nghiango.dbhelper.InMemoryDatabaseHandler;
 import asia.nghiango.dbhelper.InsertSQLBuilder;
 import asia.nghiango.dbhelper.UpdateSQLBuilder;
 import asia.nghiango.entities.PageVisitRecordEntity;
@@ -23,10 +22,6 @@ import asia.nghiango.utilities.Log;
 public class PageVisitRecordDAO implements DataAccessObject<PageVisitRecord, PageVisitRecordEntity> {
     private DatabaseHandler driver;
     private Integer currentId = 1;
-
-    public PageVisitRecordDAO() {
-        this.driver = new InMemoryDatabaseHandler();
-    }
 
     public PageVisitRecordDAO(DatabaseHandler driver) {
         this.driver = driver;
