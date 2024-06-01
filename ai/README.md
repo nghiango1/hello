@@ -4,14 +4,17 @@ The corrected way to use the full potential power of computer, but we got lost t
 
 ## Why? The meanning behind all this notes
 
-This containning the snapshot of my current knowleged (of mathematic or programming way of thing) that i don't want to get lost and rootten within the capability of my brain (which will eventually change over the time) so I deciding to write it here as soon as possible
+This containning the snapshot of my current knowleged (which is heavily influence by mathematic or programming way of thinking) that i don't want to get lost and rootten within the capability of my brain. Thoughts will easily and eventually change over the time, so I deciding to write it here as soon as possible.
 
+This is just planing for a serial of notes at the moment. I sure hope I can finish all of these. Before all of that, let set up a list to devide infomation I wanted to cover here:
+
+> All of these is subjected and should change-able tho
+
+- [Preface - What is AI](.)
 - Chapter 1: Relation of posibility
 - Chapter 2: The serialization of event
 - Chapter 3: Complete of knowlege via example
 - Chapter 4: The predictation - future
-
-> This is just planing on serial at the moment. I sure hope I can finish all of these
 
 ## Chapter 1: Relation of posibility
 
@@ -88,7 +91,7 @@ A simplest example for this is:
     - Higher dimention affection that will destermine the absolute outcome (God plan - The controler theories: Our reality is just a simulator)
     - The absolute outcome of the multiple possible reality (I borrow the term **Multiverse theories** - of which "we" split in all possible reality where each outcome have been decided)
 
-> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (each different outcome is in it's own **unobservable** universes, this may different from normal multiverse theories). The one where I/We currently living could be control and force, but everything could happend will already happend.
+> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (each different outcome is in it's own **unobservable** universes, this may different from normal multiverse theories). The one where I/We currently living could be in control and force, but everything could happend will already happend.
 
 When using **compute** power, we taking all of achievable variable and make a "inteligent farseer". That try to make sense of the outcome via our avaliable achievable variable
 
@@ -96,16 +99,16 @@ Which way different from those who belived they can access the un-achievable var
 
 When I said about "inteligent farseer", it can be call as any different name (Try find words of which share the same meanning in your case). They, the "inteligent farseer", are stored everywhere through out the era: Knowledged, Interlectual property, Book, Movie, Religon, ... and one of those latest "hot name" AI - artificial intelligence. Where the **compute** power being used to create/extracting artificial intelligence is our best available tools - The computer/CPU/GPU/TPU/NPU... whatever the name we can call it
 
-> In my current logic, organic creatured (including us) and everything around us share the same trait of "inteligent farseer", which is they themself are an "inteligent farseer"... that then affected them-self causing their move/changing in a predictable nature, causing us - human to "belive" nature is predictable, of which it is not.
+> In my current logic, organic creatured (including us) and everything around us share the same trait of "inteligent farseer". They (everything) themself are "inteligent farseer"... that affected themself to move/change in a predictable nature. Thus, causing us - human to "belive" nature is predictable, of which it is not.
 
 ### Math - or programing term?
 
-> Let say it in "Math" term, so we don't just talk in hypertheorical. But in the end, I saw them look the same anyway
+> Let say it in "Math" term, so we don't just talk in hypertheorical. But in the end, I think they look the same anyway
 
 #### Define our problem - the Framwork of which I will use to explain everything
 
-The [s]tate of reality - find "inteligent [f]arseer" on achievable [v]ariable problem:
-- Let look at an achievable variable `S` - we call it state `S`, which is a part of our [r]eality - we call it `R`
+The [s]tate of reality - find "inteligent [f]arseer" on **achievable [v]ariable problem**:
+- Let look at an achievable variable `S` - we call it **[s]tate `S`**, which is a part of our **[r]eality - let call it `R`**
     ```
     S in R
     ```
@@ -123,8 +126,8 @@ The [s]tate of reality - find "inteligent [f]arseer" on achievable [v]ariable pr
     S[1] = {s[1][0], s[1][1] .. s[1][n]}
     ```
 
-The [p]ossible outcome:
-- We can call it `P`, which is the set of possible outcome of `S[0]`
+The **[p]ossible outcome - Let call it `P`**:
+- `P` is the set of possible outcome from which `S[0]` could change into
     - This could came from all the record we found about `S`
     - Also could came from all the availabe theories where `S` might end up from `S[0]`
 - We also assumming that `P` large enough contain `S[1]`
@@ -135,36 +138,39 @@ The [p]ossible outcome:
     > `n` is just a expression of multiple element, and isn't mean that total element of `S` = `P`
 
 The [t]ime:
-- We call every occurrent this change is a unit of time tick `T`.
-- We (assumming that we) know the time `T`, which is that how long state `S[0]` will be change to new state, is either
+- We call every occurrent this change is **a unit of [t]ime tick `T`**. We (assumming that we) know the time `T`, which is how long it take state `S[0]` to change into new state
+- `T` is (assumming to be) either
     ```
     T = 1 = a [c]onstant = C
     ```
 - Or it a new achievable variable problem it self, where we already solved
     ```
-    T = {TS[0], TS[1], ..}
+    T = {TS[0], TS[1]..}
     ```
 
-The describable [r]eality problem:
-- This is a sub-problem, where we know that we can't the full snapshot of our current reality
+The un-describable [r]eality problem:
+- This is a sub-problem, where we know that we can't have the full snapshot of our current reality
     ```
     R = achievable + un-achievable variable
     ```
-- We call a snapshot of all achievable [v]ariable `{v[0], v[1] .. v[n]}` or a vector form `V = {v[0], v[1], v[2], ..., v[n]}` in which state `S` is recorded. They are the capabilty of every tools we can use to describing and achiving from reality (let borrowing `~` symbol to indicate the meanning of close and hopefully equal)
+- We call a snapshot of **all achievable [v]ariable `V`** or a vector form `V = {v[0], v[1] .. v[n]}` in which state `S` is recorded. They are the capabilty of every tools we can use to describing and achiving infomation from reality
+
+    > Let borrowing `~` symbol to indicate the meanning of close and hopefully equal)
+
     ```
-    R ~ V = {v[0], v[1], v[2], ..., v[n]}
-    R[0] ~ V[0] = {v[0][0], v[0][1], v[0][2], ..., v[0][n]}
-    R[1] ~ V[1] = {v[1][0], v[1][1], v[1][2], ..., v[1][n]}
+    R ~ V = {v[0], v[1] .. v[n]}
+    R[0] ~ V[0] = {v[0][0], v[0][1] .. v[0][n]}
+    R[1] ~ V[1] = {v[1][0], v[1][1] .. v[1][n]}
     ```
 
-    > This it self is wrong in our case, as we ganning more and more achievable variable over the time, not all of it yet, meanning our `V[0]` have less variables than `V[1]` (`length(V[0]) < length(V[1])`)
+    > This it self is wrong in our case, as we ganning more and more achievable variable over the time, not all of it yet. Most of the time, our `V[0]` have less variables than `V[1]` (`length(V[0]) < length(V[1])`)
 
-- In realness, we could said that our state `S` share the same trait with `R`, where there could also be some un achievable variable is a part of `S`
+- In realness, we could said that our state `S` share the same trait with `R`, where some un-achievable variable is (could also be) a part of `S`
     ```
     S ~ {s[0], s[1] .. s[n]}
     ```
 
-    > But we are the one who defined set of state `S` that we want, so we can skip this problem
+    > Because we are the one who defined set of state `S` that we want to predict, we often skip this problem
 
 
 - We can also see that `S[0]` and `S[1]` is a part of reality that we can record, so:
@@ -188,35 +194,48 @@ The describable [r]eality problem:
     P in V
     ```
 
-- So we could said that (let borrowing the `...` symbol to indicate the rest of a set)
+- So, we could conclude that
+
+    > Let borrowing the `...` symbol to indicate the rest of a set
+
     ```
     R ~ V = {v[0], v[1] .. v[n]}
-    R ~ V = {S, P, T, v[3], v[4], .. v[n]}
+    R ~ V = {S, P, T, v[3], v[4] .. v[n]}
     R ~ {S, P, T, ...V}
     ```
-    or in the specific record when `S[0]` and `S[1]` happend
+
+    or in the specific record V when `S[0]` and `S[1]` happend
     ```
     R[0] ~ V[0] = {S[0], P[0], TS[0], ...V[0]}
     R[1] ~ V[1] = {S[1], P[1], TS[1], ...V[1]}
     ```
     
 The record of [r]eality, where just by observing our reality we can get a lot of this infomation:
-- We can call also call it **pass** data
+- We can call also call it **past data**
     ```
     R[0] ~ {S[0], P[0], TS[0], ...V[0]}
     R[1] ~ {S[1], P[1], TS[1], ...V[1]}
-    ...
+    ..
     R[n] ~ {S[n], P[n], TS[n], ...V[n]}
     ```
-- **past** record of reality is also a variable, but it come with some cost
+- **Past** record of reality is also a variable, but it come with some cost, that the total variable in equaltion is unbalance and kept increasing:
     ```
     R[0] ~ {S[0], P[0], TS[0], R[<0], ...V[0]}
     R[1] ~ {S[1], P[1], TS[1], R[<1], ...V[1]}
-    ...
+    ..
     R[n] ~ {S[n], P[n], TS[n], R[<n], ...V[n]}
     ```
-
-    > read more on the Extra to know how to handle it
+- This can be prevent by using **short memory** (you could relate it to Long term short memory - LTSM) where we take a subset of the past record to describe our reality `R`, let say we only using total of `x` snapshot:
+    ```
+    R[0] ~ V[0] = {S[0], P[0], TS[0], R[0-x], R[0-(x-1)] .. R[0 - 1], V[0]}
+    ```
+    Making it the same problem
+    ```
+    R[0] ~ {S[0], P[0], TS[0], R[0 - x:0], ...V[0]}
+    R[1] ~ {S[1], P[1], TS[1], R[1 - x:1], ...V[1]}
+    ..
+    R[n] ~ {S[n], P[n], TS[n], R[n - x:1], ...V[n]}
+    ```
 
 
 The "inteligent [f]arseer" - We can call it `F` - where using `F` we can turn `S[0]` to a result which really close to (and hopefully is equal to) `S[1]`
@@ -369,26 +388,6 @@ As long as `∑(δ) ~ 0` or `F ~ A` or `F[1]` is better than `F[0]` within our m
 
 Compute power increasing need to be pay (in any price, take any form). I alway look at human race as a whole one, where our race/me stand on all achivement of history which already try compute our current reality (We have a very big `W`). Computer at the moment which can't access all available `V`, is not that much to be overthink of, just a tool on our hand, but it sure is running in the right path to became the next one to replacing us all to become the "higher inteligent life form".
 
-It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround on one will above all, to reach the final destination that The One already defined and that just too sad to lived on, where we is a tool that being used (not that much different from computer in previous quote)
+It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround, then one will above all try to control that to used our existen for their wanted result. To think that every achivement that one could get is already controled to happend is just too sad to lived on, where we is (not that much different from computer in previous quote) a tool that being used.
 
-> Eh. I bore so let end here.
-
-#### Extra
-
-We can take the part snapshot into our calculation, but the total variable in equaltion is unbalance and kept increasing
-
-```
-R[0] ~ {S[0], P[0], TS[0], R[<0], ...V[0]}
-R[1] ~ {S[1], P[1], TS[1], R[<1], ...V[1]}
-```
-
-This can be prevent by **Long term short memory - LTSM** where we take a subset of the part reailty, let say we only using total of `x` snapshot:
-```
-R[0] ~ {S[0], P[0], TS[0], R[0-x], R[0-(x-1)], ..., R[0 - 1], V[0]}
-```
-
-Making it the same problem
-```
-R[0] ~ {S[0], P[0], TS[0], R[0 - x:0], ...V[0]} = {S[0], P[0], TS[0], R[0 - x:0], ...V[0]}
-R[1] ~ {S[1], P[1], TS[1], R[1 - x:1], ...V[1]} = {S[1], P[1], TS[1], R[1 - x:1], ...V[1]}
-```
+Why I stress on this so much? It could be becaused of the ideal that "I wanted to create a full virtual reality by my self". It should likely for the benefit of understanding our/my current reality, but thing change over the time that the current I right now is unsure on my first true motivation which got losted in the past.
