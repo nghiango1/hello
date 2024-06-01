@@ -8,7 +8,7 @@ This containning the snapshot of my current knowleged (which is heavily influenc
 
 This is just planing for a serial of notes at the moment. I sure hope I can finish all of these. Before all of that, let set up a list to devide infomation I wanted to cover here:
 
-> All of these is subjected and should change-able tho
+> All of these is subjected and should change-able though
 
 - [Preface - What is AI](.)
 - Chapter 1: Relation of posibility
@@ -119,7 +119,7 @@ The [s]tate of reality - find "inteligent [f]arseer" on **achievable [v]ariable 
     S[0] in R[0]
     S[1] in R[1]
     ```
-- It not limit on big the state is though, which `S` could look like this
+- It not limit on How big the state is though, which mean `S` could look like this
     ```
     S = {s[0], s[1] .. s[n]}
     S[0] = {s[0][0], s[0][1] .. s[0][n]}
@@ -143,7 +143,7 @@ The [t]ime:
     ```
     T = 1 = a [c]onstant = C
     ```
-- Or it a new achievable variable problem it self, where we already solved
+- Or it is a new achievable variable problem it self, where we already solved
     ```
     T = {TS[0], TS[1]..}
     ```
@@ -189,7 +189,7 @@ The un-describable [r]eality problem:
     TS[1] in V[1]
     ```
 
-- Because `P` also within our capability, so it also a part of achievable [v]ariable
+- Because `P` also within our capability, it also a part of achievable [v]ariable
     ```
     P in V
     ```
