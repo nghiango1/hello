@@ -1,6 +1,6 @@
 # AI
 
-The corrected way to use the full potential power of computer but got lost with LLM
+The corrected way to use the full potential power of computer, but we got lost too much with just LLM
 
 ## Why? The meanning behind all this notes
 
@@ -55,8 +55,8 @@ This containning the snapshot of my current knowleged (of mathematic or programm
 
 ## Preface - What is AI
 
-Each person comsumming the knowleged (research, study, learning, ...) in different way, by that this preface try to set you to see the view angle of mine.
-- You certainly have a different view point, of which I didn't try to change
+Each person comsumming knowleged (research, study, learning, ...) in different way, link-ing and storing them in their mind diffirently, by that this preface try to set you into the view angle of mine.
+- You certainly have a different view point, of which I didn't try to change.
 - But try to put yourself into my view could make it easier to understanding why/how I can come up with all of these definition
 
 > A word - By it self alone - can't express a full ideal behind of the person who talked/said it
@@ -65,11 +65,9 @@ A simplest example for this is:
 - "Data analisys" let stop and think what it mean to you
 - "Data analisys" for me - who tent to expand the meanning in a board general with a really lossen boundary: A act of which **variable** are group together to find possible **pattern**
  
-> I highlight **variable**, and **pattern** words here because they can be expand, defined better.
+> I highlight **variable**, and **pattern** words here because they can be expand, defined better. From this point, all of that bellow is my - the writer - view point.
 
-### The underline ideal of Randomess and Pattern
-
-> From this point, all of that bellow is my - the writer - view point.
+### The underline ideal of Randomess, Pattern and Variable
 
 **Randomness**: Drawing one card from a desk of 52 different cards, they share the same possibility which one could be draw. But in the end the 1/52 change will happend.
 
@@ -79,36 +77,35 @@ A simplest example for this is:
 
 > (2) I also said that: The absolute trust - One of which will happend - already being the defined
 
-Let say the trust being cause by all variability. I then devide it into two source
+**Variable**: Let say the trust being already defined because of all variability. I then devide them into two source
 
-1. Achievable variable
+1. Achievable variables
     - The drawer specifically choose the card by a rule (alway chossing first card of the desk)
     - The rule is writen right on the front of drawer (a sign is in place beforehand)
     - The dealler/desk is forced (7 shade already on the top of the desk at beginning)
 
-2. Un-achievable variable
+2. Un-achievable variables
     - Higher dimention affection that will destermine the absolute outcome (God plan - The controler theories: Our reality is just a simulator)
-    - The absolute outcome of the multiple possible reality (I borrow the term **Multiverse theories** - Where "we" split in all possible reality where outcome have been decided)
+    - The absolute outcome of the multiple possible reality (I borrow the term **Multiverse theories** - of which "we" split in all possible reality where each outcome have been decided)
 
-> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (multiverse with **unobservable** universes). The one where I/We currently living could be control and force, but everything could happend will already happend.
+> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (each different outcome is in it's own **unobservable** universes, this may different from normal multiverse theories). The one where I/We currently living could be control and force, but everything could happend will already happend.
 
 When using **compute** power, we taking all of achievable variable and make a "inteligent farseer". That try to make sense of the outcome via our avaliable achievable variable
 
 Which way different from those who belived they can access the un-achievable variable and "guessing" on the full 100% of variable (both achievable variable and un-achievable variable)
 
-When I said about "inteligent farseer", it can be call as any different name (Try find words of which share the same meanning in your case). They, the "inteligent farseer", are stored everywhere through out the era: Knowledged, Interlectual property, Book, Movie, Religon, ... and one of those latest "hot name" AI - artificial intelligence, where the **compute** power is our best available tools - The computer/CPU/GPU/TPU/NPU... what every the name we can call it
+When I said about "inteligent farseer", it can be call as any different name (Try find words of which share the same meanning in your case). They, the "inteligent farseer", are stored everywhere through out the era: Knowledged, Interlectual property, Book, Movie, Religon, ... and one of those latest "hot name" AI - artificial intelligence. Where the **compute** power being used to create/extracting artificial intelligence is our best available tools - The computer/CPU/GPU/TPU/NPU... whatever the name we can call it
 
-> In my current mind, organic creatured (and everything around us) is it self share the same trait, which is it self an "inteligent farseer"... that affected it-self and make their move/change in a predictable nature, causing us - human to "belive" nature is predictable, of which it is not
+> In my current logic, organic creatured (including us) and everything around us share the same trait of "inteligent farseer", which is they themself are an "inteligent farseer"... that then affected them-self causing their move/changing in a predictable nature, causing us - human to "belive" nature is predictable, of which it is not.
 
 ### Math - or programing term?
 
-> Let say it in "Math" term, so we don't just talk in hypertheorical
-> I think it look the same anyway
+> Let say it in "Math" term, so we don't just talk in hypertheorical. But in the end, I saw them look the same anyway
 
-#### Define our problem
+#### Define our problem - the Framwork of which I will use to explain everything
 
-The [s]tate of reality - find "inteligent farseer" on achievable variable problem:
-- Let look ata achievable variable `S` - we call it state `S`, which is a part of our [r]eality - we call it `R`
+The [s]tate of reality - find "inteligent [f]arseer" on achievable [v]ariable problem:
+- Let look at an achievable variable `S` - we call it state `S`, which is a part of our [r]eality - we call it `R`
     ```
     S in R
     ```
@@ -119,6 +116,12 @@ The [s]tate of reality - find "inteligent farseer" on achievable variable proble
     S[0] in R[0]
     S[1] in R[1]
     ```
+- It not limit on big the state is though, which `S` could look like this
+    ```
+    S = {s[0], s[1] .. s[n]}
+    S[0] = {s[0][0], s[0][1] .. s[0][n]}
+    S[1] = {s[1][0], s[1][1] .. s[1][n]}
+    ```
 
 The [p]ossible outcome:
 - We can call it `P`, which is the set of possible outcome of `S[0]`
@@ -126,9 +129,10 @@ The [p]ossible outcome:
     - Also could came from all the availabe theories where `S` might end up from `S[0]`
 - We also assumming that `P` large enough contain `S[1]`
     ```
-    P = {p[0], p[1], p[2] .. p[m]}
+    P = {p[0], p[1], p[2] .. p[n]}
     S[1] "should be" in P
     ```
+    > `n` is just a expression of multiple element, and isn't mean that total element of `S` = `P`
 
 The [t]ime:
 - We call every occurrent this change is a unit of time tick `T`.
@@ -149,11 +153,20 @@ The describable [r]eality problem:
 - We call a snapshot of all achievable [v]ariable `{v[0], v[1] .. v[n]}` or a vector form `V = {v[0], v[1], v[2], ..., v[n]}` in which state `S` is recorded. They are the capabilty of every tools we can use to describing and achiving from reality (let borrowing `~` symbol to indicate the meanning of close and hopefully equal)
     ```
     R ~ V = {v[0], v[1], v[2], ..., v[n]}
-    R[0] ~ V[0] = {v[1][0], v[1][1], v[1][2], ..., v[1][n]}
+    R[0] ~ V[0] = {v[0][0], v[0][1], v[0][2], ..., v[0][n]}
     R[1] ~ V[1] = {v[1][0], v[1][1], v[1][2], ..., v[1][n]}
     ```
 
     > This it self is wrong in our case, as we ganning more and more achievable variable over the time, not all of it yet, meanning our `V[0]` have less variables than `V[1]` (`length(V[0]) < length(V[1])`)
+
+- In realness, we could said that our state `S` share the same trait with `R`, where there could also be some un achievable variable is a part of `S`
+    ```
+    S ~ {s[0], s[1] .. s[n]}
+    ```
+
+    > But we are the one who defined set of state `S` that we want, so we can skip this problem
+
+
 - We can also see that `S[0]` and `S[1]` is a part of reality that we can record, so:
     ```
     S[0] in V[0]
@@ -183,26 +196,35 @@ The describable [r]eality problem:
     ```
     or in the specific record when `S[0]` and `S[1]` happend
     ```
-    R[0] ~ {S[0], P[0], TS[0], ...V[0]}
-    R[1] ~ {S[1], P[1], TS[1], ...V[1]}
+    R[0] ~ V[0] = {S[0], P[0], TS[0], ...V[0]}
+    R[1] ~ V[1] = {S[1], P[1], TS[1], ...V[1]}
     ```
     
-> What about the part, yes, we can also make it a part of archivable variable, read more on the Extra to know how to handle it
-> ```
-> R[0] ~ {S[0], P[0], TS[0], R[<0], ...V[0]}
-> R[1] ~ {S[0], P[0], TS[0], R[<1], ...V[0]}
-> ```
+The record of [r]eality, where just by observing our reality we can get a lot of this infomation:
+- We can call also call it **pass** data
+    ```
+    R[0] ~ {S[0], P[0], TS[0], ...V[0]}
+    R[1] ~ {S[1], P[1], TS[1], ...V[1]}
+    ...
+    R[n] ~ {S[n], P[n], TS[n], ...V[n]}
+    ```
+- **past** record of reality is also a variable, but it come with some cost
+    ```
+    R[0] ~ {S[0], P[0], TS[0], R[<0], ...V[0]}
+    R[1] ~ {S[1], P[1], TS[1], R[<1], ...V[1]}
+    ...
+    R[n] ~ {S[n], P[n], TS[n], R[<n], ...V[n]}
+    ```
+
+    > read more on the Extra to know how to handle it
 
 
-The "inteligent [f]arseer"
-- We can call it `F`, where using F we can turn S[0] a result which really close to (and hopefully is equal to) S[1]
+The "inteligent [f]arseer" - We can call it `F` - where using `F` we can turn `S[0]` to a result which really close to (and hopefully is equal to) `S[1]`
     ```
     F(S[0]) = Calculated_Result ~ S[1]
     ```
-    I using `~` as meant close
 
-- We take into account that we know so much on Reality, we push everything into our equaltion
-    Most of machine learning will using this equaltion
+- We take into account that we know so much on [r]eality, we push everything into our equaltion. Most of machine learning will using this equaltion
     ```
     F(R[0]) ~ F(S[0], ...V[0]) = Calculated_result ~ {S[1]}
     ```
@@ -211,9 +233,7 @@ The "inteligent [f]arseer"
     F(R[1]) ~ F(S[0], ...V[0]) = Calculated_result ~ {S[1], ...V[1]} = R[1]
     ```
 
-The [a]bsolute trust
-- We can call it `A`, 
-- Which from a state can desterminding the true outcome:
+The [a]bsolute trust - We call it `A` - That from a state `S` it can desterminding the true outcome of the next state:
     ```
     A(S[0]) = S[1]
     ```
@@ -221,15 +241,6 @@ The [a]bsolute trust
     ```
     A(R[0]) = S[1]
     A(R[0]) = {S[1], ...V[1]} = R[1]
-    ```
-
-The record of reality:
-- We can get a lot of this infomation, just by observing our reality.
-    ```
-    R[0] = {S[0], P[0], TS[0], ...V[0]}
-    R[1] = {S[1], P[1], TS[1], ...V[1]}
-    ...
-    R[n] = {S[n], P[n], TS[n], ...V[n]}
     ```
 
 > We can do all sort of thing and come up with `F`. But in this case, we can said we using Machine learning algorithm to find `F`. and then we call `F` artificial inteligent.
@@ -242,11 +253,11 @@ F(S, ...V) ~ A(S, ...V)
 F(S, P, T ...V) ~ A(S, P, T ...V)
 F(R[0]) ~ A(R[0]) = R[1]
 F(V[0]) ~ A(V[0]) = V[1]
-F({v[0][0], v[0][1], ... v[0][n]}) ~ A({v[1][0], v[1][1], ... v[1][n]})
-F({S[0], P[0], TS[0], ...V[0]}) ~ A({S[1], P[1], TS[1], ...V[1]})
+F({v[0][0], v[0][1], ... v[0][n]}) ~ V[1] = A({v[0][0], v[0][1], ... v[0][n]}) = R[1]
+F({S[0], P[0], TS[0], ...V[0]}) ~ V[1] = {S[1], P[1], TS[1], ...V[1]} = A({S[0], P[0], TS[0], ...V[0]})
 ```
 
-So we minimize the diferent of `F` and `A`, base on all the record we have, and within our current calculation tools which happend to be the Computer/GPU/TPU/NPU ... (any name). Lead to some extreme way to achive it like:
+So we minimize the diferent of `F` and `A`, base on all the record we have, and within our current calculation tools which happend to be the Computer/GPU/TPU/NPU ... Lead to some extreme way to achive it like:
 
 - **Large language model - LLM** try to achive that by try to describle reality more closly, that we add every possible parameter (i said different way to call "achivable variable") - 80 bilions? Even more?
 - **Deep neuron network - DNN, CNN, ect** try to create a so complex function (via matrix multiple calculator, log fucntion on neutralizing vector ..) that can aproximate any possible set of vector record into a function given enough memory to store all of those layer of layer of "weight"
@@ -258,15 +269,15 @@ Most Machine learning research try to:
 
 > In the end `F` is a function, it take in variable and give a output. But I haven't see any programmer try on to take time exlapain this task in computer scienced term yet.
 
-#### Analyzing
+#### Analyzing found `F`
 
-I explaining a sample term were use in Machine learning here
+I explaining sample terminologies in Machine learning using my above Framework "math"
 
 ##### [Loss function](https://en.wikipedia.org/wiki/Loss_function)
 
 Every different we when comparing the record
-- Delta `δ` or uppercase `Δ` (We are just too used to call them this name in math)
-- Lost function is how we calculate `δ`, which can be whatever math function we can think of which make sense.
+- Let call it Delta `δ` or uppercase `Δ` - As we are just too used to call them this name in math class
+- Lost function is how we calculate `δ`, which can be whatever math function we can think of that make sense.
     ```
     δ = L(F(R[0]), R[1])
     δ = L(F(V[0]), V[1])
@@ -275,15 +286,15 @@ Every different we when comparing the record
     > One of the most common used is euclid distance (in some special case where we use pure propability to represent reality then we will need more advanged distance function like Bayes' theorem function even), I will try to point these out later when we walk through specific a research paper.
 
 
-The total of all different in our record: 
-- Sum of all delta, let call it `∑(δ)`
+The "total" of all different in our record: 
+- "Sum" of all delta, let call it `∑(δ)`
+- Some time we have continous of record, we can us this symbol instead `∫(δ)`
 
-Some time we have continous of record, we can us this symbol instead but both are the same thing
-- Sum of all delta, let call it `∫(δ)`
+> Sum isn't nessesary addition, it again can be any function that make sense: Even multiply
 
 ##### Weight
 
-Most appoard of Machine learning is that we try and find a way to minimized the Lost function by changing `F`, the approach we come up with is [w]eight or `W` - the set of changing calculation.
+Most appoard of Machine learning is that we try and find a way to minimized the lost function by changing `F`, the approach we come up with is [w]eight or `W` - the set of changing calculation.
 - Again `W` is an obserable and definable variable so
     ```
     W in V
@@ -292,26 +303,28 @@ Most appoard of Machine learning is that we try and find a way to minimized the 
 
     So we have `F`
     ```
-    F(R[0]) ~ F(V[0]) = F(W[0], ...V[0]) ~ S[1]
+    F(R[0]) ~ F(V[0]) = F(W, ...V[0]) ~ S[1]
     ```
     or 
     ```
-    F(R[0]) ~ F(V[0]) = F(W[0], ...V[0]) ~ {S[1], ...V[1]} ~ A(R[0]) = R[1]
+    F(R[0]) ~ F(V[0]) = F(W, ...V[0]) ~ {S[1], ...V[1]} ~ A(R[0]) = R[1]
     ```
 
 - As long as thing that be used to representing a **relationship** of variable `V[0]` to `V[1]`, is consider a part of `W`. But we optional assume (to solve the problem) that
     
     ```
-    F = W[0] <computable-operand> ...V[0] ~ S[1]
+    F = W <computable-operand> ...V
+    W <computable-operand> ...V[0] = F({W, ...V[0]}) ~ S[1]
+    W <computable-operand> ...V[0] ~ V[1]
     ```
 
     > Computable-operand example:  Matrix multiply operand, Euclid multiply, Addition, Log, Sqrt...
-    > Or just any programable function with (W[0], ...V[0]) that can output result that similar to S[1]
+    > Or just any programable function with `(W, ...V[0])` input that can output result that similar to S[1]
     >
-    > Oh, and Computable-operand also a part of V, as we can expect it, let call it `O`
+    > Oh, and Computable-operand also a part of `V`, as we can expect it, let call it `O`
     > ```
     > O in V
-    > F = W[0] O V[0] ~ S[1]
+    > F = W O V[0] ~ S[1]
     > ```
 
 - We (again) can assumming that
