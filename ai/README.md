@@ -6,7 +6,7 @@ The corrected way to use the full potential power of computer, but we got lost t
 
 This containning the snapshot of my current knowleged (which is heavily influence by mathematic or programming way of thinking) that i don't want to get lost and rootten within the capability of my brain. Thoughts will easily and eventually change over the time, so I deciding to write it here as soon as possible.
 
-This is just planing for a serial of notes at the moment. I sure hope I can finish all of these. Before all of that, let set up a list to devide infomation I wanted to cover here:
+This is just planing for a serial of notes at the moment. I sure hope I can finish all of these. Before all of that, let set up a list to divide infomation I wanted to cover into a make sensed section here:
 
 > All of these is subjected and should change-able though
 
@@ -16,16 +16,10 @@ This is just planing for a serial of notes at the moment. I sure hope I can fini
 - Chapter 3: Complete of knowlege via example
 - Chapter 4: The predictation - future
 
-## Chapter 1: Relation of posibility
+### Chapter 1: Relation of posibility
 
 1. What is a variable:
-    - How data is represented in machine learning
-        - Text
-        - Image
-        - Audio
-        - Human
-        - Our mind
-        - Nature
+    - How data is represented in machine learning: Text, Image, Audio, Human, Our mind, Nature
     - Vector in machine learning
 2. What is a posibility:
     - What is machine learning useage
@@ -38,20 +32,20 @@ This is just planing for a serial of notes at the moment. I sure hope I can fini
     - Learning rate
     - Compute Operand used in machine learning
 
-## Chapter 2: The serialization of event
+### Chapter 2: The serialization of event
 
 - What is a event
 - What is a serialization event
 - How to representing them in form of variable/posibility
 - How to push variable into machine learning model
 
-## Chapter 3: Complete of knowlege via example
+### Chapter 3: Complete of knowlege via example
 
 - What is knowlege
 - What is example
 - I use example to create knowleged
 
-## Chapter 4: The predictation - future
+### Chapter 4: The predictation - future
 
 - Creating Knowleged and predicting future is the same problem
 - Pass data is the represenative of the future
@@ -80,7 +74,7 @@ A simplest example for this is:
 
 > (2) I also said that: The absolute trust - One of which will happend - already being the defined
 
-**Variable**: Let say the trust being already defined because of all variability. I then devide them into two source
+**Variable**: Let say the trust being already defined because of all variability. I then divide them into two source
 
 1. Achievable variables
     - The drawer specifically choose the card by a rule (alway chossing first card of the desk)
@@ -153,7 +147,10 @@ The un-describable [r]eality problem:
     ```
     R = achievable + un-achievable variable
     ```
-- We call a snapshot of **all achievable [v]ariable `V`** or a vector form `V = {v[0], v[1] .. v[n]}` in which state `S` is recorded. They are the capabilty of every tools we can use to describing and achiving infomation from reality
+- A snapshot of **all achievable [v]ariable, let call it `V`** in which state `S` is recorded. They are the capabilty of every tools we can use to describing and achiving infomation from reality
+    ```
+    V = {v[0], v[1] .. v[n]}
+    ```
 
     > Let borrowing `~` symbol to indicate the meanning of close and hopefully equal)
 
@@ -271,7 +268,10 @@ F(R) ~ A(R)
 F(S, ...V) ~ A(S, ...V)
 F(S, P, T ...V) ~ A(S, P, T ...V)
 F(R[0]) ~ A(R[0]) = R[1]
-F(V[0]) ~ A(V[0]) = V[1]
+F(R[0]) ~ R[1]
+F(V[0]) ~ V[1]
+F(V[0]) ~ S[1]
+F(S[0]) ~ S[1]
 F({v[0][0], v[0][1], ... v[0][n]}) ~ V[1] = A({v[0][0], v[0][1], ... v[0][n]}) = R[1]
 F({S[0], P[0], TS[0], ...V[0]}) ~ V[1] = {S[1], P[1], TS[1], ...V[1]} = A({S[0], P[0], TS[0], ...V[0]})
 ```
