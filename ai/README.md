@@ -130,7 +130,7 @@ The **[p]ossible outcome - Let call it `P`**:
 - `P` is the set of possible outcome from which `S[0]` could change into
     - This could came from all the record we found about `S`
     - Also could came from all the availabe theories where `S` might end up from `S[0]`
-- We also assumming that `P` large enough contain `S[1]`
+- We also assumming that `P` is large enough to contain `S[1]`
     ```
     P = {p[0], p[1], p[2] .. p[n]}
     S[1] "should be" in P
