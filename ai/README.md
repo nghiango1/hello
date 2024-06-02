@@ -10,7 +10,7 @@ This is just planing for a serial of notes at the moment. I sure hope I can fini
 
 > All of these is subjected and should change-able though
 
-- [Preface - What is AI](.)
+- [Preface - What is AI](#preface---what-is-ai)
 - Chapter 1: Relation of posibility
 - Chapter 2: The serialization of event
 - Chapter 3: Complete of knowlege via example
@@ -238,12 +238,12 @@ The record of [r]eality, where just by observing our reality we can get a lot of
     ```
 
 
-The "inteligent [f]arseer" - We can call it `F` - where using `F` we can turn `S[0]` to a result which really close to (and hopefully is equal to) `S[1]`
+**The "inteligent [f]arseer" - let call it `F`** - where using `F` we can turn `S[0]` to a result which really close to (and hopefully is equal to) `S[1]`
     ```
     F(S[0]) = Calculated_Result ~ S[1]
     ```
 
-- We take into account that we know so much on [r]eality, we push everything into our equaltion. Most of machine learning will using this equaltion
+- We take into account that we know so much on [r]eality, we push `R ~ V` into our equaltion. Most of machine learning will using this equaltion
     ```
     F(R[0]) ~ F(S[0], ...V[0]) = Calculated_result ~ {S[1]}
     ```
@@ -252,7 +252,7 @@ The "inteligent [f]arseer" - We can call it `F` - where using `F` we can turn `S
     F(R[1]) ~ F(S[0], ...V[0]) = Calculated_result ~ {S[1], ...V[1]} = R[1]
     ```
 
-The [a]bsolute trust - We call it `A` - That from a state `S` it can desterminding the true outcome of the next state:
+**The [a]bsolute trust - Let call it `A`** - That from a state `S` it can desterminding the true outcome of the next state:
     ```
     A(S[0]) = S[1]
     ```
@@ -276,7 +276,7 @@ F({v[0][0], v[0][1], ... v[0][n]}) ~ V[1] = A({v[0][0], v[0][1], ... v[0][n]}) =
 F({S[0], P[0], TS[0], ...V[0]}) ~ V[1] = {S[1], P[1], TS[1], ...V[1]} = A({S[0], P[0], TS[0], ...V[0]})
 ```
 
-So we minimize the diferent of `F` and `A`, base on all the record we have, and within our current calculation tools which happend to be the Computer/GPU/TPU/NPU ... Lead to some extreme way to achive it like:
+So we spending to most of our time to minimize the diferent of `F` and `A`, base on all the record we have, and within our current calculation tools (which we focus on Computer/GPU/TPU/NPU ...) ability. This lead to some extreme way to achive it like:
 
 - **Large language model - LLM** try to achive that by try to describle reality more closly, that we add every possible parameter (i said different way to call "achivable variable") - 80 bilions? Even more?
 - **Deep neuron network - DNN, CNN, ect** try to create a so complex function (via matrix multiple calculator, log fucntion on neutralizing vector ..) that can aproximate any possible set of vector record into a function given enough memory to store all of those layer of layer of "weight"
@@ -284,13 +284,13 @@ So we minimize the diferent of `F` and `A`, base on all the record we have, and 
 Most Machine learning research try to:
 - Someone could try to find a better way to describing reality via novel way (it mean "never/haven't been used yet" way - in reseach terminology)
 - Using a novel "better" way to trial and error function to make the compute a bit quicker.
-- While we "dumb" people try to use the same thing over and over on our own "interested" state `S` (which mostly for Porn/Waifu/Day dreamming generator, well at least I can create my vested pfp so it good enough) or some trash research like [this](https://github.com/nghiango1/WebDefaceDetection)
+- While we "dumb" people try to use the same thing over and over on our own "interested" state `S` (which mostly for Porn/Waifu/Dreamming generator, well at least I can create my vested pfp so it good enough) or some trash research like [this](https://github.com/nghiango1/WebDefaceDetection)
 
-> In the end `F` is a function, it take in variable and give a output. But I haven't see any programmer try on to take time exlapain this task in computer scienced term yet.
+> In the end `F` is a function, it take in variable and give a output. But I haven't seen any programmer take their time try to explain this task in computer scienced term yet.
 
-#### Analyzing found `F`
+#### Analyzing created AI (or found `F`)
 
-I explaining sample terminologies in Machine learning using my above Framework "math"
+I explaining sample terminologies in Machine learning using my above "math" framework
 
 ##### [Loss function](https://en.wikipedia.org/wiki/Loss_function)
 
@@ -303,7 +303,6 @@ Every different we when comparing the record
     ```
 
     > One of the most common used is euclid distance (in some special case where we use pure propability to represent reality then we will need more advanged distance function like Bayes' theorem function even), I will try to point these out later when we walk through specific a research paper.
-
 
 The "total" of all different in our record: 
 - "Sum" of all delta, let call it `∑(δ)`
@@ -388,6 +387,6 @@ As long as `∑(δ) ~ 0` or `F ~ A` or `F[1]` is better than `F[0]` within our m
 
 Compute power increasing need to be pay (in any price, take any form). I alway look at human race as a whole one, where our race/me stand on all achivement of history which already try compute our current reality (We have a very big `W`). Computer at the moment which can't access all available `V`, is not that much to be overthink of, just a tool on our hand, but it sure is running in the right path to became the next one to replacing us all to become the "higher inteligent life form".
 
-It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround, then one will above all try to control that to used our existen for their wanted result. To think that every achivement that one could get is already controled to happend is just too sad to lived on, where we is (not that much different from computer in previous quote) a tool that being used.
+It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround, then "one will above all" try to control our existen for their wanted result. To think that every achivement that one could get is already controled to happend is just too sad to lived on, where we is (not that much different from computer in previous quote) a tool that being used.
 
-Why I stress on this so much? It could be becaused of the ideal that "I wanted to create a full virtual reality by my self". It should likely for the benefit of understanding our/my current reality, but thing change over the time that the current I right now is unsure on my first true motivation which got losted in the past.
+Why I stress on this point so much? It could be becaused of the ideal that "I wanted to create a full virtual/simulated reality by myself (by programing of course)". It should likely for the benefit of understanding our/my current reality, but thing change over the time that the current I right now is unsure on my first true motivation which got losted in the past.
