@@ -66,13 +66,13 @@ A simplest example for this is:
 
 ### The underline ideal of Randomess, Pattern and Variable
 
-**Randomness**: Drawing one card from a desk of 52 different cards, they share the same possibility which one could be draw. But in the end the 1/52 change will happend.
+**Randomness**: Drawing one card from a desk of 52 different cards, they share the same possibility which one could be draw. But in the end the 1/52 change will happened.
 
-> (1) I said that: Every possible outcome but one one of which will happend
+> (1) I said that: Every possible outcome but one one of which will happened
 
 **Pattern**: Various variable could possible affect the fair chance of which one card can be favor to be draw, and prove that the drawed card will be **the 7 shade**.
 
-> (2) I also said that: The absolute trust - One of which will happend - already being the defined
+> (2) I also said that: The absolute trust - One of which will happened - already being the defined
 
 **Variable**: Let say the trust being already defined because of all variability. I then divide them into two source
 
@@ -85,7 +85,7 @@ A simplest example for this is:
     - Higher dimention affection that will destermine the absolute outcome (God plan - The controler theories: Our reality is just a simulator)
     - The absolute outcome of the multiple possible reality (I borrow the term **Multiverse theories** - of which "we" split in all possible reality where each outcome have been decided)
 
-> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (each different outcome is in it's own **unobservable** universes, this may different from normal multiverse theories). The one where I/We currently living could be in control and force, but everything could happend will already happend.
+> Currently I farvor **multiverse theories**, of which there were NO capable tools can get us to access to splited reality (each different outcome is in it's own **unobservable** universes, this may different from normal multiverse theories). The one where I/We currently living could be in control and force, but everything could happened will already happened.
 
 When using **compute** power, we taking all of achievable variable and make a "inteligent farseer". That try to make sense of the outcome via our avaliable achievable variable
 
@@ -107,7 +107,7 @@ The [s]tate of reality - find "inteligent [f]arseer" on **achievable [v]ariable 
     S in R
     ```
 - When [r]eality changing: We see `S` is in state `S[0]`, and then will change to it's next state `S[1]` regardless
-- We only know `S[0]` but want to know `S[1]` even before it happend
+- We only know `S[0]` but want to know `S[1]` even before it happened
 - We have a set record of every possible occurrent (in our reality) that achievable where state `S` is changing
     ```
     S[0] in R[0]
@@ -201,32 +201,32 @@ The un-describable [r]eality problem:
     R ~ {S, P, T, ...V}
     ```
 
-    or in the specific record V when `S[0]` and `S[1]` happend
+    or in the specific record V when `S[0]` and `S[1]` happened
     ```
     R[0] ~ V[0] = {S[0], P[0], TS[0], ...V[0]}
     R[1] ~ V[1] = {S[1], P[1], TS[1], ...V[1]}
     ```
     
 The record of [r]eality, where just by observing our reality we can get a lot of this infomation:
-- We can call also call it **past data**
+- We can call it **past data record**
     ```
     R[0] ~ {S[0], P[0], TS[0], ...V[0]}
     R[1] ~ {S[1], P[1], TS[1], ...V[1]}
     ..
     R[n] ~ {S[n], P[n], TS[n], ...V[n]}
     ```
-- **Past** record of reality is also a variable, but it come with some cost, that the total variable in equaltion is unbalance and kept increasing:
+- Past record of reality is also a variable, but it come with some cost, that the total variable in equaltion is unbalance and kept increasing:
     ```
     R[0] ~ {S[0], P[0], TS[0], R[<0], ...V[0]}
     R[1] ~ {S[1], P[1], TS[1], R[<1], ...V[1]}
     ..
     R[n] ~ {S[n], P[n], TS[n], R[<n], ...V[n]}
     ```
-- This can be prevent by using **short memory** (you could relate it to Long term short memory - LTSM) where we take a subset of the past record to describe our reality `R`, let say we only using total of `x` snapshot:
+- This can be prevent by using **short memory** (you could relate it to Long term short memory - LTSM) where we only take a subset of the past record to describe our reality `R`, let say we only using total of `x` snapshot:
     ```
     R[0] ~ V[0] = {S[0], P[0], TS[0], R[0-x], R[0-(x-1)] .. R[0 - 1], V[0]}
     ```
-    Making it the same problem
+    Making it share the same total variables
     ```
     R[0] ~ {S[0], P[0], TS[0], R[0 - x:0], ...V[0]}
     R[1] ~ {S[1], P[1], TS[1], R[1 - x:1], ...V[1]}
@@ -387,6 +387,6 @@ As long as `∑(δ) ~ 0` or `F ~ A` or `F[1]` is better than `F[0]` within our m
 
 Compute power increasing need to be pay (in any price, take any form). I alway look at human race as a whole one, where our race/me stand on all achivement of history which already try compute our current reality (We have a very big `W`). Computer at the moment which can't access all available `V`, is not that much to be overthink of, just a tool on our hand, but it sure is running in the right path to became the next one to replacing us all to become the "higher inteligent life form".
 
-It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround, then "one will above all" try to control our existen for their wanted result. To think that every achivement that one could get is already controled to happend is just too sad to lived on, where we is (not that much different from computer in previous quote) a tool that being used.
+It was 4 year ago, when I belived more on The controller theories - which there is a true controller that guiding our ever changing direction. All possible race, animal, tree, everything... is just wandering arround, then "one will above all" try to control our existen for their wanted result. To think that every achivement that one could get is already controled to happened is just too sad to lived on, where we is (not that much different from computer in previous quote) a tool that being used.
 
 Why I stress on this point so much? It could be becaused of the ideal that "I wanted to create a full virtual/simulated reality by myself (by programing of course)". It should likely for the benefit of understanding our/my current reality, but thing change over the time that the current I right now is unsure on my first true motivation which got losted in the past.
