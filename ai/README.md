@@ -294,8 +294,7 @@ I explaining sample terminologies in Machine learning using my above "math" fram
 
 ##### [Loss function](https://en.wikipedia.org/wiki/Loss_function)
 
-Every different we when comparing the record
-- Let call it Delta `δ` or uppercase `Δ` - As we are just too used to call them this name in math class
+When we goes through all of past record. We found there is a different between the result of `F(V[0]) or F(S[0])` (predicted result) and `S[1] = A(V[0])` (actual new state that have been recorded) - Let call it Delta `δ` or uppercase `Δ` - As we are just too used to call them this name in math class
 - Lost function is how we calculate `δ`, which can be whatever math function we can think of that make sense.
     ```
     δ = L(F(R[0]), R[1])
