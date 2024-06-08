@@ -1,9 +1,9 @@
 procedure echo(hello : string);
 type
     point = record 
-    x : integer;
-    y : integer;
-end;
+        x : integer;
+        y : integer;
+    end;
 var
     world : string;
     p1 : point;
