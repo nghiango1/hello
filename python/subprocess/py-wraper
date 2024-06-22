@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+import subprocess as sp
+from typing import List
+import sys
+
+
+def execute(cmd: List[str]):
+    """Command execute wrapper using subprocess
+
+    Args:
+        cmd: os command
+
+    Yields:
+        Continuosly yeilds the stdout of the command
+    """
+
+    p = sp.run(
+        cmd,
+        stdout=sys.stdout,
+        stderr=sp.STDOUT,
+        bufsize=1,
+        universal_newlines=True,
+    )
+
+    print("[INFO] Command end with return code {return_code}".format(return_code=p.returncode))
+
+
+def main():
+    if len(sys.argv) == 1:
+        print("[INFO] This script wrap any os command using python")
+        print("[INFO] Providing command and agrument like this `./py-wraper whoami`")
+        return
+
+    print(
+        "[INFO] Try running command `{cmd}` and capturing output".format(
+            cmd=" ".join(sys.argv[1:])
+        )
+    )
+    print("[INFO] `{cmd}` output:".format(cmd=" ".join(sys.argv[1:])))
+    execute(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    main()
