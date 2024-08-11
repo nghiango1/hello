@@ -1,0 +1,12 @@
+__pycache__/
+
+# C++ compiled
+Main
+*.o
+dist/
+
+# clangd
+compile_commands.json
+.cache/
+
+.git-old/
