@@ -37,7 +37,7 @@ We can't compile code without first create a project (or it just me who don't kn
 
 Now the created project should already have our needed Hello world source. But some how we build fail.
 
-## Hello - with Main
+## Write your first Helloworld C# program
 
 Starting with .NET SDK 6.0.300, the console template has a --use-program-main option. Use it to create a console project that doesn't use top-level statements and has a Main method.
 
@@ -59,3 +59,29 @@ class Program
 ```
 
 And we will build it normally
+
+## Build and run the code
+
+Build is quite simple
+```sh
+dotnet build .
+```
+
+Without proper environment (as I using Linux), I can't run the program directly. We can use `dotnet` tool to do so, but it also rebuild the program though
+```sh
+dotnet run .
+```
+
+To actually build a file that can be run directly in Linux, we have to add `--runtime linux-x64` flag. This flag also require one of either flag '--self-contained' or '--no-self-contained' options (required when '--runtime' is used).
+```sh
+dotnet build . --runtime linux-x64 --self-contained
+```
+
+> Now the build file for linux-x64 should be isolate in `bin/Debug/net6.0/linux-x64/`.
+
+We can also create release build by using `dotnet publish -c release` instead of `dotnet build .`. The flag for linux is the same
+```sh
+dotnet publish -c release --runtime linux-x64 --self-contained
+```
+
+> Now the build release file for linux-x64 should be isolate in `bin/release/net6.0/linux-x64/`.
