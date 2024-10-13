@@ -10,6 +10,10 @@ if (test === 4) {
   let nums2 = [2];
   let res = findMedianSortedArrays(nums1, nums2);
   console.log(res);
+  nums1 = [1, 1, 2];
+  nums2 = [1, 3];
+  res = findMedianSortedArrays(nums1, nums2);
+  console.log(res);
   nums1 = [1, 3];
   nums2 = [2, 4];
   res = findMedianSortedArrays(nums1, nums2);
