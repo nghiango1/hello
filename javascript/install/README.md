@@ -80,5 +80,6 @@ Adding `jsdoc` eslint enforce style guide have two option: Plugin base (recommen
     ```
 
 DAP (neovim)
+- Node version need to be >16
 - Install [mason] js-debug-adapter, using my nvim config in github
 - Use launch only (option 1)

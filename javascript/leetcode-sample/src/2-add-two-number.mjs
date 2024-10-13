@@ -102,8 +102,8 @@ export const addTwoNumbers = function AddTwoNumberWithADescriptedName(l1, l2) {
   return sumValue;
 };
 
-const l1 = ListNode.create([2, 4, 3]);
-const l2 = ListNode.create([5, 6, 4]);
-if (l1 && l2) {
-  console.log(addTwoNumbers(l1, l2));
-}
+// const l1 = ListNode.create([2, 4, 3]);
+// const l2 = ListNode.create([5, 6, 4]);
+// if (l1 && l2) {
+//   console.log(addTwoNumbers(l1, l2));
+// }
