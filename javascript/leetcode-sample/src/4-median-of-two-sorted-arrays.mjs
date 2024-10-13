@@ -1,14 +1,4 @@
 /**
- * Compare function for sort
- * @param {number} a first number
- * @param {number} b second number
- * @returns {number} compare result
- */
-function compareFn(a, b) {
-    return a - b;
-}
-
-/**
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @return {number}
@@ -18,12 +8,12 @@ const findTwoMiddlePoint = function(nums1, nums2) {
     const m = nums2.length;
 
     const divM = (m - m % 2) / 2;
-    if (n == 0) {
+    if (n === 0) {
         return (nums2[divM] + nums2[divM - 1]) / 2;
     }
 
     const divN = (n - n % 2) / 2;
-    if (m == 0) {
+    if (m === 0) {
         return (nums1[divN] + nums1[divN - 1]) / 2;
     }
 
@@ -40,12 +30,12 @@ const findMiddlePoint = function(nums1, nums2) {
     const m = nums2.length;
 
     const divM = (m - m % 2) / 2;
-    if (n == 0) {
+    if (n === 0) {
         return nums2[divM];
     }
 
     const divN = (n - n % 2) / 2;
-    if (m == 0) {
+    if (m === 0) {
         return nums1[divN];
     }
 
@@ -81,6 +71,16 @@ const skipcombine = function(nums1, nums2) {
 };
 
 /**
+ * Compare function for sort
+ * @param {number} a first number
+ * @param {number} b second number
+ * @returns {number} compare result
+ */
+function compareFn(a, b) {
+    return a - b;
+}
+
+/**
  * Combine two number array then sort them. Final answer will be calculated on new created join and sorted array
  * @param {number[]} nums1
  * @param {number[]} nums2
@@ -111,5 +111,5 @@ const combine = function(nums1, nums2) {
  */
 export var findMedianSortedArrays = function(nums1, nums2) {
     return skipcombine(nums1, nums2);
-    return combine(nums1, nums2);
+    //return combine(nums1, nums2);
 };
