@@ -67,50 +67,15 @@ const binarySearch = function(target, array) {
     return res;
 };
 
-
 /**
+ * @param {number} position
  * @param {number[]} nums1
  * @param {number[]} nums2
  * @return {number}
  */
-const findTwoMiddlePoint = function(nums1, nums2) {
+const advanceBinarySearch = function(position, nums1, nums2) {
     const n = nums1.length;
     const m = nums2.length;
-
-    const divM = (m - m % 2) / 2;
-    if (n === 0) {
-        return (nums2[divM] + nums2[divM - 1]) / 2;
-    }
-
-    const divN = (n - n % 2) / 2;
-    if (m === 0) {
-        return (nums1[divN] + nums1[divN - 1]) / 2;
-    }
-
-    return 0;
-};
-
-/**
- * @param {number[]} nums1
- * @param {number[]} nums2
- * @return {number}
- */
-const findMiddlePoint = function(nums1, nums2) {
-    const n = nums1.length;
-    const m = nums2.length;
-
-    const divM = (m - m % 2) / 2;
-    if (n === 0) {
-        return nums2[divM];
-    }
-
-    const divN = (n - n % 2) / 2;
-    if (m === 0) {
-        return nums1[divN];
-    }
-
-    const divInt = (n + m - (n + m) % 2) / 2;
-    const modInt = (n + m) % 2;
 
     // try with nums1
     let left = -1;
@@ -132,11 +97,11 @@ const findMiddlePoint = function(nums1, nums2) {
         }
 
         // The target is the median
-        if (realPosition <= divInt && divInt <= realPosition + totalApperance - 1) {
+        if (realPosition <= position && position <= realPosition + totalApperance - 1) {
             return nums1[mid];
         }
 
-        if (realPosition > divInt) {
+        if (realPosition > position) {
             right = mid;
         } else {
             left = mid;
@@ -163,11 +128,11 @@ const findMiddlePoint = function(nums1, nums2) {
         }
 
         // The target is the median
-        if (realPosition <= divInt && divInt <= realPosition + totalApperance - 1) {
+        if (realPosition <= position && position <= realPosition + totalApperance - 1) {
             return nums2[mid];
         }
 
-        if (realPosition > divInt) {
+        if (realPosition > position) {
             right = mid;
         } else {
             left = mid;
@@ -175,6 +140,54 @@ const findMiddlePoint = function(nums1, nums2) {
     }
 
     return 0;
+};
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+const findTwoMiddlePoint = function(nums1, nums2) {
+    const n = nums1.length;
+    const m = nums2.length;
+
+    const divM = (m - m % 2) / 2;
+    if (n === 0) {
+        return (nums2[divM] + nums2[divM - 1]) / 2;
+    }
+
+    const divN = (n - n % 2) / 2;
+    if (m === 0) {
+        return (nums1[divN] + nums1[divN - 1]) / 2;
+    }
+
+    const divInt = (n + m - (n + m) % 2) / 2;
+
+    return (advanceBinarySearch(divInt, nums1, nums2) + advanceBinarySearch(divInt - 1, nums1, nums2)) / 2;
+};
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+const findMiddlePoint = function(nums1, nums2) {
+    const n = nums1.length;
+    const m = nums2.length;
+
+    const divM = (m - m % 2) / 2;
+    if (n === 0) {
+        return nums2[divM];
+    }
+
+    const divN = (n - n % 2) / 2;
+    if (m === 0) {
+        return nums1[divN];
+    }
+
+    const divInt = (n + m - (n + m) % 2) / 2;
+
+    return advanceBinarySearch(divInt, nums1, nums2);
 };
 
 /**
@@ -245,6 +258,12 @@ const combine = function(nums1, nums2) {
  * @return {number}
  */
 export var findMedianSortedArrays = function(nums1, nums2) {
-    return skipcombine(nums1, nums2);
-    //return combine(nums1, nums2);
+    let res = skipcombine(nums1, nums2);
+    const check = combine(nums1, nums2);
+    if (res != check) {
+        console.log("Error, got", res, "but we want", check);
+        //throw EvalError("Error, got " + res + " but we want " + check);
+        res = check;
+    }
+    return res;
 };
