@@ -33,6 +33,59 @@ var dp = [];
  * @param {string} s
  * @return {string}
  */
+const betterLongestPalindrome = function(s) {
+  let resIndex = 0;
+  let maxLength = 0;
+
+  for (let i = 0; i < s.length; i++) {
+    for (let len = 1; (i - len) >= 0 && (i + len) <= s.length; len++) {
+      //console.log(i, len, s.slice(i - len, i + len));
+      if (s[i - len] == s[i + len - 1]) {
+        //console.log(i, len, s.slice(i - len, i + len), "is a palidromic string");
+        const realLength = 2 * len;
+        if (maxLength < realLength) {
+          maxLength = realLength;
+          resIndex = i;
+        }
+      } else {
+        break;
+      }
+    }
+  }
+
+  for (let i = 1; i < s.length; i++) {
+    for (let len = 1; (i - len - 1) >= 0 && (i + len) <= s.length; len++) {
+      //console.log(i, len, s.slice(i - len - 1, i + len));
+      if (s[i - len - 1] == s[i + len - 1]) {
+        //console.log(i, len, s.slice(i - len - 1, i + len), "is a palidromic string");
+        const realLength = 2 * len + 1;
+        if (maxLength < realLength) {
+          maxLength = realLength;
+          resIndex = i;
+        }
+      } else {
+        break;
+      }
+    }
+  }
+
+  // Edge case
+  if (maxLength === 0) {
+    return s[0];
+  }
+
+  if (maxLength % 2 === 0) {
+    return s.slice(resIndex - maxLength / 2, resIndex + maxLength / 2);
+  } else {
+    maxLength -= 1;
+    return s.slice(resIndex - maxLength / 2 - 1, resIndex + maxLength / 2);
+  }
+};
+
+/**
+ * @param {string} s
+ * @return {string}
+ */
 export var longestPalindrome = function(s) {
   if (dp.length === 0) {
     dp.push([]);
@@ -66,8 +119,8 @@ export var longestPalindrome = function(s) {
   // for (let i = 0; i < s.length; i++) {
   //   console.log(i, dp[i]);
   // }
-
+  console.log(betterLongestPalindrome(s));
   return s.slice(resIndex, resIndex + maxLength);
 };
 
-//console.log(longestPalindrome("abadabah"));
+//console.log(betterLongestPalindrome("abadabah"));
