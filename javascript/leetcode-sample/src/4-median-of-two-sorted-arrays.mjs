@@ -166,6 +166,26 @@ const findTwoMiddlePoint = function(nums1, nums2) {
     return (advanceBinarySearch(divInt, nums1, nums2) + advanceBinarySearch(divInt - 1, nums1, nums2)) / 2;
 };
 
+const bestBinarySearch = function(nums1, nums2) {
+    const n = nums1.length;
+    const m = nums2.length;
+
+    let l1 = -1;
+    let l2 = -1;
+    let r1 = n;
+    let r2 = m;
+
+    const divInt = (n + m - (n + m) % 2) / 2;
+    while (l1 != r1 - 1) {
+        let mid1 = (l1 + r1 - (l1 + r1) % 2) / 2;
+
+    }
+    while (l2 != r2 - 1) {
+
+    }
+
+};
+
 /**
  * @param {number[]} nums1
  * @param {number[]} nums2
@@ -250,7 +270,6 @@ const combine = function(nums1, nums2) {
 
     return res;
 };
-
 
 /**
  * @param {number[]} nums1

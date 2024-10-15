@@ -1,9 +1,32 @@
 import { ListNode, addTwoNumbers } from "./src/2-add-two-number.mjs";
 import { lengthOfLongestSubstring } from "./src/3-longest-substring-without-repeating-characters.mjs";
 import { findMedianSortedArrays } from "./src/4-median-of-two-sorted-arrays.mjs";
+import { longestPalindrome } from "./src/5-longest-palindromic-substring.mjs";
 
 let test = 1;
-test = 4;
+test = 5;
+
+if (test === 5) {
+  let s = "aaadbdbaaa";
+  let res = longestPalindrome(s);
+  console.log(res);
+
+  s = "aaadbbdaaa";
+  res = longestPalindrome(s);
+  console.log(res);
+
+  s = "abadbdbxaa";
+  res = longestPalindrome(s);
+  console.log(res);
+
+  s = "a";
+  res = longestPalindrome(s);
+  console.log(res);
+
+  s = "abb";
+  res = longestPalindrome(s);
+  console.log(res);
+}
 
 if (test === 4) {
   let nums1 = [1, 3];
