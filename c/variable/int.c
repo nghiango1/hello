@@ -59,6 +59,19 @@ int reverse(int x) {
   return res * sign;
 };
 
+// Less type cast
+int reverseSolution(int x) {
+    int rev = 0;
+    while (x != 0) {
+        int pop = x % 10;
+        x /= 10;
+        if (rev > INT32_BOUND_MAX / 10 || (rev == INT32_BOUND_MAX / 10 && pop > 7)) return 0;
+        if (rev < INT32_BOUND_MIN / 10 || (rev == INT32_BOUND_MIN / 10 && pop < -8)) return 0;
+        rev = rev * 10 + pop;
+    }
+    return rev;
+}
+
 int main(int argc, char *argv[]) {
   int x = -2147483648;
   printf("%d\n", reverse(x));
