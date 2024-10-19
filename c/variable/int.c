@@ -39,7 +39,9 @@ int reverse(int x) {
   uint32_t bound = INT32_BOUND_MAX;
   // ~0 = b111..1 (32bit all 1)
   if (x < 0) {
-    unsign_x = -x;
+    // This specific cast is needed for leetcode Problem
+    // https://leetcode.com/problems/reverse-integer/??
+    unsign_x = -(uint32_t)x;
     sign = -1;
     uint32_t bound = INT32_BOUND_MAX + 1;
   } else {
@@ -58,6 +60,6 @@ int reverse(int x) {
 };
 
 int main(int argc, char *argv[]) {
-  int x = 1534236469;
+  int x = -2147483648;
   printf("%d\n", reverse(x));
 }
