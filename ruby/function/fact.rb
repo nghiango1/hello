@@ -1,9 +1,12 @@
 #!/usr/bin/ruby
+# frozen_string_literal: true
 
 # This calculate the factorial of a number from user agrument, eg: 5!
 
 def fact(num)
-  if num == 0
+  # Same with
+  # if num == 0
+  if num.zero?
     1
   else
     num * fact(num - 1)
