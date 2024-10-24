@@ -19,3 +19,8 @@ puts last
 
 # String compare
 puts greetting == 'hello'
+
+# Regex find operation (or string find) first apprerance
+long_string = 'hello every one'
+first_find = long_string =~ /one$/
+puts long_string[first_find..] unless first_find.nil?
