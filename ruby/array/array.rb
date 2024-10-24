@@ -19,6 +19,10 @@ print arr[1..3], "\n"
 # Some of array member?
 print arr[2, 5], "\n"
 
+# Array is not bind with only one type
+arr = [1, '2', '3', 4, '5', 6]
+print "#{arr}\n"
+
 # ruby like to call dict ~ hash (https://ruby-doc.org/docs/ruby-doc-bundle/UsersGuide/rg/arrays.html)
 dict = {}
 dict[1] = 2
