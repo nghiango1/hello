@@ -15,3 +15,11 @@ if n.even?
 else
   print n, ' is odd', "\n"
 end
+
+# one line if
+a = 0
+puts a if a.zero?
+
+# one line it not (unless)
+b = -1
+puts b unless b.positive?
