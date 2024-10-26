@@ -15,6 +15,10 @@ puts "Got: #{arr}"
 # we also have another string to number. But this throwing error
 begin
   puts 'Try convert `abc` to Integer'
+  puts "Got: #{'abc'.to_f}"
+  puts 'Try convert `abc` to Float'
+  puts "Got: #{'abc'.to_i}"
+  puts 'Try convert `abc` using another way here!'
   puts "Got: #{Integer('abc')}"
 rescue ArgumentError
   puts 'Aw, it got ArgumentError'
