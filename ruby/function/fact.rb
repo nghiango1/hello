@@ -13,4 +13,5 @@ def fact(num)
   end
 end
 
+print 'Got number: ', ARGV[0].to_i, "\n"
 print fact(ARGV[0].to_i), "\n"
