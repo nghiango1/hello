@@ -29,3 +29,13 @@ While learnning ruby I really do a lot of comparasion with python:
     ```ruby
     puts "{x : #{x}}"
     ```
+
+## Built-in
+
+The array sort (which similar behavior to python `.sort()` ) we can use is
+```ruby
+arr = [-1, 3, 2, -2]
+arr.sort!
+```
+
+Which call a `bang!` method. Normally `arr.sort` will return another array, but `!` state that result will replace `arr` value.
