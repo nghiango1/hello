@@ -157,3 +157,21 @@ gem "hamlit", "~> 2.15.0"
 
 Once it’s installed, all view files with the ".html.haml" extension will be compiled using Haml.
 
+## Bundle - Gemfile update
+
+Referrer: [https://bundler.io/v2.5/man/gemfile.5.html](https://bundler.io/v2.5/man/gemfile.5.html)
+
+There is some change to gemfile, I put some info in here:
+- Groups: Each gem MAY specify membership in one or more groups. Any gem that does not specify membership in any group is placed in the default group.
+- Require As: Each gem MAY specify files that should be used when autorequiring via Bundler.require. You may pass an array with multiple files or true if the file you want required has the same name as gem or false to prevent any file from being autorequired.
+
+```sh
+group :development do
+  gem "rubocop"
+  gem "solargraph", "~> 0.47.2", require: false # rubocop:todo Gemfile/MissingFeatureCategory
+
+  gem "ruby-lsp", "~> 0.19.0", require: false
+  gem "ruby-lsp-rails", "~> 0.3.6"
+  gem "ruby-lsp-rspec", "~> 0.1.10", require: false
+end
+```
