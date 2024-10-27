@@ -130,3 +130,30 @@ Create new Models (Object that representing real world application target).
     ```
 
 > **`<% %>` and `<%= %>`**: The `<% %>` tag means "evaluate the enclosed Ruby code." The `<%= %>` tag means "evaluate the enclosed Ruby code, and output the value it returns." Anything you could write in a regular Ruby program can go inside these ERB tags, though it's usually best to keep the contents of ERB tags short, for readability.
+
+## Haml - New template engine for Rails
+
+Haml is a markup language that's used to cleanly and simply describe the HTML of any web document without the use of inline code. Haml functions as a replacement for inline page templating systems such as PHP, ASP, and ERB, the templating language used in most Ruby on Rails applications
+
+Haml can be used in three ways:
+
+- as a command-line tool,
+- as a plugin for Ruby on Rails,
+- and as a standalone Ruby module.
+
+The first step for all of these is to install the Haml gem:
+
+```sh
+gem install haml
+```
+
+Then, to use Haml with Rails, add the following line to the `Gemfile`, here I use a specific version:
+
+```rb
+# HAML
+# gem "haml"
+gem "hamlit", "~> 2.15.0"
+```
+
+Once it’s installed, all view files with the ".html.haml" extension will be compiled using Haml.
+

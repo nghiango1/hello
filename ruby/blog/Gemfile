@@ -55,3 +55,6 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+# HAML
+gem "hamlit", "~> 2.15.0"
