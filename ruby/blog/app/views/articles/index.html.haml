@@ -1,0 +1,9 @@
+%h1= "Articles#index"
+%p= "Hello world"
+%p= "Find me in app/views/articles/index.html.erb"
+
+%p= "Lists of created articles"
+%ul
+  - @articles.each do |article|
+    %li
+      %a(href="/articles/#{article.id}")= article.title
