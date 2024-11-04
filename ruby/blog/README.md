@@ -44,7 +44,11 @@ Start the server
 bin/rails server
 ```
 
-## Next step
+## The next step - MVC web design
+
+### Routing rails application
+
+> We can inspect what routes are mapped by running the `bin/rails routes` command
 
 Create new routes handler
 - Update routes configuration using DSL `./config/routes.rb`
@@ -71,63 +75,67 @@ Create new routes handler
     end
     ```
 
-Create new Models (Object that representing real world application target).
-- Generate new Models
-    ```sh
-    rails generate model Article title:string body:text
-    ```
+### Create new Models
 
-- This result in generating theses output (create new files):
-    ```
-      invoke  active_record
-      create    db/migrate/20241020145009_create_articles.rb
-      create    app/models/article.rb
-      invoke    test_unit
-      create      test/models/article_test.rb
-      create      test/fixtures/articles.yml
-    ```
+> Object that representing real world application target
 
-- Then we update the database to have our Models represent in regional table format
-    ```sh
-    rails db:migrate
-    ```
+Generate new Models
+```sh
+rails generate model Article title:string body:text
+```
 
-- We then can use `rails console` to create and interact with this Models directly (instead of using SQL Database or running in-app ruby script)
-    ```sh
-    rails console
-    ```
+This result in generating theses output (create new files):
+```
+  invoke  active_record
+  create    db/migrate/20241020145009_create_articles.rb
+  create    app/models/article.rb
+  invoke    test_unit
+  create      test/models/article_test.rb
+  create      test/fixtures/articles.yml
+```
 
-- Try with these command
-    ```ruby
-    # Loading development environment (Rails 7.2.1.1)
-    article = Article.new(title: "Hello Rails", body: "I am on Rails!")
-    article.save
-    Article.find(1)
-    Article.all
-    exit
-    ```
+Then we update the database to have our Models represent in regional table format
+```sh
+rails db:migrate
+```
 
-- Using the Model into our View (Pages) require "import" them into an variable in `./app/controllers/articles_controller.rb`
-    ```ruby
-    class ArticlesController < ApplicationController
-      def index
-        @articles = Article.all
-      end
-    end
-    ```
+We then can use `rails console` to create and interact with this Models directly (instead of using SQL Database or running in-app ruby script)
+```sh
+rails console
+```
 
-- Then update the page `html.erb` files to use the variable. Here we loop though it
-    ```erb
+Try with these command
+```ruby
+# Loading development environment (Rails 7.2.1.1)
+article = Article.new(title: "Hello Rails", body: "I am on Rails!")
+article.save
+Article.find(1)
+Article.all
+exit
+```
 
-    <p>Lists of created articles</p>
-    <ul>
-      <% @articles.each do |article| %>
-        <li>
-          <%= article.title %>
-        </li>
-      <% end %>
-    </ul>
-    ```
+### Create new View
+
+Displaying created Model into our Pages require "import" them into an variable in `./app/controllers/articles_controller.rb`
+```ruby
+class ArticlesController < ApplicationController
+  def index
+    @articles = Article.all
+  end
+end
+```
+
+Then update the page `html.erb` files to use the variable. Here we loop though it
+```erb
+<p>Lists of created articles</p>
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= article.title %>
+    </li>
+  <% end %>
+</ul>
+```
 
 > **`<% %>` and `<%= %>`**: The `<% %>` tag means "evaluate the enclosed Ruby code." The `<%= %>` tag means "evaluate the enclosed Ruby code, and output the value it returns." Anything you could write in a regular Ruby program can go inside these ERB tags, though it's usually best to keep the contents of ERB tags short, for readability.
 
@@ -155,7 +163,75 @@ Then, to use Haml with Rails, add the following line to the `Gemfile`, here I us
 gem "hamlit", "~> 2.15.0"
 ```
 
-Once it’s installed, all view files with the ".html.haml" extension will be compiled using Haml.
+Once it’s installed, all view files with the ".html.haml" extension will be compiled using Haml. Bellow is some walk through using haml
+
+### HTML Tag in HAML
+
+A basic element should look like this.
+- `%tagname` example: `%h1`, `%p`
+- `{}` following hash (dictionary) define in ruby
+- The Contents doesn't have any restriction
+
+```haml
+%tagname{:attr1 => 'value1', :attr2 => 'value2'} Contents
+```
+
+We can also use `(attr1='value1' attr2='value2')` inreplace with ruby hash `{}` for a more familar style with HTML
+```haml
+%tagname(attr1='value1' attr2='value2') Contents
+```
+
+Special case for id and class attribute, we can use this syntax that similar to the CSS that styles the document
+```haml
+%tagname#id.class
+```
+
+Incase of `<div>` tag, any tag without a name will defaults to a div.
+- Example:
+
+  ```haml
+  #foo Hello!
+  ```
+
+- Become:
+
+  ```html
+  <div id='foo'>Hello!</div>
+  ```
+
+Indentation: To represent the HTML structure, haml use indentation
+- Example:
+  ```haml
+  %ul
+    %li Salt
+    %li Pepper
+  ```
+
+- Become:
+  ```html
+  <ul>
+    <li>Salt</li>
+    <li>Pepper</li>
+  </ul>
+  ```
+
+For embedding Ruby:
+- An equals sign, =, will output the result of the code.
+  ```haml
+  %h1 = "aa"
+  ```
+-  A hyphen, -, will run the code but not output the result. So you can even use control statements like if and while:
+  ```haml
+  %p
+    Date/Time:
+    - now = DateTime.now
+    %strong= now
+    - if now > DateTime.parse("December 31, 2006")
+      = "Happy new " + "year!"
+  ```
+
+> For loop in haml can remove `end`, haml can self interpreter that
+> raise Hamlit::HamlSyntaxError.new(%q[You don't need to use "- end" in Haml. Un-indent to close a block:
 
 ## Bundle - Gemfile update
 
@@ -174,4 +250,42 @@ group :development do
   gem "ruby-lsp-rails", "~> 0.3.6"
   gem "ruby-lsp-rspec", "~> 0.1.10", require: false
 end
+```
+
+## CRUD - Create Read Update Delete
+
+4 Main methods to interact with a business object.
+
+To make your life easier, instead of create all the nesseary path/route handle, we can use this syntax `resources` in `config/route.rb`. Rails will handle create the default path instead.
+```rb
+Rails.application.routes.draw do
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # get "/articles", to: "articles#index" - Remove
+  # get "/articles/new2", to: "articles#new2" - Remove
+  # post "/articles/new", to: "articles#create" - Remove
+  # get "/articles/:id", to: "articles#show" - Remove
+
+  # [...]
+
+  resources :articles
+end
+```
+
+New route will be added will look like this. Now we only need to provide `articles_controller.rb` to handle user request
+```
+→ rails routes
+            Prefix Verb   URI Pattern                  Controller#Action
+rails_health_check GET    /up(.:format)                rails/health#show
+pwa_service_worker GET    /service-worker(.:format)    rails/pwa#service_worker
+      pwa_manifest GET    /manifest(.:format)          rails/pwa#manifest
+              root GET    /                            articles#index
+          articles GET    /articles(.:format)          articles#index
+                   POST   /articles(.:format)          articles#create
+       new_article GET    /articles/new(.:format)      articles#new
+      edit_article GET    /articles/:id/edit(.:format) articles#edit
+           article GET    /articles/:id(.:format)      articles#show
+                   PATCH  /articles/:id(.:format)      articles#update
+                   PUT    /articles/:id(.:format)      articles#update
+                   DELETE /articles/:id(.:format)      articles#destroy
+[...]
 ```
