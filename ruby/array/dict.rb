@@ -15,6 +15,14 @@ print "dict['a'] = #{dict['a']}\n"
 dict = { 2 => 3, 'b' => 'c' }
 print "Original dict #{dict}\n"
 
+# non-recommended (before ruby 1.9 syntax)
+hash = { :one => 1, :two => 2, :three => 3 }
+print "Original hash <1.9 #{hash}\n"
+
+# recommended
+hash = { one: 1, two: 2, three: 3 }
+print "Original hash >=1.9 #{hash}\n"
+
 # Remove an variable
 dict.delete(2)
 print "After delete `2` key, we have remain dict #{dict}\n"
