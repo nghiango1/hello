@@ -289,3 +289,54 @@ pwa_service_worker GET    /service-worker(.:format)    rails/pwa#service_worker
                    DELETE /articles/:id(.:format)      articles#destroy
 [...]
 ```
+
+To quickly create form that match with the object definition, we can use `form_with`. Here I use HAML instead of `erb` in the document. Most of the embedded ruby start with `=`, which indicate they output will be display in the html return by the server.
+```haml
+%h1 New Article
+
+= form_with model: @article do |form|
+  %div
+    = form.label :title
+    %br
+    = form.text_field :title
+  %div
+    = form.label :body
+    %br
+    = form.text_area :body
+  %div
+    = form.submit
+```
+
+The form submit data can be access using `params` in (any?) articles post handler
+- The post handler will be `articles#create`
+  ```
+                     POST   /articles(.:format)          articles#create
+  ```
+
+- The `params` data will be send into create method in articles_controler look like this
+  ```rb
+  {"authenticity_token"=>"RXTeCQ4UBBgVFAwA0sWjTYoeSEjt7R24M4zRJQxiyVg8z5kowj9q2q6sGa_JHEg5YzoGYiu1Vuue9E_Ub_lJPQ", "article"=>{"title"=>"test 2", "body"=>"test 3"}, "commit"=>"Create Article", "controller"=>"articles", "action"=>"create"}
+  ```
+
+- It will be sent to debug output from the `rails server` command. Here is how it look like
+  ```
+    Parameters: {"authenticity_token"=>"[FILTERED]", "article"=>{"title"=>"test 2", "body"=>"test 3"}, "commit"=>"Create Article"}
+  ```
+    
+- We can do filter on post `params` value using this syntax (provided by rails) before push it into creation/save method
+  ```rb
+  article_params = params.require(:article).permit(:title, :body)
+
+  @article = Article.new(article_params)
+
+  @article.save
+  ```
+
+- For futher validating the content of each value, we can add defination into `app/models/article.rb` (which should be empty when created)
+  ```rb
+  # **Commented document:** Article contant for blog pages infomation 
+  class Article < ApplicationRecord
+    validates :title, presence: true
+    validates :body, presence: true, length: { minimum: 10 }
+  end
+  ```
