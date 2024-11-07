@@ -256,12 +256,14 @@ end
 
 4 Main methods to interact with a business object.
 
+### Setup proper route to handle each CRUD request
+
 To make your life easier, instead of create all the nesseary path/route handle, we can use this syntax `resources` in `config/route.rb`. Rails will handle create the default path instead.
 ```rb
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # get "/articles", to: "articles#index" - Remove
-  # get "/articles/new2", to: "articles#new2" - Remove
+  # get "/articles/new", to: "articles#new" - Remove
   # post "/articles/new", to: "articles#create" - Remove
   # get "/articles/:id", to: "articles#show" - Remove
 
@@ -288,6 +290,43 @@ pwa_service_worker GET    /service-worker(.:format)    rails/pwa#service_worker
                    PUT    /articles/:id(.:format)      articles#update
                    DELETE /articles/:id(.:format)      articles#destroy
 [...]
+```
+
+We walk though each route handle and providing their coresponse defination in `articles_controller.rb`: `articles#index`, `articles#create`, `articles#new`, `articles#edit`, `articles#show`, `articles#update`, `articles#update`, `articles#destroy` (We already finish `index` at this point)
+
+### Read
+
+We update `articles#index` and `articles#show` controler. This is equivalent to the deleted route that we replace
+- Config in `route.rb`
+  ```rb
+  Rails.application.routes.draw do
+    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+    get "/articles", to: "articles#index" - Remove
+    get "/articles/:id", to: "articles#show" - Remove
+  ```
+
+- After replace by `resources :article` in `route.rb`. We focus on:
+  ```
+  → rails routes
+              Prefix Verb   URI Pattern                  Controller#Action
+  [...]
+            articles GET    /articles(.:format)          articles#index
+  [...]
+             article GET    /articles/:id(.:format)      articles#show
+  ```
+
+It closely tied to GET request, where we want to get (and display) the data of a specific model (link to all avaiable one and each one detail infomations)
+
+### Create
+
+We update `articles#new` and `articles#create` controler. This is equivalent to these page route
+```
+→ rails routes
+            Prefix Verb   URI Pattern                  Controller#Action
+  [...]
+                   POST   /articles(.:format)          articles#create
+       new_article GET    /articles/new(.:format)      articles#new
+  [...]
 ```
 
 To quickly create form that match with the object definition, we can use `form_with`. Here I use HAML instead of `erb` in the document. Most of the embedded ruby start with `=`, which indicate they output will be display in the html return by the server.
