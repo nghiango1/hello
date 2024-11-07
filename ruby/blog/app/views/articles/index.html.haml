@@ -7,3 +7,5 @@
   - @articles.each do |article|
     %li
       %a(href="/articles/#{article.id}")= article.title
+
+= link_to "New Article", new_article_path
