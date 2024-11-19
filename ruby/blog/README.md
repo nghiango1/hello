@@ -460,3 +460,74 @@ The form submit data can be access using `params` in (any?) articles post handle
     validates :body, presence: true, length: { minimum: 10 }
   end
   ```
+
+### Update
+
+We update `articles#update` and `articles#edit` controler. This is equivalent to these page route
+
+```
+→ rails routes
+            Prefix  Verb   URI Pattern                  Controller#Action
+  [...]
+       edit_article GET    /articles/:id/edit(.:format) articles#edit
+            article GET    /articles/:id(.:format)      articles#show
+                    PATCH  /articles/:id(.:format)      articles#update
+                    PUT    /articles/:id(.:format)      articles#update
+  [...]
+```
+
+> We mix with `article#show` in there. It is unrelated and share the same prefix. Just focus into Controller#Action
+
+Again, we want to have a form to get user input to change the article data. This come with `_partial_` share View, which normally have name start with `_` (underscore) character.
+
+- Base on the form that we wroted in `./app/views/articles/new.html.haml` View
+
+  ```haml
+  %h1 New Article
+
+  = form_with model: @article do |form|
+    %div
+      = form.label :title
+      %br
+      = form.text_field :title
+    %div
+      = form.label :body
+      %br
+      = form.text_area :body
+    %div
+      = form.submit
+  ```
+
+- We create a new file `./app/views/articles/_form.html.haml`, which is `_partial_` share View we just mention about
+
+  ```haml
+  = form_with model: @article do |form|
+    %div
+      = form.label :title
+      %br
+      = form.text_field :title
+      - ref_article.errors.full_messages_for(:title).each do |message|
+        %div#error_title.red.top-2= message
+    %div
+      = form.label :body
+      %br
+      = form.text_area :body
+      - ref_article.errors.full_messages_for(:body).each do |message|
+        %div#error_body.blue.top-2= message
+    %div
+      = form.submit
+  ```
+
+  > There is some addition, along with the old form code, which get the return errors from server and showed to the user when the form is summited and handle. Something to notes about:
+  > - I try out some id and special class there, it have no use at the moment till CSS/JS is implement, we show each of error message into their own div.
+  > - I also have `ref_article` as a ruby param variable used in the form embedded code. This need to be provided by the caller
+
+- Now we can call `_partial_` share View to create a full page View, start with GET edit_articles page `./app/views/articles/edit.html.haml`. There is alot of name scheme here where we referrence the Controller and View related unit here. They quite seem to be all over the place so better to remember them directly
+  ```haml
+  %h1 Edit Article
+
+  = render "form", ref_article: @article
+  ```
+
+  > Here we push arg value `@article` for `ref_article` param. As we can see the scope of variables can be shown in the example code (`@article` instance scope variable can be use directly, while local scope variable need to be passed through params system), both of the tatic are to be consider when passing the data for render in nested `_partial_` View
+
