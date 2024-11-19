@@ -7,10 +7,31 @@ application up and running.
 
 3.2.5
 
-## System dependencies
-None
+## Dependencies
 
-> Incomming
+Require: Ruby 3.2.5
+
+Group dependancy: We can install specific dependancy into local (to diffirentiate with deployment bundle install)
+```rb
+group :development do
+  gem "rubocop"
+  gem "solargraph", "~> 0.47.2", require: false
+
+  gem "ruby-lsp", "~> 0.19.0", require: false
+  gem "ruby-lsp-rails", "~> 0.3.6"
+  gem "ruby-lsp-rspec", "~> 0.1.10", require: false
+end
+```
+
+To set up development environment, config bundle with
+```sh
+bundle config set --local with 'development'
+```
+
+Then call `install`
+```sh
+bundle install
+```
 
 ## Configuration
 None
