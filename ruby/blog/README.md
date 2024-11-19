@@ -3,15 +3,32 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-## Ruby version:
+## Ruby version
 
 3.2.5
 
 ## Dependencies
 
-Require: Ruby 3.2.5
+### System dependancy
 
-Group dependancy: We can install specific dependancy into local (to diffirentiate with deployment bundle install)
+Require:
+
+- Ruby 3.2.5: Used through rvm is suggeted, Ubuntu/Debian default ruby package doesn't match
+
+  ```sh
+  rvm install 3.2.5
+  ```
+
+- SQLite3: Will need to change to Postgresql soon
+
+  ```sh
+  sudo apt install sqlite3
+  ```
+
+### Ruby dependancy
+
+We can install develepent specific dependancy into local: To diffirentiate with deployment bundle install, we have grouped them to `:development`
+
 ```rb
 group :development do
   gem "rubocop"
@@ -24,43 +41,47 @@ end
 ```
 
 To set up development environment, config bundle with
+
 ```sh
 bundle config set --local with 'development'
 ```
 
 Then call `install`
+
 ```sh
 bundle install
 ```
 
 ## Configuration
+
 None
 
 > Incomming
 
 ## Database creation
-None
 
-> Incomming
+Currently we use SQLite3. So there no need for create DB other than calling migration
+
+```sh
+rails db:migrate
+```
 
 ## Database initialization
-None
 
-> Incomming
+None, no need to populate any account yet
 
 ## How to run the test suite
-None
 
-> Incomming
+None, no test yet
 
 ## Services (job queues, cache servers, search engines, etc.)
-None
 
-> Incomming
+None, what is this
 
 ## Deployment instructions
 
 Start the server
+
 ```sh
 bin/rails server
 ```
@@ -72,17 +93,23 @@ bin/rails server
 > We can inspect what routes are mapped by running the `bin/rails routes` command
 
 Create new routes handler
+
 - Update routes configuration using DSL `./config/routes.rb`
+
     ```ruby
     Rails.application.routes.draw do
       # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
       get "/articles", to: "articles#index"
     ```
+
 - Generate new sites index page
+
     ```sh
     rails generate controller Articles index --skip-routes
     ```
+
 - Look at `./app/controllers/articles_controller.rb` and `./app/views/articles/index.html.erb` and try to change their content
+
     ```html
     <h1>Articles#index</h1>
     <p>Hello world</p>
@@ -90,6 +117,7 @@ Create new routes handler
     ```
 
 - Change roots page of the Web application need update `./config/routes.rb`. Here I use the articles page we just created
+
     ```ruby
       # Defines the root path route ("/")
       root "articles#index"
@@ -101,11 +129,13 @@ Create new routes handler
 > Object that representing real world application target
 
 Generate new Models
+
 ```sh
 rails generate model Article title:string body:text
 ```
 
 This result in generating theses output (create new files):
+
 ```
   invoke  active_record
   create    db/migrate/20241020145009_create_articles.rb
@@ -116,16 +146,19 @@ This result in generating theses output (create new files):
 ```
 
 Then we update the database to have our Models represent in regional table format
+
 ```sh
 rails db:migrate
 ```
 
 We then can use `rails console` to create and interact with this Models directly (instead of using SQL Database or running in-app ruby script)
+
 ```sh
 rails console
 ```
 
 Try with these command
+
 ```ruby
 # Loading development environment (Rails 7.2.1.1)
 article = Article.new(title: "Hello Rails", body: "I am on Rails!")
@@ -138,6 +171,7 @@ exit
 ### Create new View
 
 Displaying created Model into our Pages require "import" them into an variable in `./app/controllers/articles_controller.rb`
+
 ```ruby
 class ArticlesController < ApplicationController
   def index
@@ -147,6 +181,7 @@ end
 ```
 
 Then update the page `html.erb` files to use the variable. Here we loop though it
+
 ```erb
 <p>Lists of created articles</p>
 <ul>
@@ -189,6 +224,7 @@ Once it’s installed, all view files with the ".html.haml" extension will be co
 ### HTML Tag in HAML
 
 A basic element should look like this.
+
 - `%tagname` example: `%h1`, `%p`
 - `{}` following hash (dictionary) define in ruby
 - The Contents doesn't have any restriction
@@ -198,16 +234,19 @@ A basic element should look like this.
 ```
 
 We can also use `(attr1='value1' attr2='value2')` inreplace with ruby hash `{}` for a more familar style with HTML
+
 ```haml
 %tagname(attr1='value1' attr2='value2') Contents
 ```
 
 Special case for id and class attribute, we can use this syntax that similar to the CSS that styles the document
+
 ```haml
 %tagname#id.class
 ```
 
 Incase of `<div>` tag, any tag without a name will defaults to a div.
+
 - Example:
 
   ```haml
@@ -221,7 +260,9 @@ Incase of `<div>` tag, any tag without a name will defaults to a div.
   ```
 
 Indentation: To represent the HTML structure, haml use indentation
+
 - Example:
+
   ```haml
   %ul
     %li Salt
@@ -229,6 +270,7 @@ Indentation: To represent the HTML structure, haml use indentation
   ```
 
 - Become:
+
   ```html
   <ul>
     <li>Salt</li>
@@ -237,11 +279,15 @@ Indentation: To represent the HTML structure, haml use indentation
   ```
 
 For embedding Ruby:
+
 - An equals sign, =, will output the result of the code.
+
   ```haml
   %h1 = "aa"
   ```
--  A hyphen, -, will run the code but not output the result. So you can even use control statements like if and while:
+
+- A hyphen, -, will run the code but not output the result. So you can even use control statements like if and while:
+
   ```haml
   %p
     Date/Time:
@@ -259,6 +305,7 @@ For embedding Ruby:
 Referrer: [https://bundler.io/v2.5/man/gemfile.5.html](https://bundler.io/v2.5/man/gemfile.5.html)
 
 There is some change to gemfile, I put some info in here:
+
 - Groups: Each gem MAY specify membership in one or more groups. Any gem that does not specify membership in any group is placed in the default group.
 - Require As: Each gem MAY specify files that should be used when autorequiring via Bundler.require. You may pass an array with multiple files or true if the file you want required has the same name as gem or false to prevent any file from being autorequired.
 
@@ -280,6 +327,7 @@ end
 ### Setup proper route to handle each CRUD request
 
 To make your life easier, instead of create all the nesseary path/route handle, we can use this syntax `resources` in `config/route.rb`. Rails will handle create the default path instead.
+
 ```rb
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -295,6 +343,7 @@ end
 ```
 
 New route will be added will look like this. Now we only need to provide `articles_controller.rb` to handle user request
+
 ```
 → rails routes
             Prefix Verb   URI Pattern                  Controller#Action
@@ -318,7 +367,9 @@ We walk though each route handle and providing their coresponse defination in `a
 ### Read
 
 We update `articles#index` and `articles#show` controler. This is equivalent to the deleted route that we replace
+
 - Config in `route.rb`
+
   ```rb
   Rails.application.routes.draw do
     # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -327,6 +378,7 @@ We update `articles#index` and `articles#show` controler. This is equivalent to 
   ```
 
 - After replace by `resources :article` in `route.rb`. We focus on:
+
   ```
   → rails routes
               Prefix Verb   URI Pattern                  Controller#Action
@@ -341,6 +393,7 @@ It closely tied to GET request, where we want to get (and display) the data of a
 ### Create
 
 We update `articles#new` and `articles#create` controler. This is equivalent to these page route
+
 ```
 → rails routes
             Prefix Verb   URI Pattern                  Controller#Action
@@ -351,6 +404,7 @@ We update `articles#new` and `articles#create` controler. This is equivalent to 
 ```
 
 To quickly create form that match with the object definition, we can use `form_with`. Here I use HAML instead of `erb` in the document. Most of the embedded ruby start with `=`, which indicate they output will be display in the html return by the server.
+
 ```haml
 %h1 New Article
 
@@ -368,22 +422,27 @@ To quickly create form that match with the object definition, we can use `form_w
 ```
 
 The form submit data can be access using `params` in (any?) articles post handler
+
 - The post handler will be `articles#create`
+
   ```
                      POST   /articles(.:format)          articles#create
   ```
 
 - The `params` data will be send into create method in articles_controler look like this
+
   ```rb
   {"authenticity_token"=>"RXTeCQ4UBBgVFAwA0sWjTYoeSEjt7R24M4zRJQxiyVg8z5kowj9q2q6sGa_JHEg5YzoGYiu1Vuue9E_Ub_lJPQ", "article"=>{"title"=>"test 2", "body"=>"test 3"}, "commit"=>"Create Article", "controller"=>"articles", "action"=>"create"}
   ```
 
 - It will be sent to debug output from the `rails server` command. Here is how it look like
+
   ```
     Parameters: {"authenticity_token"=>"[FILTERED]", "article"=>{"title"=>"test 2", "body"=>"test 3"}, "commit"=>"Create Article"}
   ```
-    
+
 - We can do filter on post `params` value using this syntax (provided by rails) before push it into creation/save method
+
   ```rb
   article_params = params.require(:article).permit(:title, :body)
 
@@ -393,6 +452,7 @@ The form submit data can be access using `params` in (any?) articles post handle
   ```
 
 - For futher validating the content of each value, we can add defination into `app/models/article.rb` (which should be empty when created)
+
   ```rb
   # **Commented document:** Article contant for blog pages infomation 
   class Article < ApplicationRecord
