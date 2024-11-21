@@ -1,13 +1,3 @@
 %h1 New Article
 
-= form_with model: @article do |form|
-  %div
-    = form.label :title
-    %br
-    = form.text_field :title
-  %div
-    = form.label :body
-    %br
-    = form.text_area :body
-  %div
-    = form.submit
+= render "form"
