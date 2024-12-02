@@ -40,7 +40,7 @@ Each test case consists of two lines:
 
 - the first line contains one integer n (1≤n≤1000) — the number of marbles;
 - the second line contains n integers c1,c2,…,cn (1≤ci≤n) — the colors of the
-marbles. 
+marbles.
 
 Additional constraint on the input: the sum of n over all test cases does not
 exceed 1000
@@ -75,3 +75,64 @@ each of game turn for the best possible move. It better to be a greedy apprach
 first
 
 ## Solve
+
+Solely rely on greedy argo, Bob can only minimize Alice form picking any single
+mable with distinct color on his turn, and stop Alice from getting all of others
+at least two marble with the same color.
+
+The code simulating the stragety for both player is that Alice and Bob take turn
+to get the single distinct color mable. As Alice goes first, this stage of the
+game result in total score
+
+```
+score += (single / 2) * 2 + (single % 2) * 2;
+```
+
+Where the next stage, every turn of Alice and Bob choose the same color marbel.
+This allowing Alice can't never get 2 point for that color (getting all marbel
+of the same color) but also allow Alice get at least 1 point for that color.
+
+```
+score += more_than_one
+```
+
+To simulate this game state and count all single color one, first thing I done
+is count all total marbel of each color.
+
+```cpp
+{
+    std::vector<int> count({});
+    count.resize(n);
+    for (int i = 0; i < n; i++) {
+        count[i] = 0;
+    }
+    // as 1 <= color <= n
+    for (auto c : arr) {
+        count[c - 1] += 1;
+    }
+}
+```
+
+I even sort the thing, but it quite over kill. We only need another count for
+single and more_than_one (I just update the score directly instead)
+
+```cpp
+{
+    std::sort(count.begin(), count.end());
+    // debugArray(count);
+    int score = 0;
+    int single = 0;
+    for (int i = 0; i < n; i++) {
+        if (count[i] == 0)
+            continue;
+        if (count[i] == 1) {
+            single += 1;
+            continue;
+        }
+        // All remainning color can only get 1 point
+        // score += n - 1 - i + 1;
+        // break;
+        score += 1;
+    }
+}
+```
