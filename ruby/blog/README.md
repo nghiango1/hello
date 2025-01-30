@@ -575,3 +575,24 @@ Again, we want to have a form to get user input to change the article data. This
   = render "form"
   ```
 
+## NIXOS
+
+Adding new shell.nix into the project, call nix-shell and it automatically catch
+and prepare the correct environment for you
+
+```sh
+nix-shell
+```
+
+Now using the bundle install for running deploy/dev server
+```sh
+bundle config set --local with 'development'
+bundle install
+bundle exec rails server
+```
+
+I also catched two thing in the setup development process
+- `bundle` use a different gem installed path (which need us to use bundle exec
+  as it actually a wrapper for bundle which will setup correct RUNTIME variable)
+- Some native package build process need some help for system library, which
+  I need to add libyaml into `shell.nix`'s `buildInputs`
