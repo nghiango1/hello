@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="color-scheme" content="light dark">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SCRIPT</title>
+    <script src="./lodash.js"></script>
+    <script defer="" src="./index.js"></script>
+</head>
+
+<body>
+    <h1> Generator </h1>
+
+    <form action="#">
+        <label for="gname">Generator name:</label><br>
+        <select name="gname" id="gname">
+            <option value="index.js">index.js</option>
+            <option value="single-number.js">V. Single Number</option>
+            <option value="and-then-there-were-k.js">V. And Then There Were K</option>
+            <option value="power-of-two.js">
+                V. Power of Two
+            </option>
+            <option value="number-of-1-bits.js">
+                V. Number of 1 Bits 
+            </option>
+            <option value="reverse-bits.js">
+                V. Reverse Bits
+            </option>
+        </select>
+        <input type="submit" id="generate" value="Generate">
+        <button id="generate-batch">Generate batch of 10</button>
+    </form>
+
+    <div class="section">
+        <h2>Input</h2>
+        <button id="download-input">Download Input</button>
+        <button id="copy-input">Copy Input</button>
+        <code id="input"
+            style="white-space: pre-line; max-height: 7em; overflow: auto; display: block; margin: 10px 0px; padding: 10px; border: 1px solid #7e91a5;">Hello world</code>
+    </div>
+
+    <div class="section">
+        <h2>Output</h2>
+        <button id="download-output">Download Output</button>
+        <button id="copy-output">Copy Output</button>
+        <code id="output"
+            style="white-space: pre-line; max-height: 7em; overflow: auto; display: block; margin: 10px 0px; padding: 10px; border: 1px solid #7e91a5;">Hello world</code>
+    </div>
+
+
+    <script>
+        // Get the current URL
+        const url = new URL(window.location.href);
+
+        // Get a specific query parameter by its name
+        const paramValue = url.searchParams.get('gname');
+
+        // Log the result to the console
+        console.log(paramValue);
+        if (paramValue != null) {
+            document.getElementById('gname').value = paramValue;
+            const script = document.createElement('script');
+            script.src = `./${paramValue}`;
+            document.head.appendChild(script);
+            script.onload = function () {
+                generate();
+            };
+        }
+
+        document.getElementById('generate').addEventListener('click', function () {
+            generate();
+        });
+        
+
+        document.getElementById('generate-batch').addEventListener('click', function () {
+            for (let i = 0; i < 10; i ++) {
+                generate();
+                const genInputText = document.getElementById('input').textContent;
+                const blobInput = new Blob([genInputText], { type: 'text/plain' });
+                const linkInput = document.createElement('a');
+                linkInput.href = URL.createObjectURL(blobInput);
+                linkInput.download = `input0${i}.txt`;
+                linkInput.click();
+                
+                const genOutputText = document.getElementById('output').textContent;
+                const blobOutput = new Blob([genOutputText], { type: 'text/plain' });
+                const linkOutput = document.createElement('a');
+                linkOutput.href = URL.createObjectURL(blobOutput);
+                linkOutput.download = `output0${i}.txt`;
+                linkOutput.click();
+            }
+        });
+
+        document.getElementById('download-input').addEventListener('click', function () {
+            const outputText = document.getElementById('input').textContent;
+            const blob = new Blob([outputText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'input.txt';
+            link.click();
+        });
+
+        document.getElementById('download-output').addEventListener('click', function () {
+            const outputText = document.getElementById('output').textContent;
+            const blob = new Blob([outputText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'output.txt';
+            link.click();
+        });
+
+        document.getElementById('copy-input').addEventListener('click', function () {
+            const outputText = document.getElementById('input').textContent;
+            navigator.clipboard.writeText(outputText)
+                .catch(err => {
+                    alert('Failed to copy: ' + err);
+                });
+        });
+
+        document.getElementById('copy-output').addEventListener('click', function () {
+            const outputText = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(outputText)
+                .catch(err => {
+                    alert('Failed to copy: ' + err);
+                });
+        });
+    </script>
+</body>
