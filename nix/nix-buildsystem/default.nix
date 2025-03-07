@@ -4,8 +4,6 @@
 
 let
   fs = pkgs.lib.fileset;
-
-  binName = "example";
 in
 
 pkgs.stdenv.mkDerivation {

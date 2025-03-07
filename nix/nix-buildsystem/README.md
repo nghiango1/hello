@@ -80,14 +80,55 @@ pkgs.mkShellNoCC {
 ```
 
 I do try to turn it into build script using shellHook, it turn out i will nested
-a lot of nix-shell on top each other
+a lot of nix-shell on top each other. And `make` doesn't work inside shellHook.
+The path doesn't seem to match and header file can't be found.
 
 ## Nix-build
 
-Now I want to build some thing using this nix as my build system, but this is
-for create a shell, which mean we nessed our environment over and over. I belive
-we want to use `nix-build` instead. Which turn us to use `default.nix`.
+Now create a shell isn't enough with nix-build. I belive that we want to use
+`nix-build` instead. Which turn us to use `default.nix` file instead.
 
 After some try and error (and look through almost not thing to help me start
 with `nix-build`), I tested the `nix-build` to sucessfully run my example program.
 But it store my code into nix store, which isn't ideal for developing
+
+- No `stdenv`, `lib`, ... or anything like that. I belive they are to import
+  thing, but don't know where them came from (it tell me they are missing)
+- `fs` is needed for import a local build source, added to `src`. Similar to
+  `gitFetch` or thing like that when we try to fetch source from internet, which
+  I can't find any where using serach engine, the tutorial doc does have it own
+  article though <https://nix.dev/tutorials/working-with-local-files>
+
+Also, the tutorial use some thing to pin the Nixpkgs dependency, so maybe it is
+where the `stdenv, lib` is defined. I just replace it with import `pkgs` and it
+work so I skip the process
+
+> It drain a lot of mobile data to pull some thing so I have to stop it. Now,
+> if I can build the package, how exactly I can create and import gcov for
+> test coverage over the source, and cross-compile tho
+
+```cpp
+{
+  pkgs ? import <nixpkgs> {},
+}:
+
+let
+  fs = pkgs.lib.fileset;
+in
+
+pkgs.stdenv.mkDerivation {
+  name = "example";
+  src = fs.toSource {
+    root = ./.;
+    fileset = ./.;
+  };
+  nativeBuildInputs = [ pkgs.cmake ];
+}
+```
+
+It also seem that `cmake` is supported by default, so there no need for further
+custom the build step. I want to take a look into the process though
+
+```sh
+nix-build
+```
