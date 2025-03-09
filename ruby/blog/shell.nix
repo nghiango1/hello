@@ -1,9 +1,9 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  inherit (pkgs) bundlerEnv stdenv;
+  inherit (pkgs) bundlerEnv;
   gems = bundlerEnv {
-    name = "PROJECTNAME-gems";
+    name = "blog-gems";
     gemdir = ./.;
     groups = [ "default" "production" "development" "test"];
     ruby = pkgs.bundler.ruby;

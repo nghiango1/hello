@@ -96,33 +96,33 @@ Create new routes handler
 
 - Update routes configuration using DSL `./config/routes.rb`
 
-    ```ruby
-    Rails.application.routes.draw do
-      # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-      get "/articles", to: "articles#index"
-    ```
+  ```ruby
+  Rails.application.routes.draw do
+    # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+    get "/articles", to: "articles#index"
+  ```
 
 - Generate new sites index page
 
-    ```sh
-    rails generate controller Articles index --skip-routes
-    ```
+  ```sh
+  rails generate controller Articles index --skip-routes
+  ```
 
 - Look at `./app/controllers/articles_controller.rb` and `./app/views/articles/index.html.erb` and try to change their content
 
-    ```html
-    <h1>Articles#index</h1>
-    <p>Hello world</p>
-    <p>Find me in app/views/articles/index.html.erb</p>
-    ```
+  ```html
+  <h1>Articles#index</h1>
+  <p>Hello world</p>
+  <p>Find me in app/views/articles/index.html.erb</p>
+  ```
 
 - Change roots page of the Web application need update `./config/routes.rb`. Here I use the articles page we just created
 
-    ```ruby
-      # Defines the root path route ("/")
-      root "articles#index"
-    end
-    ```
+  ```ruby
+    # Defines the root path route ("/")
+    root "articles#index"
+  end
+  ```
 
 ### Create new Models
 
@@ -256,7 +256,7 @@ Incase of `<div>` tag, any tag without a name will defaults to a div.
 - Become:
 
   ```html
-  <div id='foo'>Hello!</div>
+  <div id="foo">Hello!</div>
   ```
 
 Indentation: To represent the HTML structure, haml use indentation
@@ -454,7 +454,7 @@ The form submit data can be access using `params` in (any?) articles post handle
 - For futher validating the content of each value, we can add defination into `app/models/article.rb` (which should be empty when created)
 
   ```rb
-  # **Commented document:** Article contant for blog pages infomation 
+  # **Commented document:** Article contant for blog pages infomation
   class Article < ApplicationRecord
     validates :title, presence: true
     validates :body, presence: true, length: { minimum: 10 }
@@ -519,9 +519,10 @@ Again, we want to have a form to get user input to change the article data. This
   ```
 
   > There is some addition, along with the old form code, which get the return errors from server and showed to the user when the form is summited and handle. Something to notes about:
+  >
   > - I try out some id and special class there, it have no use at the moment till CSS/JS is implement, we show each of error message into their own div.
   > - I also have `ref_article` as a ruby param variable used in the form embedded code. This need to be provided by the caller
-  > (I later drop all of these extra thing from the code, as it just for tested purpose)
+  >   (I later drop all of these extra thing from the code, as it just for tested purpose)
 
 - Now we can call `_partial_` share View to create a full page View, start with GET edit_articles page `./app/views/articles/edit.html.haml`. There is alot of name scheme here where we referrence the Controller and View related unit here. They quite seem to be all over the place so better to remember them directly
 
@@ -533,25 +534,25 @@ Again, we want to have a form to get user input to change the article data. This
 
   > Here we push arg value `@article` for `ref_article` param. As we can see the scope of variables can be shown in the example code (`@article` instance scope variable can be use directly, while local scope variable need to be passed through params system), both of the tatic are to be consider when passing the data for render in nested `_partial_` View
 
-- The errors use full_message_for, which some how we can get the document in Nvim with <K>.
+- The errors use full_message_for, which some how we can get the document in Nvim with `<K>`.
 
   ```
   = .full_messages_for
-  
+
   (from gem activemodel-7.2.1.1)
   === Implementation from Errors
   ------------------------------------------------------------------------
     full_messages_for(attribute)
-  
+
   ------------------------------------------------------------------------
-  
+
   Returns all the full error messages for a given attribute in an array.
-  
+
     class Person
       validates_presence_of :name, :email
       validates_length_of :name, in: 5..30
     end
-  
+
     person = Person.create()
     person.errors.full_messages_for(:name)
     # => ["Name is too short (minimum is 5 characters)", "Name can't be blank"]
@@ -575,6 +576,117 @@ Again, we want to have a form to get user input to change the article data. This
   = render "form"
   ```
 
+### Destroy
+
+Add detroy handler into article controler
+
+```rb
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+
+    redirect_to root_path, status: :see_other
+  end
+
+```
+
+Then place a link to that endpoint into our `show` view. Oh way, is failed as
+there is no deestroy_article_path link at all. Just like update doesn't have
+any GET enpoint, destroy need to be specialy call through other way
+
+- `rail routes` on DELETE and destroy endpoint
+
+```
+                                         PATCH  /articles/:id(.:format)                  articles#update
+                                         PUT    /articles/:id(.:format)                  articles#update
+                                         DELETE /articles/:id(.:format)                  articles#destroy
+        turbo_recede_historical_location GET    /recede_historical_location(.:format)
+```
+
+- This doesn't work
+
+```rb
+%h1= @article.title
+%p= @article.body
+
+%ul
+  %li= link_to "Edit", edit_article_path(@article)
+  %li= link_to "Delete", destroy_article_path(@article)
+```
+
+- This is how to do it through `rails`: we use the data option to set the
+  `data-turbo-method` and `data-turbo-confirm` HTML attributes of the "Destroy"
+  link. Both of these attributes hook into Turbo, which is included by default
+  in fresh Rails applications.
+
+  - `data-turbo-method="delete"` will cause the link to make a `DELETE` request
+    instead of a `GET` request.
+  - `data-turbo-confirm="Are you sure?"` will cause a confirmation dialog to
+    appear when the link is clicked. If the user cancels the dialog, the request
+    will be aborted.
+
+```rb
+%h1= @article.title
+%p= @article.body
+
+%ul
+  %li= link_to "Edit", edit_article_path(@article)
+  %li= link_to "Delete", article_path(@article), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }
+```
+
+After trying with the DELETE request, it seem to me that I can only use turbo
+method to actually delete the article. Feel bad.
+
+Some how I skip over `link_to`, which is a helper renders a link with its first
+argument as the link's text and its second argument as the link's destination.
+That doesn't help much? well, if we instead pass a model object as the second
+argument, `link_to` will call the appropriate path helper to convert the object
+to a path
+
+- Original code
+
+```erb
+      <a href="<%= article_path(article) %>">
+        <%= article.title %>
+      </a>
+```
+
+- Shorten code
+
+```erb
+    <li>
+      <%= link_to article.title, article %>
+    </li>
+```
+
+- Or in `haml`
+
+```haml
+%ul
+  - @articles.each do |article|
+    %li
+      %a(href="/articles/#{article.id}")= article.title
+```
+
+- Shorten code
+
+```haml
+%ul
+  - @articles.each do |article|
+    %li= link_to article.title, article
+```
+
+- Incase of nested child, consider the calling is an `<a>` element
+
+```haml
+%ul
+  - @articles.each do |article|
+    %li
+      = link_to article.title, article
+      %a(href="/articles/#{article.id}")= article.title
+```
+
 ## NIXOS
 
 Adding new shell.nix into the project, call nix-shell and it automatically catch
@@ -585,6 +697,7 @@ nix-shell
 ```
 
 Now using the bundle install for running deploy/dev server
+
 ```sh
 bundle config set --local with 'development'
 bundle install
@@ -592,6 +705,7 @@ bundle exec rails server
 ```
 
 I also catched two thing in the setup development process
+
 - `bundle` use a different gem installed path (which need us to use bundle exec
   as it actually a wrapper for bundle which will setup correct RUNTIME variable)
 - Some native package build process need some help for system library, which
