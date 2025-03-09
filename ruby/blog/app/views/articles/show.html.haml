@@ -4,3 +4,25 @@
 %ul
   %li= link_to "Edit", edit_article_path(@article)
   %li= link_to "Destroy", article_path(@article), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" }
+
+%h2 Comment
+- @article.comments.each do | comment |
+  %p
+    %strong Commenter:
+    = comment.commenter
+  %p
+    %strong Comment:
+    = comment.body
+
+
+%h2 Add a comment
+= form_with model: [ @article, @article.comments.build ] do |form|
+  %p
+    = form.label :commenter
+    %br
+    = form.text_field :commenter
+  %p
+    = form.label :body
+    = form.text_area :body
+  %p
+    = form.submit

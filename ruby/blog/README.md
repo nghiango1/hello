@@ -687,6 +687,117 @@ to a path
       %a(href="/articles/#{article.id}")= article.title
 ```
 
+## Reference model
+
+Create a reference model (Comments on each Article) by generating new one with
+this specific syntax
+
+```sh
+# article:references
+
+bundle exec rails generate model Comment commenter:string body:text article:references
+```
+
+Which will generate new migration schema in `./db/migrate/20250309140708_create_comments.rb`
+
+```rb
+class CreateComments < ActiveRecord::Migration[7.2]
+  def change
+    create_table :comments do |t|
+      t.string :commenter
+      t.text :body
+      t.references :article, null: false, foreign_key: true
+
+      t.timestamps
+    end
+  end
+end
+```
+
+Call migrate to update our `./db/schema.rb`
+
+```sh
+bundle exec rails db:migrate
+```
+
+Next is to update our model **Manually**, turn out that articles doesn't update
+itself. I have to edit `app/models/article.rb` after creation of `commend.rb`
+model (last step is just to create schema)
+
+```rb
+# Article for blog
+class Article < ApplicationRecord
+  has_many :comments
+
+  validates :title, presence: true
+  validates :body, presence: true, length: { minimum: 10 }
+end
+```
+
+Follow up some of next one, which want me to update `route.rb` to assign new
+resource `comments` so that our controler can access it (we miss this part and
+try to create the controler, which then article view can't access it at all)
+
+```rb
+  resources :articles do
+    resources :comments
+  end
+```
+
+Update the controler, only to handle the creation controler for Comments (we
+don't need actual view for Comment as it will be later display on each article)
+
+- Generate controller file
+
+```sh
+bundle exec rails generate controller Comments
+```
+
+- Edit `./app/controllers/comments_controller.rb`
+
+```rb
+class CommentsController < ApplicationController
+  def create
+    @article = Article.find(params[:article_id])
+    @comment = @article.comments.create(comment_params)
+    redirect_to article_path(@article)
+  end
+
+  private
+    def comment_params
+      params.require(:comment).permit(:commenter, :body)
+    end
+end
+```
+
+Now, we can access comments of each article through `@article` object. Even
+better it intent to work as multiple Comment through `@article.comments` (our
+`resource` setup in `route.rb` result)
+
+```rb
+%h2 Comment
+- @article.comments.each do | comment |
+  %p
+    %strong Commenter:
+    = comment.commenter
+  %p
+    %strong Comment:
+    = comment.body
+
+
+%h2 Add a comment
+= form_with model: [ @article, @article.comments.build ] do |form|
+  %p
+    = form.label :commenter
+    %br
+    = form.text_field :commenter
+  %p
+    = form.label :body
+    = form.text_area :body
+  %p
+    = form.submit
+```
+
 ## NIXOS
 
 Adding new shell.nix into the project, call nix-shell and it automatically catch
