@@ -1,0 +1,12 @@
+#!bin/bash
+mkdir "1.errors-and-exceptions-in-python"
+mkdir "2.try/except-review"
+mkdir "3.try/except-review"
+mkdir "4.raising-your-own-exceptions"
+mkdir "5.raising-exceptions-review"
+mkdir "6.raising-exceptions-review"
+mkdir "7.different-types-of-exceptions"
+mkdir "8.raising-exceptions-review"
+mkdir "9.raising-exceptions-review"
+mkdir "10.raising-exceptions-review"
+mkdir "11.purchase-bug"

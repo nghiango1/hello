@@ -1,0 +1,12 @@
+#!bin/bash
+mkdir "1.dictionaries"
+mkdir "2.duplicate-keys"
+mkdir "3.accessing-dictionary-values"
+mkdir "4.setting-dictionary-values"
+mkdir "5.updating-dictionary-values"
+mkdir "6.deleting-dictionary-values"
+mkdir "7.counting-practice"
+mkdir "8.iterating-over-a-dictionary-in-python"
+mkdir "9.ordered-or-unordered?"
+mkdir "10.quest-status"
+mkdir "11.merge-dictionaries"
