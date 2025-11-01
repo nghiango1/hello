@@ -61,3 +61,9 @@ mkdir "14.bitwise-'|'-operator"
 mkdir "15.damage-meter"
 mkdir "16.converting-binary"
 ```
+
+## Another one
+
+```
+https://api.boot.dev/v1/courses/f9a25dfb-3e00-4727-ac78-36de82315355
+```
